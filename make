@@ -17,7 +17,7 @@ CFLAGS += -D__APPLE__
 endif
 
 all:
-	$(CC) $(CFLAGS) *.cpp -o $(TARGET) $(LDFLAGS)
+	$(CC) $(CFLAGS) Assignment\ 1/*.cpp -o $(TARGET) $(LDFLAGS)
 
 clean:
 	rm assignment *.exe
