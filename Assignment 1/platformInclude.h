@@ -1,6 +1,7 @@
 #ifndef platformInclude_h
 #define platformInclude_h
 #include <cstdlib>
+#include <cstdio>
 #include <iostream>
 #include <string>
 #include <map>

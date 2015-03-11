@@ -2,7 +2,7 @@
 CC=g++
 TARGET = assignment
 LDFLAGS = -lGL -lGLU -lglut
-CFLAGS = -c -Wall
+CFLAGS = -Wall
 
 # Windows (cygwin)
 ifeq "$(OS)" "Windows_NT"
@@ -17,7 +17,7 @@ CFLAGS += -D__APPLE__
 endif
 
 all:
-	$(CC) $(CFLAGS) *.cpp -o $(TARGET) $(LDFLAGS)
+	$(CC) $(CFLAGS) *.cpp *.h -o $(TARGET) $(LDFLAGS)
 
 clean:
 	rm assignment *.exe

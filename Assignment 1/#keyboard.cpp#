@@ -32,6 +32,7 @@ ___________________________________
 use in Interactive3D */
 
 #include "keyboard.h"
+#include <cstdio>
 
 namespace kg
 {
@@ -85,7 +86,7 @@ namespace kg
 		}
 	}
 
-	bool keyboardControl::removeFunctionInNameList(voidNameMap &vnm, const std::string &fName)
+	bool keyboardControl::removeFunctionInNameList(voidNameMap &vnm, const const std::string &fName)
 	{
 		// check if the fName exists:
 		voidNameMap::iterator it = vnm.find(fName);
@@ -93,14 +94,12 @@ namespace kg
 		// If it doesn't exist, we can't remove it:
 		if (it == vnm.end())
 		{
-			std::printf("%s doesn't exist!\n", fName.c_str());
+			printf("%s doesn't exist!\n");
 			return false;
 		}
 
 		// remove the function from the list based on iterator:
 		vnm.erase(it);
-
-		return true;
 	}
 
 	void keyboardControl::runAllFunctionsForName(voidNameMap &vnm)
@@ -133,13 +132,13 @@ namespace kg
 		// We can't do anything if it doesn't:
 		if (it == vkm.end())
 		{
-			std::printf("%c is not on the function list!\n", key);
+			printf("%c is not on the function list!\n", key);
 			return;
 		}
 
 		// Remove the function:
 		if (!removeFunctionInNameList(it->second, fName))
-			std::printf("Above error created for %c key.\n", key);
+			printf("Above error created for %c key.\n", key);
 	}
 
 	void keyboardControl::runAllFunctionsForKey(voidKeyMap &vkm, const KG_KeyType &key)
