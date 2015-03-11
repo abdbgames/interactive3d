@@ -28,9 +28,6 @@ All rights reserved.
 ___________________________________
 */
 
-/* Please note this file has been modified for
-   use in Interactive3D */
-
 #ifndef keyboard_h
 #define keyboard_h
 
@@ -164,6 +161,17 @@ ___________________________________
 #define KG_KeyType		int
 #endif /* KG_USEGL */
 
+// define some constants:
+enum KG_INPUT_FLAG
+{
+	KG_PRESS,
+	KG_PRESSED,
+	KG_RELEASE,
+	KG_MOUSEL,
+	KG_MOUSER,
+	KG_MOUSEM,
+};
+
 // #include "multiPlatformHelper.h"
 #include "platformInclude.h"
 
@@ -243,4 +251,4 @@ namespace kg
 	};
 }
 
-#endif
+#endif /* keyboard_h */

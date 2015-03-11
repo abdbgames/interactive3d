@@ -29,8 +29,12 @@ ___________________________________
 */
 
 /* Please note this file has been modified for
-use in Interactive3D */
+use in Interactive3D
 
+I had already written it, so it wasn't a
+waste of time in my opinion ;) */
+
+#include "stdafx.h"
 #include "keyboard.h"
 
 namespace kg
@@ -51,18 +55,17 @@ namespace kg
 
 	void keyboardControl::keyboardCallback(KG_KeyType key, int x, int y)
 	{
-		// It is garunteed we need to run "pressed" on this callback:
-		keyPressed(key);
-
 		// If our key is already flagged as being pressed last update:
-		if (keyTrack.find(key) != keyTrack.end())
-			keyTrack[key] = true;
+		if (keyTrack.find(key) == keyTrack.end())
+			keyPress(key);
+
+		// We are now checking to see if the key is being held:
+		keyTrack[key] = true;
 	}
 
 	void keyboardControl::keyBufferEnd()
 	{
 		/* makes sure we are ready to scoop up key inputs before the next update function is called */
-
 		// To call at the end of an update:
 		for (std::map<KG_KeyType, bool>::iterator it = keyTrack.begin(); it != keyTrack.end(); ++it)
 			it->second = false;
@@ -72,6 +75,8 @@ namespace kg
 	{
 		/* looks over what happened before we called update and works respectivly */
 
+		std::vector<std::map<KG_KeyType, bool>::iterator> toDelete;
+
 		// To call at the start of an update:
 		for (std::map<KG_KeyType, bool>::iterator it = keyTrack.begin(); it != keyTrack.end(); ++it)
 		{
@@ -80,9 +85,15 @@ namespace kg
 				// This key was not pressed this update so was thus released:
 				keyRelease(it->first);
 				// Free the key from the list so next time we see it, it counts as a press:
-				keyTrack.erase(it);
+				toDelete.push_back(it);
 			}
+			else
+				// The key is being pressed:
+				keyPressed(it->first);
 		}
+
+		for (int i = 0; i < toDelete.size(); ++i)
+			keyTrack.erase(toDelete[i]);
 	}
 
 	bool keyboardControl::removeFunctionInNameList(voidNameMap &vnm, const std::string &fName)
@@ -120,6 +131,9 @@ namespace kg
 		if (it == vkm.end())
 			// This will push to the back so we can keep the it value:
 			vkm[key] = voidNameMap();
+
+		// Our iterator value will have changed:
+		it = vkm.find(key);
 		
 		// Now we add the key, if it already exists it will overwrite so be careful:
 		it->second[fName] = function;
