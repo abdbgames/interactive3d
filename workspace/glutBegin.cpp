@@ -17,8 +17,11 @@ void init(int *argc, char **argv, Tute *thisTute)
 		exit(EXIT_FAILURE);
 	}
 
+	tute->init();
+
 	glutInit(argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitWindowSize(640, 640);
 	glutCreateWindow(tute->getName());
 
 	glMatrixMode(GL_PROJECTION);
@@ -30,4 +33,6 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glutIdleFunc( update );
 
 	glutMainLoop();
+
+	tute->end();
 }

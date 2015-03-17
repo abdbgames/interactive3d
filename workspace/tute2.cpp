@@ -4,12 +4,21 @@
 
 void Tute2::init()
 {
-
+	m_steps = 100;
 }
 
 void Tute2::update()
 {
 	kg::keyboardControl::keyBufferBegin();
+
+	if (kg::keyboardControl::onKeyPressed(KGkey_0))
+		++m_steps;
+
+	if (kg::keyboardControl::onKeyPressed(KGkey_9))
+		--m_steps;
+
+	glFlush();
+
 	kg::keyboardControl::keyBufferEnd();
 }
 
@@ -19,7 +28,8 @@ void Tute2::draw()
 	glEnable(GL_DEPTH_TEST);
 
 	drawAxis(0, 0, 0, 1);
-	drawFormula(-1, 1, 1000);
+	//drawFormula(-1, 1, 1000);
+	drawCircleCartesian(1.0, m_steps);
 
 	glutSwapBuffers();
 }
@@ -47,6 +57,29 @@ void Tute2::drawAxis(float x, float y, float z, float size)
 	glBegin(GL_LINES);
 	glVertex3f(x, y, z);
 	glVertex3f(x, y, z + size);
+	glEnd();
+}
+
+void Tute2::drawCircleCartesian(float r, int steps)
+{
+	float x = -r;
+	float xS = 2 * r / steps;
+	float y = 0.0;
+
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_LINE_LOOP);
+	for (int i = 0; i <= steps; ++i)
+	{
+		y = sqrtf(r * r - x * x);
+		glVertex3f(x, y, 0.1);
+		x += xS;
+	}
+	for (int i = 0; i <= steps; ++i)
+	{
+		y = -sqrtf(r * r - x * x);
+		glVertex3f(x, y, 0.1);
+		x -= xS;
+	}
 	glEnd();
 }
 

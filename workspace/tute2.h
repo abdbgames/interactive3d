@@ -17,6 +17,9 @@ private:
 	void drawAxis(float x, float y, float z, float size);
 	void drawFormula(float xMin, float xMax, int steps);
 	void drawTangent(float x);
+	void drawCircleCartesian(float r, int steps);
+
+	int m_steps;
 	
 	float getLinearY(float x);
 	float getQuadraticY(float x);

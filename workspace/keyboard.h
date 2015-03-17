@@ -226,12 +226,20 @@ namespace kg
 		static void clearKeyFunctions();
 		static void clearMouseFunctions();
 
+		static bool onKeyPress(const KG_KeyType &key);
+		static bool onKeyPressed(const KG_KeyType &key);
+		static bool onKeyRelease(const KG_KeyType &key);
+
 	protected:
 		// Protected Methods:
 		static voidKeyMap functionList;
 		static voidKeyMap functionRList;
 		static voidKeyMap functionPList;
+
 		static std::map<KG_KeyType, bool> keyTrack;
+
+		static std::vector<KG_KeyType> keyTrackP;
+		static std::vector<KG_KeyType> keyTrackR;
 
 		static voidNameMap mouseL;
 		static voidNameMap mouseR;
@@ -244,10 +252,13 @@ namespace kg
 		static voidNameMap PmouseM;
 
 		static bool removeFunctionInNameList(voidNameMap &vnm, const std::string &fName);
+
 		static void runAllFunctionsForName(voidNameMap &vnm);
 		static void addFunctionToKeyList(voidKeyMap &vkm, const KG_KeyType &key, const std::string &fName, VoidF function);
 		static void removeFunctionInKeyList(voidKeyMap &vkm, const KG_KeyType &key, const std::string &fName);
 		static void runAllFunctionsForKey(voidKeyMap &vkm, const KG_KeyType &key);
+
+		static std::vector<KG_KeyType>::iterator findElement(std::vector<KG_KeyType> &v, const KG_KeyType &key);
 	};
 }
 
