@@ -4,6 +4,9 @@
 
 Tute *tute = NULL;
 
+void draw() { tute->draw(); }
+void update() { tute->update(); }
+
 void init(int *argc, char **argv, Tute *thisTute)
 {
 	tute = thisTute;
@@ -23,8 +26,8 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glMatrixMode(GL_MODELVIEW);
 
 	glutKeyboardFunc(kg::keyboardControl::keyboardCallback);
-	glutDisplayFunc( [](){tute->draw();} );
-	glutIdleFunc( [](){tute->update();} );
+	glutDisplayFunc( draw );
+	glutIdleFunc( update );
 
 	glutMainLoop();
 }

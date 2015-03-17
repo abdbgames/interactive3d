@@ -14,6 +14,6 @@ struct Vector3
 	float getDistanceTo(const Vector3 &b);
 
 	static float getDistance(const Vector3 &a, const Vector3 &b);
-}
+};
 
 #endif /* vectors_h */

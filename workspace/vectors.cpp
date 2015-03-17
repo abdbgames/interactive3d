@@ -21,13 +21,13 @@ float Vector3::getMagnitude()
 
 float Vector3::getDistance(const Vector3 &a, const Vector3 &b)
 {
-	/*Vector3 t;
+	Vector3 t;
 
 	t.x = b.x - a.x;
 	t.y = b.y - b.x;
-	t.z = b.z - a.z;*/
+	t.z = b.z - a.z;
 
-	return 0;//t.getMagnitude();
+	return t.getMagnitude();
 }
 
 float Vector3::getDistanceTo(const Vector3 &b)
