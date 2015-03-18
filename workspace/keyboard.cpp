@@ -64,7 +64,7 @@ namespace kg
 
 		for (i = v.begin(); i < v.end(); ++i)
 		{
-			if (*i._Ptr == key)
+			if (*i == key)
 				return i;
 		}
 
@@ -128,11 +128,11 @@ namespace kg
 		}
 
 		// delete all the flagged elements:
-		for (int i = 0; i < toDelete.size(); ++i)
+		for (unsigned int i = 0; i < toDelete.size(); ++i)
 			keyTrack.erase(toDelete[i]);
 
 		// Run all the necesary functions:
-		for (int i = 0; i < keyTrackP.size(); ++i)
+		for (unsigned int i = 0; i < keyTrackP.size(); ++i)
 			keyPress(keyTrackP[i]);
 	}
 
@@ -264,7 +264,7 @@ namespace kg
 
 	void keyboardControl::clearMouseFunctions()
 	{
-		// Set all to NULL:
+		// CLEAR ALL:
 		mouseL.clear();
 		mouseR.clear();
 		mouseM.clear();

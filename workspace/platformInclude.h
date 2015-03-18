@@ -10,6 +10,10 @@
 typedef void(*VoidF)();
 #if _WIN32
 #   include <Windows.h>
+#else /* _WIN32 */
+// Visual Studio is a piece of shit:
+#include <string.h>
+#define _strdup strdup
 #endif /* _WIN32 */
 #if __APPLE__
 #   include <OpenGL/gl.h>
@@ -21,3 +25,4 @@ typedef void(*VoidF)();
 #   include <GL/glut.h>
 #endif /* __APPLE__ */
 #endif /* platformInclude_h */
+
