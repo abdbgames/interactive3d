@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "glutBegin.h"
+#include "tute3.h"
 #include "tute2.h"
 #include "tute1.h"
 
@@ -9,7 +10,7 @@ int main(int argc, char **argv)
 {
 	kg::keyboardControl::setKeyPressed(KGkey_esc, "quit", quit);
 
-	init(&argc, argv, new Tute2("Tute2"));
+	init(&argc, argv, new Tute3("Tute 3"));
 
 	return EXIT_SUCCESS;
 }

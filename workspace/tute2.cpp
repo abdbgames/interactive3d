@@ -5,7 +5,7 @@
 
 void Tute2::init()
 {
-	m_steps = 100;
+	m_steps = 80;
 	m_r = 0.3f;
 	m_pos = Vector3(0, 0, 0);
 }
@@ -26,16 +26,16 @@ void Tute2::update()
 	if (kg::keyboardControl::onKeyPressed(KGkey_k))
 		m_r += 0.01f;
 
-	if (kg::keyboardControl::onKeyPressed(KGkey_down))
+	if (kg::keyboardControl::onKeyPressed(KGkey_s))
 		m_pos.y -= 0.01f;
 
-	if (kg::keyboardControl::onKeyPressed(KGkey_up))
+	if (kg::keyboardControl::onKeyPressed(KGkey_w))
 		m_pos.y += 0.01f;
 
-	if (kg::keyboardControl::onKeyPressed(KGkey_left))
+	if (kg::keyboardControl::onKeyPressed(KGkey_a))
 		m_pos.x -= 0.01f;
 
-	if (kg::keyboardControl::onKeyPressed(KGkey_right))
+	if (kg::keyboardControl::onKeyPressed(KGkey_d))
 		m_pos.x += 0.01f;
 
 	glFlush();
@@ -51,8 +51,9 @@ void Tute2::draw()
 	glEnable(GL_DEPTH_TEST);
 
 	drawAxis(0, 0, 0, 1);
-	//drawFormula(-1, 1, m_steps);
-	drawCircleCartesian(m_pos, m_r, m_steps);
+	//drawFormula(-1, 1);
+	//drawCircleCartesian();
+	drawCirecleParametric();
 
 	glutSwapBuffers();
 }
@@ -83,38 +84,53 @@ void Tute2::drawAxis(const float &x, const float &y, const float &z, const float
 	glEnd();
 }
 
-void Tute2::drawCircleCartesian(const Vector3 &v, const float &r, const int &steps)
+void Tute2::drawCircleCartesian()
 {
-	float x = v.x - r;
-	float xS = 2 * r / steps;
-	float y = v.y;
+	float x = -m_r;
+	float xS = 2 * m_r / m_steps;
+	float y = m_pos.y;
 
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_LINE_LOOP);
-	for (int i = 0; i <= steps; ++i)
+	for (int i = 0; i <= m_steps; ++i)
 	{
-		y = sqrtf(r * r - x * x);
-		glVertex3f(x, y, 0.1);
+		y = m_pos.y + sqrtf(m_r * m_r - x * x);
+		glVertex3f(m_pos.x + x, y, 0.1);
 		x += xS;
 	}
-	for (int i = 0; i <= steps; ++i)
+	for (int i = 0; i <= m_steps; ++i)
 	{
-		y = -sqrtf(r * r - x * x);
-		glVertex3f(x, y, 0.1);
+		y = m_pos.y - sqrtf(m_r * m_r - x * x);
+		glVertex3f(m_pos.x + x, y, 0.1);
 		x -= xS;
 	}
 	glEnd();
 }
 
-void Tute2::drawFormula(const float &xMin, const float &xMax, const int &steps)
+void Tute2::drawCirecleParametric()
+{
+	float x, y, t;
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_LINE_LOOP);
+	for (int i = 0; i <= m_steps; ++i)
+	{
+		t = (i / (float)m_steps) * 2 * KG_PI;
+		x = m_r * cosf(t);
+		y = m_r * sinf(t);
+		glVertex3f(m_pos.x + x, m_pos.y + y, m_pos.z);
+	}
+	glEnd();
+}
+
+void Tute2::drawFormula(const float &xMin, const float &xMax)
 {
 	glColor3f(1.0, 1.0, 1.0);
 
-	float xDist = (xMax - xMin) / steps;
+	float xDist = (xMax - xMin) / m_steps;
 	float x = xMin;
 
 	glBegin(GL_LINE_STRIP);
-	for (int i = 0; i <= steps; ++i)
+	for (int i = 0; i <= m_steps; ++i)
 	{
 		x += xDist * i;
 		//float y = getLinearY(x);

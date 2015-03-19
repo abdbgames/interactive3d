@@ -8,6 +8,8 @@
 #include <vector>
 // allow us to easily pass function pointers:
 typedef void(*VoidF)();
+// pi:
+#define KG_PI 3.14159265359
 #if _WIN32
 #   include <Windows.h>
 #else /* _WIN32 */

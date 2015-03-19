@@ -16,9 +16,10 @@ public:
 
 private:
 	void drawAxis(const float &x, const float &y, const float &z, const float &size);
-	void drawFormula(const float &xMin, const float &xMax, const int &steps);
+	void drawFormula(const float &xMin, const float &xMax);
 	void drawTangent(const float &x);
-	void drawCircleCartesian(const Vector3 &v, const float &r, const int &steps);
+	void drawCircleCartesian();
+	void drawCirecleParametric();
 
 	int m_steps;
 	float m_r;
