@@ -29,8 +29,9 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glMatrixMode(GL_MODELVIEW);
 
 	glutKeyboardFunc(kg::keyboardControl::keyboardCallback);
-	glutDisplayFunc( draw );
-	glutIdleFunc( update );
+	glutKeyboardUpFunc(kg::keyboardControl::keyboardUpCallback);
+	glutDisplayFunc(draw);
+	glutIdleFunc(update);
 
 	glutMainLoop();
 

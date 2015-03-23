@@ -53,10 +53,9 @@ namespace kg
 	voidNameMap keyboardControl::PmouseR;
 	voidNameMap keyboardControl::PmouseM;
 
-	std::map<KG_KeyType, bool> keyboardControl::keyTrack;
-	
-	std::vector<KG_KeyType> keyboardControl::keyTrackP;
-	std::vector<KG_KeyType> keyboardControl::keyTrackR;
+	std::vector<KG_KeyType> keyboardControl::keyTrack;
+	std::map<KG_KeyType, bool> keyboardControl::keyTrackP;
+	std::map<KG_KeyType, bool> keyboardControl::keyTrackR;
 
 	std::vector<KG_KeyType>::iterator keyboardControl::findElement(std::vector<KG_KeyType> &v, const KG_KeyType &key)
 	{
@@ -70,70 +69,92 @@ namespace kg
 
 		return i;
 	}
-
+	
 	void keyboardControl::keyboardCallback(KG_KeyType key, int x, int y)
 	{
-		/* This function is only setting flags, the update stack will handle the
-		   actual input. */
+		// Check if the key is in the held keys list:
+		if (findElement(keyTrack, key) == keyTrack.end())
+		{
+			// It wasn't we tell the controller it was pressed for the first time:
+			keyPress(key);
 
-		// Check if the key is in the pressed list:
-		std::map<KG_KeyType, bool>::iterator f = keyTrack.find(key);
+			// And add it to the list:
+			keyTrack.push_back(key);
 
-		if (f == keyTrack.end())
-			// we can add a press here:
-			keyTrackP.push_back(key);
-		else if (!f->second)
-			// or here:
-			keyTrackP.push_back(key);
+			// Add/set this as true in the single key press list:
+			keyTrackP[key] = true;
+		}
+		else
+		{
+			// This means it is being pressed a consecutive time:
+			std::map<KG_KeyType, bool>::iterator i = keyTrackP.find(key);
 
-		// We can also add to our pressed list:
-		keyTrack[key] = true;
+			// If it wasn't in our list don't worry about it:
+			if (i == keyTrackP.end())
+				return;
+			// If it was and flagged as true, it's not ready to remove:
+			else if (i->second)
+				return;
+			// And finally, we can remove it:
+			else
+				keyTrackP.erase(i);
+		}
 	}
 
-	void keyboardControl::keyBufferEnd()
+	void keyboardControl::keyboardUpCallback(KG_KeyType key, int x, int y)
 	{
-		/* makes sure we are ready to scoop up key inputs before the next update function is called */
-		// To call at the end of an update:
-		for (std::map<KG_KeyType, bool>::iterator it = keyTrack.begin(); it != keyTrack.end(); ++it)
-			it->second = false;
+		// We tell the controller this key was released here:
+		keyRelease(key);
 
-		// Empty the pressed and released flags too:
-		keyTrackP.clear();
-		keyTrackR.clear();
+		// Find and remove it from our list:
+		std::vector<KG_KeyType>::iterator i = findElement(keyTrack, key);
+
+		// Remove element if element exists:
+		if (i != keyTrack.end())
+			keyTrack.erase(i);
+
+		// Add/set this as true for our key release list:
+		keyTrackR[key] = true;
 	}
 
 	void keyboardControl::keyBufferBegin()
 	{
-		/* looks over what happened before we called update and works respectivly */
+		// Run all pressed functions:
+		for (unsigned int i = 0; i < keyTrack.size(); ++i)
+			keyPressed(keyTrack[i]);
 
-		std::vector<std::map<KG_KeyType, bool>::iterator> toDelete;
-
-		// To call at the start of an update:
-		for (std::map<KG_KeyType, bool>::iterator it = keyTrack.begin(); it != keyTrack.end(); ++it)
+		// Remove remaining elements flagged as false in the key press list:
+		for (std::map<KG_KeyType, bool>::iterator i = keyTrackP.begin(); i != keyTrackP.end(); )
 		{
-			if (!it->second)
-			{
-				// run the key release function:
-				keyRelease(it->first);
-
-				// Add it to the keys released vector:
-				keyTrackR.push_back(it->first);
-
-				// Free the key from the list so next time we see it, it counts as a press:
-				toDelete.push_back(it);
-			}
+			// If it's true ignore it:
+			if (i->second)
+				++i;
+			// Otherwise erase it:
 			else
-				// The key is being pressed:
-				keyPressed(it->first);
+				keyTrackP.erase(i++);
 		}
 
-		// delete all the flagged elements:
-		for (unsigned int i = 0; i < toDelete.size(); ++i)
-			keyTrack.erase(toDelete[i]);
+		// Same for our key release list:
+		for (std::map<KG_KeyType, bool>::iterator i = keyTrackR.begin(); i != keyTrackR.end();)
+		{
+			// If it's true ignore it:
+			if (i->second)
+				++i;
+			// Otherwise erase it:
+			else
+				keyTrackR.erase(i++);
+		}
+	}
 
-		// Run all the necesary functions:
-		for (unsigned int i = 0; i < keyTrackP.size(); ++i)
-			keyPress(keyTrackP[i]);
+	void keyboardControl::keyBufferEnd()
+	{
+		// We ran an update so set our key press list elements to false:
+		for (std::map<KG_KeyType, bool>::iterator i = keyTrackP.begin(); i != keyTrackP.end(); ++i)
+			i->second = false;
+
+		// Same for our key release list:
+		for (std::map<KG_KeyType, bool>::iterator i = keyTrackR.begin(); i != keyTrackR.end(); ++i)
+			i->second = false;
 	}
 
 	bool keyboardControl::removeFunctionInNameList(voidNameMap &vnm, const std::string &fName)
@@ -431,16 +452,16 @@ namespace kg
 
 	bool keyboardControl::onKeyPress(const KG_KeyType &key)
 	{
-		return (findElement(keyTrackP, key) != keyTrackP.end());
+		return (keyTrackP.find(key) != keyTrackP.end());
 	}
 
 	bool keyboardControl::onKeyPressed(const KG_KeyType &key)
 	{
-		return (keyTrack.find(key) != keyTrack.end());
+		return (findElement(keyTrack, key) != keyTrack.end());
 	}
 
 	bool keyboardControl::onKeyRelease(const KG_KeyType &key)
 	{
-		return (findElement(keyTrackR, key) != keyTrackR.end());
+		return (keyTrackR.find(key) != keyTrackR.end());
 	}
 }

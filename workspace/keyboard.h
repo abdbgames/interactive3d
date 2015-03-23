@@ -185,6 +185,7 @@ namespace kg
 	{
 		// Methods:
 		static void keyboardCallback(KG_KeyType key, int x, int y);
+		static void keyboardUpCallback(KG_KeyType key, int x, int y);
 		static void keyBufferBegin();
 		static void keyBufferEnd();
 		static void setKeyPress(const KG_KeyType &key, const std::string &fName, VoidF function);
@@ -236,10 +237,9 @@ namespace kg
 		static voidKeyMap functionRList;
 		static voidKeyMap functionPList;
 
-		static std::map<KG_KeyType, bool> keyTrack;
-
-		static std::vector<KG_KeyType> keyTrackP;
-		static std::vector<KG_KeyType> keyTrackR;
+		static std::vector<KG_KeyType> keyTrack;
+		static std::map<KG_KeyType, bool> keyTrackP;
+		static std::map<KG_KeyType, bool> keyTrackR;
 
 		static voidNameMap mouseL;
 		static voidNameMap mouseR;
