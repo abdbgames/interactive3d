@@ -5,7 +5,7 @@
 
 void Tute2::init()
 {
-	m_steps = 80;
+	m_steps = 300;
 	m_r = 0.3f;
 	m_pos = Vector3(0, 0, 0);
 }
@@ -51,9 +51,10 @@ void Tute2::draw()
 	glEnable(GL_DEPTH_TEST);
 
 	drawAxis(0, 0, 0, 1);
-	//drawFormula(-1, 1);
+	drawFormula(-1, 1);
 	//drawCircleCartesian();
-	drawCirecleParametric();
+	//drawCirecleParametric();
+	drawTangent(0.8);
 
 	glutSwapBuffers();
 }
@@ -143,7 +144,8 @@ void Tute2::drawFormula(const float &xMin, const float &xMax)
 
 void Tute2::drawTangent(const float &x)
 {
-
+	Vector3 start(x, x * x);
+	drawLine(start, start + Vector3(1, 2 * x), true);
 }
 
 float Tute2::getLinearY(const float &x)
@@ -158,4 +160,24 @@ float Tute2::getQuadraticY(const float &x)
 	return x * x;
 	//return 2 * x * x - 1;
 	//return -(2 * x * x) + (2 * x) + 1;
+}
+
+void Tute2::drawLine(Vector3 &pos, const Vector3 &to, const bool &normalise)
+{
+	glColor3f(1.0, 1.0, 0.0);
+
+	Vector3 d;
+
+	if (normalise)
+	{
+		d = to;
+		d.normalise();
+	}
+	else
+		d = to;
+
+	glBegin(GL_LINE_STRIP);
+	pos.glPoint();
+	d.glPoint();
+	glEnd();
 }

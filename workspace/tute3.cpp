@@ -310,7 +310,7 @@ void Tute3::drawLine(Vector3 &pos, const Vector3 &to, const bool &normalise)
 		d = to;
 
 	glBegin(GL_LINE_STRIP);
-	pos.glPoints();
-	d.glPoints();
+	pos.glPoint();
+	d.glPoint();
 	glEnd();
 }

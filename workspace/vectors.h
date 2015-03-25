@@ -10,7 +10,7 @@ struct Vector2
 	Vector2(const float &_x, const float &_y);
 
 	void normalise();
-	void glPoints();
+	void glPoint();
 
 	float x, y;
 	float getMagnitude();
@@ -28,7 +28,7 @@ struct Vector3
 	Vector3(const float &_x, const float &_y, const float &_z);
 
 	void normalise();
-	void glPoints();
+	void glPoint();
 
 	float x, y, z;
 	float getMagnitude();
@@ -43,5 +43,17 @@ Vector2 operator *(const Vector2 &a, const Vector2 &b);
 Vector3 operator +(const Vector3 &a, const Vector3 &b);
 Vector3 operator -(const Vector3 &a, const Vector3 &b);
 Vector3 operator *(const Vector3 &a, const Vector3 &b);
+Vector2 operator +(const float &a, const Vector2 &b);
+Vector2 operator -(const float &a, const Vector2 &b);
+Vector2 operator *(const float &a, const Vector2 &b);
+Vector3 operator +(const float &a, const Vector3 &b);
+Vector3 operator -(const float &a, const Vector3 &b);
+Vector3 operator *(const float &a, const Vector3 &b);
+Vector2 operator +(const Vector2 &a, const float &b);
+Vector2 operator -(const Vector2 &a, const float &b);
+Vector2 operator *(const Vector2 &a, const float &b);
+Vector3 operator +(const Vector3 &a, const float &b);
+Vector3 operator -(const Vector3 &a, const float &b);
+Vector3 operator *(const Vector3 &a, const float &b);
 
 #endif /* vectors_h */

@@ -20,6 +20,7 @@ private:
 	void drawTangent(const float &x);
 	void drawCircleCartesian();
 	void drawCirecleParametric();
+	void drawLine(Vector3 &pos, const Vector3 &to, const bool &normalise);
 
 	int m_steps;
 	float m_r;

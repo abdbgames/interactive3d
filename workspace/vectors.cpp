@@ -19,7 +19,7 @@ void Vector2::normalise()
 	y = y / m;
 }
 
-void Vector2::glPoints()
+void Vector2::glPoint()
 {
 	glVertex3f(x, y, 0.0f);
 }
@@ -52,7 +52,7 @@ void Vector3::normalise()
 	z = z / m;
 }
 
-void Vector3::glPoints()
+void Vector3::glPoint()
 {
 	glVertex3f(x, y, z);
 }
@@ -107,4 +107,64 @@ Vector3 operator -(const Vector3 &a, const Vector3 &b)
 Vector3 operator *(const Vector3 &a, const Vector3 &b)
 {
 	return Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+}
+
+Vector2 operator +(const float &a, const Vector2 &b)
+{
+	return Vector3(a + b.x, a + b.y);
+}
+
+Vector2 operator -(const float &a, const Vector2 &b)
+{
+	return Vector3(a - b.x, a - b.y);
+}
+
+Vector2 operator *(const float &a, const Vector2 &b)
+{
+	return Vector3(a * b.x, a * b.y);
+}
+
+Vector3 operator +(const float &a, const Vector3 &b)
+{
+	return Vector3(a + b.x, a + b.y, a + b.z);
+}
+
+Vector3 operator -(const float &a, const Vector3 &b)
+{
+	return Vector3(a - b.x, a - b.y, a - b.z);
+}
+
+Vector3 operator *(const float &a, const Vector3 &b)
+{
+	return Vector3(a * b.x, a * b.y, a * b.z);
+}
+
+Vector2 operator +(const Vector2 &a, const float &b)
+{
+	return Vector3(a.x + b, a.y + b);
+}
+
+Vector2 operator -(const Vector2 &a, const float &b)
+{
+	return Vector3(a.x - b, a.y - b);
+}
+
+Vector2 operator *(const Vector2 &a, const float &b)
+{
+	return Vector3(a.x * b, a.y * b);
+}
+
+Vector3 operator +(const Vector3 &a, const float &b)
+{
+	return Vector3(a.x + b, a.y + b);
+}
+
+Vector3 operator -(const Vector3 &a, const float &b)
+{
+	return Vector3(a.x - b, a.y - b);
+}
+
+Vector3 operator *(const Vector3 &a, const float &b)
+{
+	return Vector3(a.x * b, a.y * b);
 }
