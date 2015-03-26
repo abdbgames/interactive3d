@@ -19,6 +19,7 @@ void Ass1::init()
 
 	screenLeft = -1.0f;
 	screenRight = 1.0f;
+	screenDist = 2.0f;
 
 	// Reserve vector size to ensure auto resizing does not occur until needed:
 	m_circlePoints.reserve(m_circleSteps);
@@ -102,31 +103,45 @@ void Ass1::update()
 		m_analytical = !m_analytical;
 	}
 
+	if (kg::keyboardControl::onKeyPress(KGkey_f))
+	{
+		// Toggle analytical/numerical:
+		if (m_debug)
+			printf("Toggled %s circle mode.\n", (m_circleCart) ? "parametric" : "cartesian");
+
+		(m_circleCart) ? updateCircleCartesian() : updateCircleParametric();
+		shouldDraw = true;
+
+		m_circleCart = !m_circleCart;
+	}
+
+	if (kg::keyboardControl::onKeyPress(KGkey_g))
+	{
+		// Toggle analytical/numerical:
+		if (m_debug)
+			printf("Toggled %s parabola mode.\n", (m_paraCart) ? "parametric" : "cartesian");
+
+		(m_circleCart) ? updateCircleCartesian() : updateCircleParametric();
+		shouldDraw = true;
+
+		m_paraCart = !m_paraCart;
+	}
+
 	// Circle/Parabola segment control:
 	if (kg::keyboardControl::onKeyPress(KGkey_2))
 	{
-		if (m_circleSteps > 1000000)
-		{
-			printf("Doubling Circle segments to: %d.\n", m_circleSteps);
-			m_circleSteps *= 2;
-			(m_circleCart) ? updateCircleCartesian() : updateCircleParametric();
-			shouldDraw = true;
-		}
-		else
-			printf("Warning: cannot increase segments anymore!");
+		printf("Doubling Circle segments to: %d.\n", m_circleSteps);
+		m_circleSteps *= 2;
+		(m_circleCart) ? updateCircleCartesian() : updateCircleParametric();
+		shouldDraw = true;
 	}
 
 	if (kg::keyboardControl::onKeyPress(KGkey_1))
 	{
-		if (m_circleSteps > 2)
-		{
-			printf("Halving Circle segments to: %d.\n", m_circleSteps);
-			m_circleSteps /= 2;
-			(m_circleCart) ? updateCircleCartesian() : updateCircleParametric();
-			shouldDraw = true;
-		}
-		else
-			printf("Warning: cannot reduce segments anymore!");
+		printf("Halving Circle segments to: %d.\n", m_circleSteps);
+		m_circleSteps /= 2;
+		(m_circleCart) ? updateCircleCartesian() : updateCircleParametric();
+		shouldDraw = true;
 	}
 
 	// Only redo frog velocity if frog is not in air:
@@ -192,6 +207,9 @@ void Ass1::update()
 			frogVelI.x = cosf(m_dir) * m_speed;
 			frogVelI.y = sinf(m_dir) * m_speed;
 
+			// Set the initial velocity:
+			frogVel = frogVelI;
+
 			// Debugging:
 			if (m_debug)
 				printf("Speed: %f; Dir (rad): %f; Dir (deg): %f;\n",
@@ -220,6 +238,12 @@ void Ass1::update()
 			// Velocity:
 			frogVel.y -= KG_GR * m_dT;
 		}
+
+		// Keep our frog in range:
+		while (frogPos.x > 1.0f)
+			frogPos.x -= 2.0f;
+		while (frogPos.x < -1.0f)
+			frogPos.x += 2.0f;
 
 		// if our frog hit's y:0 or lower:
 		if (frogPos.y < 0.0f)
@@ -384,7 +408,27 @@ void Ass1::drawCircle()
 
 void Ass1::drawParabolaCartesian()
 {
-	
+	// Set colour depending on air status:
+	(frogInAir) ? glColor3f(1.0, 0.0, 0.0) : glColor3f(0.0, 1.0, 0.0);
+
+	// Work out initial variables:
+	float range = (2.0f * m_speed * m_speed * cosf(m_dir) * sinf(m_dir)) / KG_GR, x, y,
+		in = range / (float)m_paraSteps, xx;
+
+	// Work out direction:
+	bool isLeft = (frogVelI.x < 0.0f);
+
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i <= m_paraSteps; ++i)
+	{
+		x = i * in;
+		xx = x + frogPosI.x;
+		if ((isLeft && xx > frogPos.x) || (!isLeft && frogPos.x > xx))
+			continue;
+		y = tanf(m_dir) * x - KG_GR / (2.0f * m_speed * m_speed * cosf(m_dir) * cosf(m_dir)) * x * x;
+		glVertex3f(xx, y + frogPosI.y, 0.0);
+	}
+	glEnd();
 }
 
 void Ass1::drawParabolaParametric()
@@ -393,26 +437,79 @@ void Ass1::drawParabolaParametric()
 	(frogInAir) ? glColor3f(1.0, 0.0, 0.0) : glColor3f(0.0, 1.0, 0.0);
 
 	// Work out initial variables:
-	float flightTime = (2.0 * m_speed * sinf(m_dir)) / KG_GR, x, y,
+	float flightTime = (2.0f * m_speed * sinf(m_dir)) / KG_GR, x, y,
 		in = flightTime / (float)m_paraSteps,
 		preCalc = (1 / (float)2) * -KG_GR, t;
 
-	// Work out direction:
-	bool isLeft = (frogVelI.x < 0.0f);
-
-	glBegin(GL_LINE_STRIP);
-	glVertex3f(frogPos.x, frogPos.y, 0.0);
-	for (int i = 1; i <= m_paraSteps; ++i)
+	// Vector for holding points:
+	std::vector<Vector3> points;
+	
+	// Calculation loop:
+	for (int i = 0; i <= m_paraSteps; ++i)
 	{
 		t = i * in;
 		x = frogVelI.x * t + frogPosI.x;
-		// If our frog is ahead of our parabola, don't bother drawing it:
-		if ((isLeft && x > frogPos.x) || (!isLeft && frogPos.x > x))
-			continue;
 		y = (preCalc * t * t) + (frogVelI.y * t) + frogPosI.y;
-		glVertex3f(x, y, 0.0);
+		points.push_back(Vector3(x, y, 0.0f));
+	}
+
+	// Reuse x to help with range:
+	x = 0.0f;
+
+	// Draw loop:
+	glBegin(GL_LINE_STRIP);
+	for (unsigned int i = 0; i < points.size(); ++i)
+	{
+		// Place point in line buffer:
+		glVertex3f(points[i].x + x, points[i].y, 0.0f);
+
+		// If the points are out of range, resatrt line strip at other side of screen:
+		if (points[i].x + x > 1.0f)
+		{
+			x -= 2.0f;
+			glEnd();
+			glBegin(GL_LINE_STRIP);
+			if (i > 0)
+				glVertex3f(points[i-1].x + x, points[i-1].y, 0.0f);
+			continue;
+		}
+		if (points[i].x + x < -1.0f)
+		{
+			x += 2.0f;
+			glEnd();
+			glBegin(GL_LINE_STRIP);
+			if (i > 0)
+				glVertex3f(points[i-1].x + x, points[i-1].y, 0.0f);
+			continue;
+		}
 	}
 	glEnd();
+
+	// Loop again to draw tangents/normals:
+	if (m_drawTangents || m_drawNormals)
+	{
+		for (unsigned int i = 0; i < points.size(); ++i)
+		{
+			// Temporary Vector for getting true position of points:
+			Vector3 start(Vector3(frogPos) + points[i]);
+			Vector3 end;
+
+			if (m_drawTangents)
+			{
+				end = Vector3(1.0f, (-points[i].x / points[i].y));
+				end.normalise();
+				end = end * m_radius;
+				drawLine(start, start + end, Vector3(1.0f, 1.0f, 0.0f));
+			}
+			if (m_drawNormals)
+			{
+				end = Vector3(points[i].x, points[i].y);
+				end.normalise();
+				end = end * m_radius;
+				drawLine(start, start + end, Vector3(1.0f, 1.0f, 0.0f));
+			}
+		}
+	}
 }
 
 

@@ -29,7 +29,7 @@ private:
 
 	bool frogInAir, m_paraCart, m_circleCart, m_debug, m_drawNormals, m_drawTangents, m_analytical;
 
-	float m_t, m_sT, m_dT, m_radius, m_dir, m_speed, m_keySpeed, m_dist, screenLeft, screenRight;
+	float m_t, m_sT, m_dT, m_radius, m_dir, m_speed, m_keySpeed, m_dist, screenLeft, screenRight, screenDist;
 
 	int m_paraSteps, m_circleSteps;
 };
