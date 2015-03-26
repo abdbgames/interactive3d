@@ -226,6 +226,7 @@ namespace kg
 		static void mouseMPressed();
 		static void clearKeyFunctions();
 		static void clearMouseFunctions();
+		static void toggleDebug();
 
 		static bool onKeyPress(const KG_KeyType &key);
 		static bool onKeyPressed(const KG_KeyType &key);
@@ -251,6 +252,7 @@ namespace kg
 		static voidNameMap PmouseR;
 		static voidNameMap PmouseM;
 
+		static bool debug;
 		static bool removeFunctionInNameList(voidNameMap &vnm, const std::string &fName);
 
 		static void runAllFunctionsForName(voidNameMap &vnm);

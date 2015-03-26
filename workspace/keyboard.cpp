@@ -57,6 +57,8 @@ namespace kg
 	std::map<KG_KeyType, bool> keyboardControl::keyTrackP;
 	std::map<KG_KeyType, bool> keyboardControl::keyTrackR;
 
+	bool keyboardControl::debug = false;
+
 	std::vector<KG_KeyType>::iterator keyboardControl::findElement(std::vector<KG_KeyType> &v, const KG_KeyType &key)
 	{
 		std::vector<KG_KeyType>::iterator i;
@@ -252,16 +254,22 @@ namespace kg
 
 	void keyboardControl::keyPress(const KG_KeyType &key)
 	{
+		if (debug)
+			printf("Key %ud has been pressed.\n", key);
 		runAllFunctionsForKey(functionPList, key);
 	}
 
 	void keyboardControl::keyPressed(const KG_KeyType &key)
 	{
+		if (debug)
+			printf("Key %ud is being pressed.\n", key);
 		runAllFunctionsForKey(functionList, key);
 	}
 
 	void keyboardControl::setKeyRelease(const KG_KeyType &key, const std::string &fName, VoidF function)
 	{
+		if (debug)
+			printf("Key %ud has been released.\n", key);
 		addFunctionToKeyList(functionRList, key, fName, function);
 	}
 
@@ -295,6 +303,13 @@ namespace kg
 		PmouseL.clear();
 		PmouseR.clear();
 		PmouseM.clear();
+	}
+
+	void keyboardControl::toggleDebug()
+	{
+		// switch debug state:
+		printf("Turning debugging %s.\n", (debug) ? "off" : "on");
+		debug = !debug;
 	}
 
 	void keyboardControl::setMousePressL(const std::string &fName, VoidF function)

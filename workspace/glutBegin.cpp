@@ -9,6 +9,10 @@ void update() { tute->update(); }
 
 void init(int *argc, char **argv, Tute *thisTute)
 {
+	/* Inital stuff for setting up a GL/glut context
+	 * also sets up the callbacks for our draw/update etc
+	 * and starts the main loop. */
+
 	tute = thisTute;
 
 	if (!tute)

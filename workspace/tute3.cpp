@@ -26,7 +26,6 @@ float startTime;
 float rot = 1.0f;
 float speed = 1.0f;
 const float incSpeed = 1.0f;
-const int milli = 1000;
 
 typedef enum { analytical, numerical } integrationMode;
 integrationMode integrateMode = analytical;

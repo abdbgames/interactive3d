@@ -4,7 +4,7 @@
 #include "platformInclude.h"
 
 Vector2::Vector2() : x(0.0f), y(0.0f) {}
-Vector2::Vector2(const Vector3 &v) : x(v.x), y(v.y) { /* WARNING: This will cut the z value! */ }
+Vector2::Vector2(const Vector3 &v) : x(v.x), y(v.y) { /* WARNING: This will ignore the z value! */ }
 Vector2::Vector2(const float &_x, const float &_y) : x(_x), y(_y) {}
 Vector3::Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
 Vector3::Vector3(const Vector2 &v) : x(v.x), y(v.y), z(0.0f) {}
@@ -94,6 +94,11 @@ Vector2 operator *(const Vector2 &a, const Vector2 &b)
 	return Vector2(a.x * b.x, a.y * b.y);
 }
 
+Vector2 operator /(const Vector2 &a, const Vector2 &b)
+{
+	return Vector2(a.x / b.x, a.y / b.y);
+}
+
 Vector3 operator +(const Vector3 &a, const Vector3 &b)
 {
 	return Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
@@ -109,19 +114,29 @@ Vector3 operator *(const Vector3 &a, const Vector3 &b)
 	return Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
+Vector3 operator /(const Vector3 &a, const Vector3 &b)
+{
+	return Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+}
+
 Vector2 operator +(const float &a, const Vector2 &b)
 {
-	return Vector3(a + b.x, a + b.y);
+	return Vector2(a + b.x, a + b.y);
 }
 
 Vector2 operator -(const float &a, const Vector2 &b)
 {
-	return Vector3(a - b.x, a - b.y);
+	return Vector2(a - b.x, a - b.y);
 }
 
 Vector2 operator *(const float &a, const Vector2 &b)
 {
-	return Vector3(a * b.x, a * b.y);
+	return Vector2(a * b.x, a * b.y);
+}
+
+Vector2 operator /(const float &a, const Vector2 &b)
+{
+	return Vector2(a / b.x, a / b.y);
 }
 
 Vector3 operator +(const float &a, const Vector3 &b)
@@ -139,32 +154,47 @@ Vector3 operator *(const float &a, const Vector3 &b)
 	return Vector3(a * b.x, a * b.y, a * b.z);
 }
 
+Vector3 operator /(const float &a, const Vector3 &b)
+{
+	return Vector3(a / b.x, a / b.y, a / b.z);
+}
+
 Vector2 operator +(const Vector2 &a, const float &b)
 {
-	return Vector3(a.x + b, a.y + b);
+	return Vector2(a.x + b, a.y + b);
 }
 
 Vector2 operator -(const Vector2 &a, const float &b)
 {
-	return Vector3(a.x - b, a.y - b);
+	return Vector2(a.x - b, a.y - b);
 }
 
 Vector2 operator *(const Vector2 &a, const float &b)
 {
-	return Vector3(a.x * b, a.y * b);
+	return Vector2(a.x * b, a.y * b);
+}
+
+Vector2 operator /(const Vector2 &a, const float &b)
+{
+	return Vector2(a.x / b, a.y / b);
 }
 
 Vector3 operator +(const Vector3 &a, const float &b)
 {
-	return Vector3(a.x + b, a.y + b);
+	return Vector3(a.x + b, a.y + b, a.z + b);
 }
 
 Vector3 operator -(const Vector3 &a, const float &b)
 {
-	return Vector3(a.x - b, a.y - b);
+	return Vector3(a.x - b, a.y - b, a.z - b);
 }
 
 Vector3 operator *(const Vector3 &a, const float &b)
 {
-	return Vector3(a.x * b, a.y * b);
+	return Vector3(a.x * b, a.y * b, a.z * b);
+}
+
+Vector3 operator /(const Vector3 &a, const float &b)
+{
+	return Vector3(a.x / b, a.y / b, a.z / b);
 }

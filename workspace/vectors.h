@@ -40,20 +40,26 @@ struct Vector3
 Vector2 operator +(const Vector2 &a, const Vector2 &b);
 Vector2 operator -(const Vector2 &a, const Vector2 &b);
 Vector2 operator *(const Vector2 &a, const Vector2 &b);
+Vector2 operator /(const Vector2 &a, const Vector2 &b);
 Vector3 operator +(const Vector3 &a, const Vector3 &b);
 Vector3 operator -(const Vector3 &a, const Vector3 &b);
 Vector3 operator *(const Vector3 &a, const Vector3 &b);
+Vector3 operator /(const Vector3 &a, const Vector3 &b);
 Vector2 operator +(const float &a, const Vector2 &b);
 Vector2 operator -(const float &a, const Vector2 &b);
 Vector2 operator *(const float &a, const Vector2 &b);
+Vector2 operator /(const float &a, const Vector2 &b);
 Vector3 operator +(const float &a, const Vector3 &b);
 Vector3 operator -(const float &a, const Vector3 &b);
 Vector3 operator *(const float &a, const Vector3 &b);
+Vector3 operator /(const float &a, const Vector3 &b);
 Vector2 operator +(const Vector2 &a, const float &b);
 Vector2 operator -(const Vector2 &a, const float &b);
 Vector2 operator *(const Vector2 &a, const float &b);
+Vector2 operator /(const Vector2 &a, const float &b);
 Vector3 operator +(const Vector3 &a, const float &b);
 Vector3 operator -(const Vector3 &a, const float &b);
 Vector3 operator *(const Vector3 &a, const float &b);
+Vector3 operator /(const Vector3 &a, const float &b);
 
 #endif /* vectors_h */

@@ -45,6 +45,9 @@
     <ClInclude Include="tute3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ass1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tute3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ass1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ass1.h" />
     <ClInclude Include="glutBegin.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="platformInclude.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="vectors.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ass1.cpp" />
     <ClCompile Include="glutBegin.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />

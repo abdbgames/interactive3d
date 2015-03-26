@@ -14,6 +14,7 @@ public:
 	virtual void update();
 	virtual void end();
 
+private:
 	void updateTime();
 	void drawAxis(const float &x, const float &y, const float &z, const float &size);
 	void drawCircleCartesian(const Vector3 &pos, const float &radius, const int &steps);
