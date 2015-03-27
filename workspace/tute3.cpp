@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Tute3.h"
+#include "tute3.h"
 #include "keyboard.h"
 
 bool debug = false;
@@ -50,14 +50,16 @@ void keyS()
 
 void keyF()
 {
-	printf("Switching to %s mode...\n", (cartesianMode) ? "parametric" : "cartesian");
+	printf("Switching to %s mode...\n", (cartesianMode) ?
+		"parametric" : "cartesian");
 	cartesianMode = (cartesianMode) ? false : true;
 }
 
 void updateProjectileStateAnalytical(float t)
 {
 	projectile.r.x = projectile.v0.x * t + projectile.r0.x;
-	projectile.r.y = 1.0 / 2.0 * g * t * t + projectile.v0.y * t + projectile.r0.y;
+	projectile.r.y = 1.0 / 2.0 * g * t * t + projectile.v0.y * t +
+		projectile.r0.y;
 	/*
 	* The above statement can alternatively be written as below, saving
 	* a few arithmetic operations, which may or may not be worthwhile
@@ -190,7 +192,8 @@ void drawParabola(const int &steps)
 	{
 		float t = i * in;
 		x = projectile.v0.x * t + projectile.r.x;
-		y = (preCalc * t * t) + (projectile.v0.y * t) + projectile.r.y;
+		y = (preCalc * t * t) + (projectile.v0.y * t) +
+			projectile.r.y;
 		glVertex3f(x, y, 0.0);
 	}
 	glEnd();
@@ -200,7 +203,8 @@ void drawVelocity()
 {
 	glColor3f(1.0, 0.0, 1.0);
 
-	Vector2 v(projectile.r.x + projectile.v0.x/5.5, projectile.r.y + projectile.v0.y/5.5);
+	Vector2 v(projectile.r.x + projectile.v0.x/5.5, projectile.r.y +
+		projectile.v0.y/5.5);
 
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(projectile.r.x, projectile.r.y, 0.0);
@@ -216,9 +220,11 @@ void Tute3::draw()
 	drawAxis(0, 0, 0, 1);
 
 	if (cartesianMode)
-		drawCircleCartesian(Vector3(projectile.r.x, projectile.r.y, 0.01), 0.05, 50);
+		drawCircleCartesian(Vector3(projectile.r.x,
+			projectile.r.y, 0.01), 0.05, 50);
 	else
-		drawCirecleParametric(Vector3(projectile.r.x, projectile.r.y, 0.01), 0.05, 50);
+		drawCirecleParametric(Vector3(projectile.r.x,
+			projectile.r.y, 0.01), 0.05, 50);
 
 	drawVelocity();
 	drawParabola(50);
@@ -235,7 +241,8 @@ void Tute3::end()
 
 }
 
-void Tute3::drawAxis(const float &x, const float &y, const float &z, const float &size)
+void Tute3::drawAxis(const float &x, const float &y,
+	const float &z, const float &size)
 {
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_LINES);
@@ -256,7 +263,8 @@ void Tute3::drawAxis(const float &x, const float &y, const float &z, const float
 	glEnd();
 }
 
-void Tute3::drawCircleCartesian(const Vector3 &pos, const float &radius, const int &steps)
+void Tute3::drawCircleCartesian(const Vector3 &pos, const float &radius,
+	const int &steps)
 {
 	float x = -radius;
 	float xS = 2 * radius / steps;
@@ -279,7 +287,8 @@ void Tute3::drawCircleCartesian(const Vector3 &pos, const float &radius, const i
 	glEnd();
 }
 
-void Tute3::drawCirecleParametric(const Vector3 &pos, const float &radius, const int &steps)
+void Tute3::drawCirecleParametric(const Vector3 &pos, const float &radius,
+	const int &steps)
 {
 	float x, y, t;
 	glColor3f(1.0, 1.0, 1.0);

@@ -64,7 +64,8 @@ void Tute2::end()
 
 }
 
-void Tute2::drawAxis(const float &x, const float &y, const float &z, const float &size)
+void Tute2::drawAxis(const float &x, const float &y, const float &z,
+	const float &size)
 {
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_LINES);
@@ -162,7 +163,8 @@ float Tute2::getQuadraticY(const float &x)
 	//return -(2 * x * x) + (2 * x) + 1;
 }
 
-void Tute2::drawLine(Vector3 &pos, const Vector3 &to, const bool &normalise)
+void Tute2::drawLine(Vector3 &pos, const Vector3 &to,
+	const bool &normalise)
 {
 	glColor3f(1.0, 1.0, 0.0);
 

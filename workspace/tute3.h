@@ -16,10 +16,14 @@ public:
 
 private:
 	void updateTime();
-	void drawAxis(const float &x, const float &y, const float &z, const float &size);
-	void drawCircleCartesian(const Vector3 &pos, const float &radius, const int &steps);
-	void drawCirecleParametric(const Vector3 &pos, const float &radius, const int &steps);
-	void drawLine(Vector3 &pos, const Vector3 &to, const bool &normalise);
+	void drawAxis(const float &x, const float &y, const float &z,
+		const float &size);
+	void drawCircleCartesian(const Vector3 &pos, const float &radius,
+		const int &steps);
+	void drawCirecleParametric(const Vector3 &pos, const float &radius,
+		const int &steps);
+	void drawLine(Vector3 &pos, const Vector3 &to,
+		const bool &normalise);
 
 	float t, dt;
 };

@@ -32,6 +32,8 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 
+	glutSpecialFunc(kg::keyboardControl::specialCallback);
+	glutSpecialUpFunc(kg::keyboardControl::specialUpCallback);
 	glutKeyboardFunc(kg::keyboardControl::keyboardCallback);
 	glutKeyboardUpFunc(kg::keyboardControl::keyboardUpCallback);
 	glutDisplayFunc(draw);

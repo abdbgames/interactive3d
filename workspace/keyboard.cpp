@@ -59,7 +59,8 @@ namespace kg
 
 	bool keyboardControl::debug = false;
 
-	std::vector<KG_KeyType>::iterator keyboardControl::findElement(std::vector<KG_KeyType> &v, const KG_KeyType &key)
+	std::vector<KG_KeyType>::iterator keyboardControl::findElement(
+		std::vector<KG_KeyType> &v, const KG_KeyType &key)
 	{
 		std::vector<KG_KeyType>::iterator i;
 
@@ -77,24 +78,29 @@ namespace kg
 		// Check if the key is in the held keys list:
 		if (findElement(keyTrack, key) == keyTrack.end())
 		{
-			// It wasn't we tell the controller it was pressed for the first time:
+			// It wasn't we tell the controller it was
+			// pressed for the first time:
 			keyPress(key);
 
 			// And add it to the list:
 			keyTrack.push_back(key);
 
-			// Add/set this as true in the single key press list:
+			// Add/set this as true in the single
+			// key press list:
 			keyTrackP[key] = true;
 		}
 		else
 		{
-			// This means it is being pressed a consecutive time:
-			std::map<KG_KeyType, bool>::iterator i = keyTrackP.find(key);
+			// This means it is being pressed a
+			// consecutive time:
+			std::map<KG_KeyType, bool>::iterator i =
+				keyTrackP.find(key);
 
 			// If it wasn't in our list don't worry about it:
 			if (i == keyTrackP.end())
 				return;
-			// If it was and flagged as true, it's not ready to remove:
+			// If it was and flagged as true,
+			// it's not ready to remove:
 			else if (i->second)
 				return;
 			// And finally, we can remove it:
@@ -103,13 +109,15 @@ namespace kg
 		}
 	}
 
-	void keyboardControl::keyboardUpCallback(KG_KeyType key, int x, int y)
+	void keyboardControl::keyboardUpCallback(KG_KeyType key, int x,
+		int y)
 	{
 		// We tell the controller this key was released here:
 		keyRelease(key);
 
 		// Find and remove it from our list:
-		std::vector<KG_KeyType>::iterator i = findElement(keyTrack, key);
+		std::vector<KG_KeyType>::iterator i =
+			findElement(keyTrack, key);
 
 		// Remove element if element exists:
 		if (i != keyTrack.end())
@@ -119,14 +127,60 @@ namespace kg
 		keyTrackR[key] = true;
 	}
 
+	void keyboardControl::specialCallback(int key, int x,
+		 int y)
+	{
+		switch (key)
+		{
+		case GLUT_KEY_LEFT:
+			keyboardCallback(KGkey_left, x, y);
+			break;
+		case GLUT_KEY_RIGHT:
+			keyboardCallback(KGkey_right, x, y);
+			break;
+		case GLUT_KEY_UP:
+			keyboardCallback(KGkey_up, x, y);
+			break;
+		case GLUT_KEY_DOWN:
+			keyboardCallback(KGkey_down, x, y);
+			break;
+		default:
+			break;
+		}
+	}
+
+	void keyboardControl::specialUpCallback(int key,
+		int x, int y)
+	{
+		switch (key)
+		{
+		case GLUT_KEY_LEFT:
+			keyboardUpCallback(KGkey_left, x, y);
+			break;
+		case GLUT_KEY_RIGHT:
+			keyboardUpCallback(KGkey_right, x, y);
+			break;
+		case GLUT_KEY_UP:
+			keyboardUpCallback(KGkey_up, x, y);
+			break;
+		case GLUT_KEY_DOWN:
+			keyboardUpCallback(KGkey_down, x, y);
+			break;
+		default:
+			break;
+		}
+	}
+
 	void keyboardControl::keyBufferBegin()
 	{
 		// Run all pressed functions:
 		for (unsigned int i = 0; i < keyTrack.size(); ++i)
 			keyPressed(keyTrack[i]);
 
-		// Remove remaining elements flagged as false in the key press list:
-		for (std::map<KG_KeyType, bool>::iterator i = keyTrackP.begin(); i != keyTrackP.end(); )
+		// Remove remaining elements flagged as false in the
+		// key press list:
+		for (std::map<KG_KeyType, bool>::iterator i =
+			keyTrackP.begin(); i != keyTrackP.end(); )
 		{
 			// If it's true ignore it:
 			if (i->second)
@@ -137,7 +191,8 @@ namespace kg
 		}
 
 		// Same for our key release list:
-		for (std::map<KG_KeyType, bool>::iterator i = keyTrackR.begin(); i != keyTrackR.end();)
+		for (std::map<KG_KeyType, bool>::iterator i =
+			keyTrackR.begin(); i != keyTrackR.end();)
 		{
 			// If it's true ignore it:
 			if (i->second)
@@ -150,16 +205,20 @@ namespace kg
 
 	void keyboardControl::keyBufferEnd()
 	{
-		// We ran an update so set our key press list elements to false:
-		for (std::map<KG_KeyType, bool>::iterator i = keyTrackP.begin(); i != keyTrackP.end(); ++i)
+		// We ran an update so set our key press list
+		// elements to false:
+		for (std::map<KG_KeyType, bool>::iterator i =
+			keyTrackP.begin(); i != keyTrackP.end(); ++i)
 			i->second = false;
 
 		// Same for our key release list:
-		for (std::map<KG_KeyType, bool>::iterator i = keyTrackR.begin(); i != keyTrackR.end(); ++i)
+		for (std::map<KG_KeyType, bool>::iterator i =
+			keyTrackR.begin(); i != keyTrackR.end(); ++i)
 			i->second = false;
 	}
 
-	bool keyboardControl::removeFunctionInNameList(voidNameMap &vnm, const std::string &fName)
+	bool keyboardControl::removeFunctionInNameList(voidNameMap &vnm,
+		const std::string &fName)
 	{
 		// check if the fName exists:
 		voidNameMap::iterator it = vnm.find(fName);
@@ -180,29 +239,35 @@ namespace kg
 	void keyboardControl::runAllFunctionsForName(voidNameMap &vnm)
 	{
 		// iterate through all functions, run them all if not NULL:
-		for (voidNameMap::iterator it = vnm.begin(); it != vnm.end(); ++it)
+		for (voidNameMap::iterator it = vnm.begin();
+			it != vnm.end(); ++it)
 			if (it->second)
 				it->second();
 	}
 
-	void keyboardControl::addFunctionToKeyList(voidKeyMap &vkm, const KG_KeyType &key, const std::string &fName, VoidF function)
+	void keyboardControl::addFunctionToKeyList(voidKeyMap &vkm,
+		const KG_KeyType &key, const std::string &fName,
+		VoidF function)
 	{
 		// Search for if our key already exists:
 		voidKeyMap::iterator it = vkm.find(key);
 
 		// We need to make it if it doesn't exist:
 		if (it == vkm.end())
-			// This will push to the back so we can keep the it value:
+			// This will push to the back so we can
+			// keep the it value:
 			vkm[key] = voidNameMap();
 
 		// Our iterator value will have changed:
 		it = vkm.find(key);
 		
-		// Now we add the key, if it already exists it will overwrite so be careful:
+		// Now we add the key, if it already exists it will
+		// overwrite so be careful:
 		it->second[fName] = function;
 	}
 
-	void keyboardControl::removeFunctionInKeyList(voidKeyMap &vkm, const KG_KeyType &key, const std::string &fName)
+	void keyboardControl::removeFunctionInKeyList(voidKeyMap &vkm,
+		const KG_KeyType &key, const std::string &fName)
 	{
 		// Search for if our key already exists:
 		voidKeyMap::iterator it = vkm.find(key);
@@ -210,16 +275,19 @@ namespace kg
 		// We can't do anything if it doesn't:
 		if (it == vkm.end())
 		{
-			std::printf("%c is not on the function list!\n", key);
+			std::printf("%c is not on the function list!\n",
+				key);
 			return;
 		}
 
 		// Remove the function:
 		if (!removeFunctionInNameList(it->second, fName))
-			std::printf("Above error created for %c key.\n", key);
+			std::printf("Above error created for %c key.\n",
+				key);
 	}
 
-	void keyboardControl::runAllFunctionsForKey(voidKeyMap &vkm, const KG_KeyType &key)
+	void keyboardControl::runAllFunctionsForKey(voidKeyMap &vkm,
+		const KG_KeyType &key)
 	{
 		// Search for if our key already exists:
 		voidKeyMap::iterator it = vkm.find(key);
@@ -232,22 +300,26 @@ namespace kg
 		runAllFunctionsForName(it->second);
 	}
 	
-	void keyboardControl::setKeyPress(const KG_KeyType &key, const std::string &fName, VoidF function)
+	void keyboardControl::setKeyPress(const KG_KeyType &key,
+		const std::string &fName, VoidF function)
 	{
 		addFunctionToKeyList(functionPList, key, fName, function);
 	}
 
-	void keyboardControl::breakKeyPress(const KG_KeyType &key, const std::string &fName)
+	void keyboardControl::breakKeyPress(const KG_KeyType &key,
+		const std::string &fName)
 	{
 		removeFunctionInKeyList(functionPList, key, fName);
 	}
 
-	void keyboardControl::setKeyPressed(const KG_KeyType &key, const std::string &fName, VoidF function)
+	void keyboardControl::setKeyPressed(const KG_KeyType &key,
+		const std::string &fName, VoidF function)
 	{
 		addFunctionToKeyList(functionList, key, fName,  function);
 	}
 
-	void keyboardControl::breakKeyPressed(const KG_KeyType &key, const std::string &fName)
+	void keyboardControl::breakKeyPressed(const KG_KeyType &key,
+		const std::string &fName)
 	{
 		removeFunctionInKeyList(functionList, key, fName);
 	}
@@ -266,14 +338,16 @@ namespace kg
 		runAllFunctionsForKey(functionList, key);
 	}
 
-	void keyboardControl::setKeyRelease(const KG_KeyType &key, const std::string &fName, VoidF function)
+	void keyboardControl::setKeyRelease(const KG_KeyType &key,
+		const std::string &fName, VoidF function)
 	{
 		if (debug)
 			printf("Key %ud has been released.\n", key);
 		addFunctionToKeyList(functionRList, key, fName, function);
 	}
 
-	void keyboardControl::breakKeyRelease(const KG_KeyType &key, const std::string &fName)
+	void keyboardControl::breakKeyRelease(const KG_KeyType &key,
+		const std::string &fName)
 	{
 		removeFunctionInKeyList(functionRList, key, fName);
 	}
@@ -312,57 +386,75 @@ namespace kg
 		debug = !debug;
 	}
 
-	void keyboardControl::setMousePressL(const std::string &fName, VoidF function)
+	void keyboardControl::setMousePressL(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		mouseL[fName] = function;
 	}
 
-	void keyboardControl::setMousePressR(const std::string &fName, VoidF function)
+	void keyboardControl::setMousePressR(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		mouseR[fName] = function;
 	}
 
-	void keyboardControl::setMousePressM(const std::string &fName, VoidF function)
+	void keyboardControl::setMousePressM(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		mouseM[fName] = function;
 	}
 
-	void keyboardControl::setMouseReleaseL(const std::string &fName, VoidF function)
+	void keyboardControl::setMouseReleaseL(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		RmouseL[fName] = function;
 	}
 
-	void keyboardControl::setMouseReleaseR(const std::string &fName, VoidF function)
+	void keyboardControl::setMouseReleaseR(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		RmouseR[fName] = function;
 	}
 
-	void keyboardControl::setMouseReleaseM(const std::string &fName, VoidF function)
+	void keyboardControl::setMouseReleaseM(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		RmouseM[fName] = function;
 	}
 
-	void keyboardControl::setMousePressedL(const std::string &fName, VoidF function)
+	void keyboardControl::setMousePressedL(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		PmouseL[fName] = function;
 	}
 
-	void keyboardControl::setMousePressedR(const std::string &fName, VoidF function)
+	void keyboardControl::setMousePressedR(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		PmouseR[fName] = function;
 	}
 
-	void keyboardControl::setMousePressedM(const std::string &fName, VoidF function)
+	void keyboardControl::setMousePressedM(const std::string &fName,
+		VoidF function)
 	{
-		// Set the function for the name, this will overwrite so be careful:
+		// Set the function for the name,
+		// this will overwrite so be careful:
 		PmouseM[fName] = function;
 	}
 

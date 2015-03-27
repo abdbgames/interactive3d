@@ -35,7 +35,7 @@ ___________________________________
 
 // Define all keyboard keys:
 #ifndef KG_USEGL
-#define KGkey_backspace	8
+#define KGkey_backspace		8
 #define KGKey_tab		9
 #define KGkey_enter		13
 #define KGkey_esc		27
@@ -107,17 +107,17 @@ ___________________________________
 #define KGkey_x			120
 #define KGkey_y			121
 #define KGkey_z			122
-#define KGkey_delete	127
+#define KGkey_delete		127
 #define KG_KeyType		unsigned char
 #else /* KG_USEGL */
 #include <GLFW\glfw3.h>
-#define KGkey_backspace	GLFW_KEY_BACKSPACE
+#define KGkey_backspace		GLFW_KEY_BACKSPACE
 #define KGkey_enter		GLFW_KEY_ENTER
 #define KGkey_esc		GLFW_KEY_ESCAPE
-#define KGkey_Rshift	GLFW_KEY_RIGHT_SHIFT
-#define KGkey_Lshift	GLFW_KEY_LEFT_SHIFT
+#define KGkey_Rshift		GLFW_KEY_RIGHT_SHIFT
+#define KGkey_Lshift		GLFW_KEY_LEFT_SHIFT
 #define KGkey_space		GLFW_KEY_SPACE
-#define KGkey_delete	GLFW_KEY_DELETE
+#define KGkey_delete		GLFW_KEY_DELETE
 #define KGkey_left		GLFW_KEY_LEFT
 #define KGkey_up		GLFW_KEY_UP
 #define KGkey_right		GLFW_KEY_RIGHT
@@ -185,27 +185,45 @@ namespace kg
 	{
 		// Methods:
 		static void keyboardCallback(KG_KeyType key, int x, int y);
-		static void keyboardUpCallback(KG_KeyType key, int x, int y);
+		static void keyboardUpCallback(KG_KeyType key, int x,
+			int y);
+		static void specialCallback(int key, int x, int y);
+		static void specialUpCallback(int key, int x, int y);
 		static void keyBufferBegin();
 		static void keyBufferEnd();
-		static void setKeyPress(const KG_KeyType &key, const std::string &fName, VoidF function);
-		static void breakKeyPress(const KG_KeyType &key, const std::string &fName);
-		static void setKeyPressed(const KG_KeyType &key, const std::string &fName, VoidF function);
-		static void breakKeyPressed(const KG_KeyType &key, const std::string &fName);
-		static void setKeyRelease(const KG_KeyType &key, const std::string &fName, VoidF function);
-		static void breakKeyRelease(const KG_KeyType &key, const std::string &fName);
+		static void setKeyPress(const KG_KeyType &key,
+			const std::string &fName, VoidF function);
+		static void breakKeyPress(const KG_KeyType &key,
+			const std::string &fName);
+		static void setKeyPressed(const KG_KeyType &key,
+			const std::string &fName, VoidF function);
+		static void breakKeyPressed(const KG_KeyType &key,
+			const std::string &fName);
+		static void setKeyRelease(const KG_KeyType &key,
+			const std::string &fName, VoidF function);
+		static void breakKeyRelease(const KG_KeyType &key,
+			const std::string &fName);
 		static void keyPress(const KG_KeyType &key);
 		static void keyPressed(const KG_KeyType &key);
 		static void keyRelease(const KG_KeyType &key);
-		static void setMousePressL(const std::string &fName, VoidF function);
-		static void setMousePressR(const std::string &fName, VoidF function);
-		static void setMousePressM(const std::string &fName, VoidF function);
-		static void setMouseReleaseL(const std::string &fName, VoidF function);
-		static void setMouseReleaseR(const std::string &fName, VoidF function);
-		static void setMouseReleaseM(const std::string &fName, VoidF function);
-		static void setMousePressedL(const std::string &fName, VoidF function);
-		static void setMousePressedR(const std::string &fName, VoidF function);
-		static void setMousePressedM(const std::string &fName, VoidF function);
+		static void setMousePressL(const std::string &fName,
+			VoidF function);
+		static void setMousePressR(const std::string &fName,
+			VoidF function);
+		static void setMousePressM(const std::string &fName,
+			VoidF function);
+		static void setMouseReleaseL(const std::string &fName,
+			VoidF function);
+		static void setMouseReleaseR(const std::string &fName,
+			VoidF function);
+		static void setMouseReleaseM(const std::string &fName,
+			VoidF function);
+		static void setMousePressedL(const std::string &fName,
+			VoidF function);
+		static void setMousePressedR(const std::string &fName,
+			VoidF function);
+		static void setMousePressedM(const std::string &fName,
+			VoidF function);
 		static void breakMousePressL(const std::string &fName);
 		static void breakMousePressR(const std::string &fName);
 		static void breakMousePressM(const std::string &fName);
@@ -253,14 +271,21 @@ namespace kg
 		static voidNameMap PmouseM;
 
 		static bool debug;
-		static bool removeFunctionInNameList(voidNameMap &vnm, const std::string &fName);
+		static bool removeFunctionInNameList(voidNameMap &vnm,
+			const std::string &fName);
 
 		static void runAllFunctionsForName(voidNameMap &vnm);
-		static void addFunctionToKeyList(voidKeyMap &vkm, const KG_KeyType &key, const std::string &fName, VoidF function);
-		static void removeFunctionInKeyList(voidKeyMap &vkm, const KG_KeyType &key, const std::string &fName);
-		static void runAllFunctionsForKey(voidKeyMap &vkm, const KG_KeyType &key);
+		static void addFunctionToKeyList(voidKeyMap &vkm,
+			const KG_KeyType &key, const std::string &fName,
+			VoidF function);
+		static void removeFunctionInKeyList(voidKeyMap &vkm,
+			const KG_KeyType &key, const std::string &fName);
+		static void runAllFunctionsForKey(voidKeyMap &vkm,
+			const KG_KeyType &key);
 
-		static std::vector<KG_KeyType>::iterator findElement(std::vector<KG_KeyType> &v, const KG_KeyType &key);
+		static std::vector<KG_KeyType>::iterator
+			findElement(std::vector<KG_KeyType> &v,
+			const KG_KeyType &key);
 	};
 }
 

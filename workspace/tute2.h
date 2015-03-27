@@ -15,12 +15,14 @@ public:
 	virtual void end();
 
 private:
-	void drawAxis(const float &x, const float &y, const float &z, const float &size);
+	void drawAxis(const float &x, const float &y, const float &z,
+		const float &size);
 	void drawFormula(const float &xMin, const float &xMax);
 	void drawTangent(const float &x);
 	void drawCircleCartesian();
 	void drawCirecleParametric();
-	void drawLine(Vector3 &pos, const Vector3 &to, const bool &normalise);
+	void drawLine(Vector3 &pos, const Vector3 &to,
+		const bool &normalise);
 
 	int m_steps;
 	float m_r;

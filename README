@@ -1,0 +1,42 @@
+Interactive3D - s3477450 - Alastair Bilby
+
+Notes:
+I couldn't finish making tangents for parametric parabolas work,
+the cartesian ones work fine however.
+
+I made it so that my frog jumps warps to the other side of the screen if it goes out of range.
+This is neat, but served up some problems.
+During a jump I wanted the parabola to only draw the frogs remaining trajectory,
+I also wanted the parabola to warp across the screen like the frog does.
+These two things were very difficult to get working together the way my assignment is set up,
+so I just made it that the parametric draw mode draws the parabola crossing ther screen,
+and the cartesian only draw the frogs remaining trajectory.
+Note that the normals and tangents never go across with it as I ran out of time!
+
+I used C++.
+
+My keyboard library is neat imo, you should take a look ;)
+
+Key bindings:
+--Callable at any time--
+Y - on press: toggle debugging (off by default)
+N - on press: toggle normals (on by default)
+T - on press: toggle tangents (on by default)
+I - on press: toggle between numerical and analytical updating (analytical by default)
+F - on press: toggle between cartesian and parametric circles (parametric by default)
+G - on press: toggle between cartesian and parametric parabolas (parametric by default)
+R - on press: reset frog position and velocity to start
+up arrow - on press: double circle segments
+down arrow - on press: halve circle segments
+left arrow - on press: halve parabola segments
+right arrow - on press: double parabola segments
+Q || esc - on release: quit program
+
+--Callable when frog not jumping--
+W - on held: increase frog speed
+S - on held: decrease frog speed
+A - on held: decrease frog direction
+D - on held: increase frog direction
+space - on press: jump! Ayyyyyyyyyy
+
+Hope you enjoy b0ss r8 8/8 2 be my m8
