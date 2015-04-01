@@ -21,7 +21,7 @@ void Tute2::update()
 		--m_steps;
 
 	if (kg::keyboardControl::onKeyPressed(KGkey_j))
-		m_r -= 0.01f;
+        m_r -= 0.01f;
 
 	if (kg::keyboardControl::onKeyPressed(KGkey_k))
 		m_r += 0.01f;

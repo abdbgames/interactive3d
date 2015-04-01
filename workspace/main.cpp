@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "glutBegin.h"
+#include "tute5.h"
 #include "tute3.h"
 #include "tute2.h"
 #include "tute1.h"
@@ -16,6 +17,8 @@ void t2(int *argc, char **argv, const char *in) {
 	init(argc, argv, new Tute2(in)); }
 void t3(int *argc, char **argv, const char *in) {
 	init(argc, argv, new Tute3(in)); }
+void t5(int *argc, char **argv, const char *in) {
+    init(argc, argv, new Tute5(in)); }
 void a1(int *argc, char **argv, const char *in) {
 	init(argc, argv, new Ass1(in)); }
 
@@ -49,6 +52,10 @@ int main(int argc, char **argv)
 	start["tutorial3"] = t3;
 	start["Tute3"] = t3;
 	start["Tutorial3"] = t3;
+    start["tute5"] = t5;
+    start["tutorial5"] = t5;
+    start["Tute5"] = t5;
+    start["Tutorial5"] = t5;
 	start["ass1"] = a1;
 	start["assignment1"] = a1;
 	start["Ass1"] = a1;
