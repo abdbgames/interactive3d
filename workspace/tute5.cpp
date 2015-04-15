@@ -5,12 +5,16 @@
 
 void Tute5::init()
 {
-
+    wireframe = false;
 }
 
 void Tute5::update()
 {
-
+    if (kg::keyboardControl::onKeyPress(KGkey_p))
+        wireframe = true;
+        
+    if (kg::keyboardControl::onKeyPress(KGkey_o))
+        wireframe = false;
 }
 
 void Tute5::draw()
@@ -27,7 +31,10 @@ void Tute5::draw()
     glTranslatef(0.7f, 0.0f, 0.0f);
 
     glColor3f(1.0, 1.0, 1.0);
-    glutWireTeapot(1.0f);
+    if (wireframe)
+        glutWireTeapot(1.0f);
+    else
+        glutSolidTeapot(1.0f);
     drawAxis(Vector3(0.0f, 0.0f, 0.0f), 1.5f);
 
     glutSwapBuffers();

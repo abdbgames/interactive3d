@@ -16,6 +16,8 @@ public:
 
 private:
     void drawAxis(const Vector3 &pos, const float &size);
+    
+    bool wireframe;
 };
 
 #endif /* tute3_h */
