@@ -1,41 +1,8 @@
-/*
-___________________________________
-
-KG Engine Keyboard library
-___________________________________
-
-Written by Alastair Bilby
-Edited by:
-
-___________________________________
-
-Description:
-
-This library handles user input.
-It allows the user to effectivly
-attach as many function calls they
-want to any keyboard or mouse input
-with a name, so that it can be
-easily accessed for deletion if
-needed. It will not handle any
-strings on an update, or to call
-a key press (as this would slow
-things down significantly!)
-___________________________________
-
-Knoob Group 2013,
-All rights reserved.
-___________________________________
-*/
-
 #ifndef keyboard_h
 #define keyboard_h
 
-//#include "GraphicsAPI.h"
-
 // Define all keyboard keys:
-#ifndef KG_USEGL
-#define KGkey_backspace		8
+#define KGkey_backspace	8
 #define KGKey_tab		9
 #define KGkey_enter		13
 #define KGkey_esc		27
@@ -107,186 +74,34 @@ ___________________________________
 #define KGkey_x			120
 #define KGkey_y			121
 #define KGkey_z			122
-#define KGkey_delete		127
-#define KG_KeyType		unsigned char
-#else /* KG_USEGL */
-#include <GLFW\glfw3.h>
-#define KGkey_backspace		GLFW_KEY_BACKSPACE
-#define KGkey_enter		GLFW_KEY_ENTER
-#define KGkey_esc		GLFW_KEY_ESCAPE
-#define KGkey_Rshift		GLFW_KEY_RIGHT_SHIFT
-#define KGkey_Lshift		GLFW_KEY_LEFT_SHIFT
-#define KGkey_space		GLFW_KEY_SPACE
-#define KGkey_delete		GLFW_KEY_DELETE
-#define KGkey_left		GLFW_KEY_LEFT
-#define KGkey_up		GLFW_KEY_UP
-#define KGkey_right		GLFW_KEY_RIGHT
-#define KGkey_down		GLFW_KEY_DOWN
-#define KGkey_0			GLFW_KEY_0
-#define KGkey_1			GLFW_KEY_1
-#define KGkey_2			GLFW_KEY_2
-#define KGkey_3			GLFW_KEY_3
-#define KGkey_4			GLFW_KEY_4
-#define KGkey_5			GLFW_KEY_5
-#define KGkey_6			GLFW_KEY_6
-#define KGkey_7			GLFW_KEY_7
-#define KGkey_8			GLFW_KEY_8
-#define KGkey_9			GLFW_KEY_9			
-#define KGkey_a			GLFW_KEY_A
-#define KGkey_b			GLFW_KEY_B
-#define KGkey_c			GLFW_KEY_C
-#define KGkey_d			GLFW_KEY_D
-#define KGkey_e			GLFW_KEY_E
-#define KGkey_f			GLFW_KEY_F
-#define KGkey_g			GLFW_KEY_G
-#define KGkey_h			GLFW_KEY_H
-#define KGkey_i			GLFW_KEY_I
-#define KGkey_j			GLFW_KEY_J
-#define KGkey_k			GLFW_KEY_K
-#define KGkey_l			GLFW_KEY_L
-#define KGkey_m			GLFW_KEY_M
-#define KGkey_n			GLFW_KEY_N
-#define KGkey_o			GLFW_KEY_O
-#define KGkey_p			GLFW_KEY_P
-#define KGkey_q			GLFW_KEY_Q
-#define KGkey_r			GLFW_KEY_R
-#define KGkey_s			GLFW_KEY_S
-#define KGkey_t			GLFW_KEY_T
-#define KGkey_u			GLFW_KEY_U
-#define KGkey_v			GLFW_KEY_V
-#define KGkey_w			GLFW_KEY_W
-#define KGkey_x			GLFW_KEY_X
-#define KGkey_y			GLFW_KEY_Y
-#define KGkey_z			GLFW_KEY_Z
-#define KG_KeyType		int
-#endif /* KG_USEGL */
+#define KGkey_delete	127
+#define KG_KEY_TYPE		unsigned char
 
-// define some constants:
-enum KG_INPUT_FLAG
-{
-	KG_PRESS,
-	KG_PRESSED,
-	KG_RELEASE,
-	KG_MOUSEL,
-	KG_MOUSER,
-	KG_MOUSEM,
-};
-
-// #include "multiPlatformHelper.h"
 #include "platformInclude.h"
 
 namespace kg
 {
-	typedef std::map<KG_KeyType, VoidF> voidMap;
-	typedef std::map<std::string, VoidF> voidNameMap;
-	typedef std::map<KG_KeyType, voidNameMap> voidKeyMap;
-
 	struct keyboardControl
 	{
-		// Methods:
-		static void keyboardCallback(KG_KeyType key, int x, int y);
-		static void keyboardUpCallback(KG_KeyType key, int x,
-			int y);
+		static void keyboardCallback(KG_KEY_TYPE key, int x, int y);
+		static void keyboardUpCallback(KG_KEY_TYPE key, int x, int y);
 		static void specialCallback(int key, int x, int y);
 		static void specialUpCallback(int key, int x, int y);
-		static void keyBufferBegin();
-		static void keyBufferEnd();
-		static void setKeyPress(const KG_KeyType &key,
-			const std::string &fName, VoidF function);
-		static void breakKeyPress(const KG_KeyType &key,
-			const std::string &fName);
-		static void setKeyPressed(const KG_KeyType &key,
-			const std::string &fName, VoidF function);
-		static void breakKeyPressed(const KG_KeyType &key,
-			const std::string &fName);
-		static void setKeyRelease(const KG_KeyType &key,
-			const std::string &fName, VoidF function);
-		static void breakKeyRelease(const KG_KeyType &key,
-			const std::string &fName);
-		static void keyPress(const KG_KeyType &key);
-		static void keyPressed(const KG_KeyType &key);
-		static void keyRelease(const KG_KeyType &key);
-		static void setMousePressL(const std::string &fName,
-			VoidF function);
-		static void setMousePressR(const std::string &fName,
-			VoidF function);
-		static void setMousePressM(const std::string &fName,
-			VoidF function);
-		static void setMouseReleaseL(const std::string &fName,
-			VoidF function);
-		static void setMouseReleaseR(const std::string &fName,
-			VoidF function);
-		static void setMouseReleaseM(const std::string &fName,
-			VoidF function);
-		static void setMousePressedL(const std::string &fName,
-			VoidF function);
-		static void setMousePressedR(const std::string &fName,
-			VoidF function);
-		static void setMousePressedM(const std::string &fName,
-			VoidF function);
-		static void breakMousePressL(const std::string &fName);
-		static void breakMousePressR(const std::string &fName);
-		static void breakMousePressM(const std::string &fName);
-		static void breakMouseReleaseL(const std::string &fName);
-		static void breakMouseReleaseR(const std::string &fName);
-		static void breakMouseReleaseM(const std::string &fName);
-		static void breakMousePressedL(const std::string &fName);
-		static void breakMousePressedR(const std::string &fName);
-		static void breakMousePressedM(const std::string &fName);
-		static void mouseLPress();
-		static void mouseRPress();
-		static void mouseMPress();
-		static void mouseLRelease();
-		static void mouseRRelease();
-		static void mouseMRelease();
-		static void mouseLPressed();
-		static void mouseRPressed();
-		static void mouseMPressed();
-		static void clearKeyFunctions();
-		static void clearMouseFunctions();
-		static void toggleDebug();
-
-		static bool onKeyPress(const KG_KeyType &key);
-		static bool onKeyPressed(const KG_KeyType &key);
-		static bool onKeyRelease(const KG_KeyType &key);
+		static void postUpdate();
+		
+		static bool poll(const KG_KEY_TYPE &b, const KG_PRESS_TYPE &p);
+		static bool pollAny(const KG_PRESS_TYPE &p);
+		
+		static std::vector<KG_KEY_TYPE> &getBuffer() { return m_press; }
 
 	protected:
-		// Protected Methods:
-		static voidKeyMap functionList;
-		static voidKeyMap functionRList;
-		static voidKeyMap functionPList;
+		static std::vector<KG_KEY_TYPE> m_pressed, m_press, m_released;
 
-		static std::vector<KG_KeyType> keyTrack;
-		static std::map<KG_KeyType, bool> keyTrackP;
-		static std::map<KG_KeyType, bool> keyTrackR;
-
-		static voidNameMap mouseL;
-		static voidNameMap mouseR;
-		static voidNameMap mouseM;
-		static voidNameMap RmouseL;
-		static voidNameMap RmouseR;
-		static voidNameMap RmouseM;
-		static voidNameMap PmouseL;
-		static voidNameMap PmouseR;
-		static voidNameMap PmouseM;
-
-		static bool debug;
-		static bool removeFunctionInNameList(voidNameMap &vnm,
-			const std::string &fName);
-
-		static void runAllFunctionsForName(voidNameMap &vnm);
-		static void addFunctionToKeyList(voidKeyMap &vkm,
-			const KG_KeyType &key, const std::string &fName,
-			VoidF function);
-		static void removeFunctionInKeyList(voidKeyMap &vkm,
-			const KG_KeyType &key, const std::string &fName);
-		static void runAllFunctionsForKey(voidKeyMap &vkm,
-			const KG_KeyType &key);
-
-		static std::vector<KG_KeyType>::iterator
-			findElement(std::vector<KG_KeyType> &v,
-			const KG_KeyType &key);
+		static std::vector<KG_KEY_TYPE>::iterator
+			findElement(std::vector<KG_KEY_TYPE> &v,
+			const KG_KEY_TYPE &key);
 	};
 }
 
 #endif /* keyboard_h */
+

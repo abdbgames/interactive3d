@@ -15,12 +15,13 @@ struct Vector2
 	float x, y;
 	float getMagnitude();
 	float getDistanceTo(const Vector2 &b);
+	float *getV() { return &x; }
 
 	static float getDistance(const Vector2 &a, const Vector2 &b);
 };
 
 struct Vector3
-{
+{	
 	Vector3();
 	Vector3(const Vector2 &v);
 	Vector3(const Vector2 &v, const float &_z);
@@ -33,6 +34,7 @@ struct Vector3
 	float x, y, z;
 	float getMagnitude();
 	float getDistanceTo(const Vector3 &b);
+	float *getV() { return &x; }
 
 	static float getDistance(const Vector3 &a, const Vector3 &b);
 };

@@ -2,6 +2,7 @@
 #define tute_h
 
 #include "keyboard.h"
+#include "mouse.h"
 
 class Tute
 {
@@ -29,3 +30,4 @@ protected:
 };
 
 #endif /* tute_h */
+

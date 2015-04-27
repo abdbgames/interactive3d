@@ -6,6 +6,30 @@
 #include <string>
 #include <map>
 #include <vector>
+// For SOIL image loader: https://github.com/nothings/stb
+#define STB_IMAGE_IMPLEMENTATION
+//#include "stb_image.h"
+// A press type:
+enum KG_PRESS_TYPE
+{
+	KG_DOWN,
+	KG_UP,
+	KG_PRESSED,
+};
+// A draw type mode:
+enum KG_DRAW_MODE
+{
+	KG_FILLED,
+	KG_WIRE,
+	KG_POINTS,
+};
+// A Lighting mode:
+enum KG_LIGHT_MODE
+{
+	KG_FULL,
+	KG_DIR, // Directional only.
+	KG_UNLIT,
+};
 // allow us to easily pass function pointers:
 typedef void(*VoidF)();
 // pi:
@@ -31,3 +55,4 @@ typedef void(*VoidF)();
 #include <GL/glut.h>
 #endif /* __APPLE__ */
 #endif /* platformInclude_h */
+

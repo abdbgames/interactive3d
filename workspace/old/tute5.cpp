@@ -2,6 +2,7 @@
 #include "platformInclude.h"
 #include "tute5.h"
 #include "keyboard.h"
+#include "frog.h"
 
 void Tute5::init()
 {
@@ -25,7 +26,7 @@ void Tute5::draw()
     drawAxis(Vector3(0.0f, 0.0f, 0.0f), 1.0f);
 
     glLoadIdentity();
-
+/*
     glScalef(0.2f, 0.2f, 0.2f);
     glRotatef(45.0f, 0.4f, 0.2f, 1.0f);
     glTranslatef(0.7f, 0.0f, 0.0f);
@@ -36,6 +37,13 @@ void Tute5::draw()
     else
         glutSolidTeapot(1.0f);
     drawAxis(Vector3(0.0f, 0.0f, 0.0f), 1.5f);
+*/
+
+	Frog frog;
+	frog.init();
+	frog.draw();
+	
+	Vector3 test(5, 6, 7);
 
     glutSwapBuffers();
 }

@@ -24,8 +24,8 @@ void init(int *argc, char **argv, Tute *thisTute)
 	tute->init();
 
 	glutInit(argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(640, 640);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitWindowSize(1024, 768);
 	glutCreateWindow(tute->getName());
 
 	glMatrixMode(GL_PROJECTION);
@@ -36,6 +36,8 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glutSpecialUpFunc(kg::keyboardControl::specialUpCallback);
 	glutKeyboardFunc(kg::keyboardControl::keyboardCallback);
 	glutKeyboardUpFunc(kg::keyboardControl::keyboardUpCallback);
+	glutPassiveMotionFunc(kg::mouseControl::mouseMoveCallback);
+	glutMouseFunc(kg::mouseControl::mousePressCallback);
 	glutDisplayFunc(draw);
 	glutIdleFunc(update);
 
@@ -43,3 +45,4 @@ void init(int *argc, char **argv, Tute *thisTute)
 
 	tute->end();
 }
+
