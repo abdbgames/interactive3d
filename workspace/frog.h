@@ -9,7 +9,7 @@ class Frog : public Object
 public:
     virtual void init();
 	virtual void draw();
-	virtual void update();
+	virtual void update(const float &deltaT);
 	
 	void remakeSphere(const int &detail, const float &radius);
 	

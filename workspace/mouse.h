@@ -18,6 +18,8 @@ namespace kg
 		static bool poll(const int &b, const KG_PRESS_TYPE &p);
 		static bool pollAny(const KG_PRESS_TYPE &p);
 		
+		static int *pollMouseMoved() { return &m_xD; }
+		
 		static int m_x, m_y;
 		
 	protected:
@@ -26,7 +28,7 @@ namespace kg
 		static std::vector<int>::iterator findElement(std::vector<int> &v,
 			const int &b);
 			
-		static int m_xL, m_yL;
+		static int m_xL, m_yL, m_xD, m_yD;
 		
 		static bool m_lock;
 	};

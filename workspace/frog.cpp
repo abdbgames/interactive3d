@@ -7,7 +7,7 @@ void Frog::init()
 	remakeSphere(10, 0.2f);
 }
 
-void Frog::update()
+void Frog::update(const float &deltaT)
 {
 	
 }
@@ -15,12 +15,13 @@ void Frog::update()
 void Frog::draw()
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
+	
 	glBegin(GL_TRIANGLES);
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
-		glVertex3fv(points[i].getV());
-		++i;
 		glNormal3fv(points[i].getV());
+		++i;
+		glVertex3fv(points[i].getV());
 	}
 	glEnd();
 }
@@ -48,37 +49,37 @@ void Frog::remakeSphere(const int &detail, const float &radius)
 			
 			// Add points and normals to the vertex/normals list:
 			points.push_back(Vector3(
-				radius * sinf(phi) * cosf(theta),
-				radius * sinf(phi) * sinf(theta),
-				radius * cosf(phi)));
-			points.push_back(Vector3(
 				sinf(phi) * cosf(theta),
 				sinf(phi) * sinf(theta),
 				cosf(phi)));
 			points.push_back(Vector3(
-				radius * sinf(phi) * cosf(theta + stepTheta),
-				radius * sinf(phi) * sinf(theta + stepTheta),
+				radius * sinf(phi) * cosf(theta),
+				radius * sinf(phi) * sinf(theta),
 				radius * cosf(phi)));
 			points.push_back(Vector3(
 				sinf(phi) * cosf(theta + stepTheta),
 				sinf(phi) * sinf(theta + stepTheta),
 				cosf(phi)));
 			points.push_back(Vector3(
-				radius * sinf(phi + stepPhi) * cosf(theta + stepTheta),
-				radius * sinf(phi + stepPhi) * sinf(theta + stepTheta),
-				radius * cosf(phi + stepPhi)));
+				radius * sinf(phi) * cosf(theta + stepTheta),
+				radius * sinf(phi) * sinf(theta + stepTheta),
+				radius * cosf(phi)));
 			points.push_back(Vector3(
 				sinf(phi + stepPhi) * cosf(theta + stepTheta),
 				sinf(phi + stepPhi) * sinf(theta + stepTheta),
 				cosf(phi + stepPhi)));
 			points.push_back(Vector3(
-				radius * sinf(phi + stepPhi) * cosf(theta),
-				radius * sinf(phi + stepPhi) * sinf(theta),
+				radius * sinf(phi + stepPhi) * cosf(theta + stepTheta),
+				radius * sinf(phi + stepPhi) * sinf(theta + stepTheta),
 				radius * cosf(phi + stepPhi)));
 			points.push_back(Vector3(
 				sinf(phi + stepPhi) * cosf(theta),
 				sinf(phi + stepPhi) * sinf(theta),
 				cosf(phi + stepPhi)));
+			points.push_back(Vector3(
+				radius * sinf(phi + stepPhi) * cosf(theta),
+				radius * sinf(phi + stepPhi) * sinf(theta),
+				radius * cosf(phi + stepPhi)));
 		}
 	}
 }

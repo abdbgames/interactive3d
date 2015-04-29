@@ -32,9 +32,21 @@ enum KG_LIGHT_MODE
 };
 // allow us to easily pass function pointers:
 typedef void(*VoidF)();
-// pi:
+// Pi:
 #define KG_PI 3.14159265359
+// Gravity:
 #define KG_GR 9.8
+// min and max macro functions:
+#define kgmin(X, Y) ((X) < (Y) ? (X) : (Y))
+#define kgmax(X, Y) ((X) > (Y) ? (X) : (Y))
+// Misc functions (misc.cpp):
+namespace kg
+{
+	template <typename T>
+	void clamp(T &in, T min, T max);
+	template <typename T>
+	void range(T &in, T min, T max);
+}
 // Constant milliseconds value to divide from seconds:
 #define milli 1000
 #if _WIN32

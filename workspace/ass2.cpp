@@ -2,11 +2,18 @@
 #include "ass2.h"
 #include "keyboard.h"
 
+int Ass2::m_width = 1024, Ass2::m_height = 768;
+float Ass2::m_aspect = 1.333333333f;
+
 void Ass2::init()
 {
 	m_sT = 0.0f;
 	m_debug = false;
+	m_camera.updateSize(&m_aspect);
+	m_camera.updateOrigin(m_frog.getPos());
 	m_frog.init();
+	m_camera.init();
+	m_floor.init();
 }
 
 void Ass2::updateTime()
@@ -52,19 +59,30 @@ void Ass2::update()
 		glutSetCursor(GLUT_CURSOR_INFO);
 	}
 	
-	if (kg::keyboardControl::pollAny(KG_PRESSED))
+	// If we are debugging print the stack of any keys pressed before this
+	// update call:
+	if (m_debug)
 	{
-		printf("Key(s) pressed before this update call: ");
-		for (unsigned int i = 0; i < kg::keyboardControl::getBuffer().size();
-			++i)
+		if (kg::keyboardControl::pollAny(KG_DOWN))
 		{
-			printf("%c ", kg::keyboardControl::getBuffer()[i]);
-		}
+			printf("Key(s) pressed before this update call: ");
+			for (unsigned int i = 0;
+				i < kg::keyboardControl::getPressBuffer().size(); ++i)
+					printf("%c ", kg::keyboardControl::getPressBuffer()[i]);
 		
-		printf("\n");
+			printf("\n");
+		}
 	}
 	
-	m_frog.update();
+	// Handle keyboard input:
+	if (kg::keyboardControl::poll(KGkey_q, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_Q, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_esc, KG_DOWN))
+			// Quit the program:
+			exit(EXIT_SUCCESS);
+	
+	m_frog.update(m_dT);
+	m_camera.update(m_dT);
 	
 	// Draw callback:
 	glutPostRedisplay();
@@ -82,10 +100,15 @@ void Ass2::draw()
 	// Allow depth buffering:
 	glEnable(GL_DEPTH_TEST);
 
+	// "Draw" our camera, this set's up the scene to look as if it was being
+	// looked at by the camera object:
+	m_camera.draw();
+
 	// Draw axis:
 	drawAxis(Vector3(0, 0, 0), 1);
 	
 	m_frog.draw();
+	m_floor.draw();
 
 	// Swap buffers:
 	glutSwapBuffers();
@@ -105,5 +128,18 @@ void Ass2::drawAxis(const Vector3 &pos, const float &size)
 	glVertex3f(pos.x, pos.y, pos.z);
 	glVertex3f(pos.x, pos.y, pos.z + size);
 	glEnd();
+}
+
+void Ass2::grabSize(int w, int h)
+{
+	// Set local width/height:
+	m_width = w;
+	m_height = h;
+	
+	// Set aspect:
+	m_aspect = (float)w/(float)h;
+	
+	// Reset viewport:
+	glViewport(0, 0, w, h);
 }
 

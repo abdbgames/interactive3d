@@ -10,7 +10,9 @@ namespace kg
 	int mouseControl::m_x = 0,
 		mouseControl::m_y = 0,
 		mouseControl::m_xL = 0,
-		mouseControl::m_yL = 0;
+		mouseControl::m_yL = 0,
+		mouseControl::m_xD = 0,
+		mouseControl::m_yD = 0;
 		
 	bool mouseControl::m_lock = true;
 		
@@ -54,9 +56,12 @@ namespace kg
 	
 	void mouseControl::lockMouse(int x, int y)
 	{
-		m_lock = true;
-		m_xL = x;
-		m_yL = y;
+		if (!m_lock)
+		{
+			m_lock = true;
+			m_xL = x;
+			m_yL = y;
+		}
 	}
 	
 	void mouseControl::postUpdate()
@@ -67,7 +72,18 @@ namespace kg
 		
 		// If we need to lock the mouse then do it:
 		if (m_lock)
+		{
+			// Work out difference in mouse positioning:
+			m_xD = m_xL - m_x;
+			m_yD = m_yL - m_y;
 			setMousePos(m_xL, m_yL);
+		}
+		else
+		{
+			// Nothing moved:
+			m_xD = 0;
+			m_yD = 0;
+		}
 	}
 	
 	bool mouseControl::poll(const int &b, const KG_PRESS_TYPE &p)

@@ -26,9 +26,10 @@ namespace kg
 		std::vector<KG_KEY_TYPE>::iterator i = findElement(m_pressed, key);
 		
 		if (i != m_pressed.end())
+		{
 			m_pressed.erase(i);
-			
-		m_released.push_back(key);
+			m_released.push_back(key);
+		}
 	}
 	
 	void keyboardControl::specialCallback(int key, int x, int y)

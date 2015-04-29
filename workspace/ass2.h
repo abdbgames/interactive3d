@@ -4,6 +4,8 @@
 #include "tute.h"
 #include "vectors.h"
 #include "frog.h"
+#include "camera.h"
+#include "floor.h"
 
 class Ass2 : public Tute
 {
@@ -13,6 +15,8 @@ public:
 	virtual void init();
 	virtual void draw();
 	virtual void update();
+	
+	static void grabSize(int w, int h);
 
 private:
 	void updateTime();
@@ -22,7 +26,13 @@ private:
 
 	float m_t, m_sT, m_dT;
 	
+	static float m_aspect;
+	
+	static int m_width, m_height;
+	
 	Frog m_frog;
+	Camera m_camera;
+	Floor m_floor;
 };
 
 #endif /* ass1_h */
