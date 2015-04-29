@@ -16,19 +16,36 @@ public:
 	virtual void draw();
 	virtual void update();
 	
+	static KG_DRAW_MODE getDrawState() { return drawMode; }
+	static KG_LIGHT_MODE getLightState() { return lightMode; }
+	
+	static bool drawAxis, drawNormals, drawTextures;
+	
+	static bool isSmoothShading() { return smoothShading; }
+	
+	static void setDrawState(const KG_DRAW_MODE &d);
+	static void setLightState(const KG_LIGHT_MODE &l);
+	static void setSmoothShading(const bool &ss);
+	static void cycleDrawState();
+	static void cycleLightState();
+	static void toggleSmoothShading();
 	static void grabSize(int w, int h);
 
 private:
 	void updateTime();
-	void drawAxis(const Vector3 &pos, const float &size);
 
 	bool m_debug;
-
+	
+	static bool smoothShading;
+	
+	static int m_width, m_height;
+	
+	static KG_DRAW_MODE drawMode;
+	static KG_LIGHT_MODE lightMode;
+	
 	float m_t, m_sT, m_dT;
 	
 	static float m_aspect;
-	
-	static int m_width, m_height;
 	
 	Frog m_frog;
 	Camera m_camera;
@@ -36,3 +53,4 @@ private:
 };
 
 #endif /* ass1_h */
+

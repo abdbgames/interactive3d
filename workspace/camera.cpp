@@ -38,7 +38,7 @@ void Camera::update(const float &deltaT)
 			* deltaT;
 		updateB = true;
 		
-		//kg::range<float>(m_angle, 0.0f, 6.28318f);
+		kg::range<float>(m_angle, 0.0f, 6.28318f);
 	}
 	
 	if (updateB)
@@ -46,9 +46,7 @@ void Camera::update(const float &deltaT)
 }
 
 void Camera::draw()
-{
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	
+{	
 	// Set up camera position and perspective:
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -61,7 +59,8 @@ void Camera::draw()
 		m_origin->x, m_origin->y, m_origin->z, // Origin (lookAt position).
 		0, 1, 0); // Up vector, positive y is up (in case that wasn't obvious).
 	
-	// Go back to using world matrix:
+	// Go back to using world matrix and ready an identity matrix:
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 

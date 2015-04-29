@@ -18,6 +18,7 @@ public:
 	
 private:
 	Vector3 *points;
+	
 	std::vector<int> indices;
 };
 

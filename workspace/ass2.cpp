@@ -2,8 +2,13 @@
 #include "ass2.h"
 #include "keyboard.h"
 
+// Default engine wide variables:
 int Ass2::m_width = 1024, Ass2::m_height = 768;
-float Ass2::m_aspect = 1.333333333f;
+float Ass2::m_aspect = 1.333333f;
+bool Ass2::smoothShading = true, Ass2::drawAxis = true,
+	Ass2::drawNormals = true, Ass2::drawTextures = true;
+KG_DRAW_MODE Ass2::drawMode = KG_FILLED;
+KG_LIGHT_MODE Ass2::lightMode = KG_UNLIT;
 
 void Ass2::init()
 {
@@ -14,6 +19,10 @@ void Ass2::init()
 	m_frog.init();
 	m_camera.init();
 	m_floor.init();
+	
+	setDrawState(drawMode);
+	setLightState(lightMode);
+	setSmoothShading(smoothShading);
 }
 
 void Ass2::updateTime()
@@ -80,6 +89,36 @@ void Ass2::update()
 		kg::keyboardControl::poll(KGkey_esc, KG_DOWN))
 			// Quit the program:
 			exit(EXIT_SUCCESS);
+			
+	if (kg::keyboardControl::poll(KGkey_o, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_O, KG_DOWN))
+		// Toggle axis drawing:
+		drawAxis = !drawAxis;
+	
+	if (kg::keyboardControl::poll(KGkey_n, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_N, KG_DOWN))
+		// Toggle normal drawing:
+		drawNormals = !drawNormals;
+		
+	if (kg::keyboardControl::poll(KGkey_t, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_T, KG_DOWN))
+		// Toggle texture drawing:
+		drawTextures = !drawTextures;
+	
+	if (kg::keyboardControl::poll(KGkey_m, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_M, KG_DOWN))
+		// Toggle smooth shading:
+		toggleSmoothShading();
+		
+	if (kg::keyboardControl::poll(KGkey_p, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_P, KG_DOWN))
+		// Cycle through draw modes:
+		cycleDrawState();
+		
+	if (kg::keyboardControl::poll(KGkey_l, KG_DOWN) ||
+		kg::keyboardControl::poll(KGkey_L, KG_DOWN))
+		// Cycle through draw modes:
+		cycleLightState();
 	
 	m_frog.update(m_dT);
 	m_camera.update(m_dT);
@@ -105,29 +144,13 @@ void Ass2::draw()
 	m_camera.draw();
 
 	// Draw axis:
-	drawAxis(Vector3(0, 0, 0), 1);
+	kg::drawAxis(1.5f);
 	
 	m_frog.draw();
 	m_floor.draw();
 
 	// Swap buffers:
 	glutSwapBuffers();
-}
-
-void Ass2::drawAxis(const Vector3 &pos, const float &size)
-{
-	// Set the colour and set points for the lines that make our axis:
-	glBegin(GL_LINES);
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f(pos.x, pos.y, pos.z);
-	glVertex3f(pos.x + size, pos.y, pos.z);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(pos.x, pos.y, pos.z);
-	glVertex3f(pos.x, pos.y + size, pos.z);
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(pos.x, pos.y, pos.z);
-	glVertex3f(pos.x, pos.y, pos.z + size);
-	glEnd();
 }
 
 void Ass2::grabSize(int w, int h)
@@ -141,5 +164,99 @@ void Ass2::grabSize(int w, int h)
 	
 	// Reset viewport:
 	glViewport(0, 0, w, h);
+}
+
+void Ass2::setDrawState(const KG_DRAW_MODE &d)
+{
+	drawMode = d;
+	
+	switch (drawMode)
+	{
+	case KG_FILLED:
+		printf("Setting filled pollygon rendering mode,"
+			" with backface culling.\n");
+		glPolygonMode(GL_FRONT, GL_FILL);
+		break;
+	case KG_FILLED_NOCULL:
+		printf("Setting filled pollygon rendering mode,"
+			" with no backface culling.\n");
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+	case KG_WIRE:
+		printf("Setting wireframe rendering mode\n");
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		break;
+	case KG_POINTS:
+		printf("Setting vertex points rendering mode\n");
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+		break;
+	}
+}
+
+void Ass2::setLightState(const KG_LIGHT_MODE &l)
+{
+	lightMode = l;
+	
+	switch (lightMode)
+	{
+	case KG_FULL:
+		printf("Turning on full lighting.\n");
+		glEnable(GL_LIGHTING);
+		break;
+	case KG_DIR:
+		printf("Turning on directional lighting only.\n");
+		glEnable(GL_LIGHTING);
+		break;
+	case KG_UNLIT:
+		printf("Turning off lighting.\n");
+		glDisable(GL_LIGHTING);
+		break;
+	}
+}
+
+void Ass2::setSmoothShading(const bool &ss)
+{
+	smoothShading = ss;
+	
+	if (smoothShading)
+		glShadeModel(GL_SMOOTH);
+	else
+		glShadeModel(GL_FLAT);
+}
+
+void Ass2::cycleDrawState()
+{
+	// Cycle to the next draw state, if the draw state is the last,
+	// go to the first:
+	if (drawMode == KG_POINTS)
+		setDrawState(KG_FILLED);
+	else
+	{
+		// Dont mind C++ having a siezure...
+		// Seriously, try putting drawMode + 1 straight into setDrawState,
+		// or even make t a KG_DRAW_MODE type to bein with, this breaks it...
+		// I spent so long debugging this stupid error:
+		int t = drawMode + 1;
+		setDrawState((KG_DRAW_MODE)t);
+	}
+}
+
+void Ass2::cycleLightState()
+{
+	// Cycle to the next light state, if the light state is the last,
+	// go to the first:
+	if (lightMode == KG_UNLIT)
+		setLightState(KG_FULL);
+	else
+	{
+		int t = lightMode + 1;
+		setLightState((KG_LIGHT_MODE)t);
+	}
+}
+
+void Ass2::toggleSmoothShading()
+{
+	// Toggles smooth shading:
+	setSmoothShading(!smoothShading);
 }
 

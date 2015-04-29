@@ -20,6 +20,7 @@ enum KG_PRESS_TYPE
 enum KG_DRAW_MODE
 {
 	KG_FILLED,
+	KG_FILLED_NOCULL,
 	KG_WIRE,
 	KG_POINTS,
 };
@@ -40,12 +41,30 @@ typedef void(*VoidF)();
 #define kgmin(X, Y) ((X) < (Y) ? (X) : (Y))
 #define kgmax(X, Y) ((X) > (Y) ? (X) : (Y))
 // Misc functions (misc.cpp):
+class Vector3;
 namespace kg
 {
 	template <typename T>
-	void clamp(T &in, T min, T max);
+	void clamp(T in, T min, T max)
+	{
+		if (in > max)
+			in = max;
+		else if (in < min)
+			in = min;
+	}
+	
 	template <typename T>
-	void range(T &in, T min, T max);
+	void range(T in, T min, T max)
+	{
+		T range = max - min;
+		while (in > max)
+			in -= range;
+		while (in < min)
+			in += range;
+	}
+	
+	void drawAxis(const Vector3 &pos, const float &size);
+	void drawAxis(const float &size);
 }
 // Constant milliseconds value to divide from seconds:
 #define milli 1000
