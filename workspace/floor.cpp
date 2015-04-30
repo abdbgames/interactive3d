@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "platformInclude.h"
 #include "floor.h"
+#include "ass2.h"
 
 Floor::~Floor()
 {
@@ -11,7 +12,7 @@ Floor::~Floor()
 void Floor::init()
 {
 	points = NULL;
-	buildFloor(Vector2(2.0f, 2.0f), Vector3(10.0f, 0.0f, 10.0f), 10, 10);
+	buildFloor(Vector2(1.01f, 1.0f), Vector3(50.0f, 0.0f, 50.0f), 100, 100);
 }
 
 void Floor::update(const float &deltaT)
@@ -21,14 +22,25 @@ void Floor::update(const float &deltaT)
 
 void Floor::draw()
 {
+	// Draw the plane:
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_TRIANGLE_STRIP);
 	for (unsigned int i = 0; i < indices.size(); ++i)
 	{
-		glNormal3f(0, 1, 0);
+		glNormal3f(0.0f, 1.0f, 0.0f);
 		glVertex3fv(points[indices[i]].getV());
 	}
 	glEnd();
+	
+	// Handle normals drawing:
+	if (!Ass2::drawNormals)
+		return;
+	
+	for (unsigned int i = 0; i < indices.size(); ++i)
+	{
+		Vector3 n = points[indices[i]] + Vector3(0.0f, 0.5f, 0.0f);
+		kg::drawNormal(points[indices[i]], n);
+	}
 }
 
 void Floor::buildFloor(const Vector2 &scale, const Vector3 &pos,

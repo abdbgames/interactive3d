@@ -2,14 +2,19 @@
 #include "platformInclude.h"
 #include "frog.h"
 #include "keyboard.h"
+#include "ass2.h"
 
 void Frog::init()
 {
-	m_radius = 0.2f;
-	m_rotSpeed = 103.2f;
-	m_angle = 0.0f;
+	m_radius = 0.3f;
+	m_speed = 4.0f;
+	m_rotSpeed = 1.2f;
+	m_angle.y = 0.7854f; // 45 degrees in radians.
+	m_angle.x = 0.7854f;
+	m_pSteps = 30;
+	m_cDetail = 30;
 	m_inAir = false;
-	//remakeSphere(10, m_radius);
+	//remakeSphere(10, m_cDetail);
 }
 
 void Frog::update(const float &deltaT)
@@ -19,29 +24,63 @@ void Frog::update(const float &deltaT)
 	{
 		// Get rotation input:
 		if (kg::keyboardControl::poll(KGkey_left, KG_PRESSED))
-			m_angle -= m_rotSpeed * deltaT;
+			m_angle.x -= m_rotSpeed * deltaT;
 			
 		if (kg::keyboardControl::poll(KGkey_right, KG_PRESSED))
-			m_angle += m_rotSpeed * deltaT;
+			m_angle.x += m_rotSpeed * deltaT;
+		
+		if (kg::keyboardControl::poll(KGkey_a, KG_PRESSED) ||
+			kg::keyboardControl::poll(KGkey_A, KG_PRESSED))
+			m_angle.y += m_rotSpeed * deltaT;
 			
-		// Keep angle in range (6.28318f is 360 degrees in radians):
-		kg::range<float>(m_angle, 0.0f, 6.28318f);
+		if (kg::keyboardControl::poll(KGkey_d, KG_PRESSED) ||
+			kg::keyboardControl::poll(KGkey_D, KG_PRESSED))
+			m_angle.y -= m_rotSpeed * deltaT;
+			
+		if (kg::keyboardControl::poll(KGkey_w, KG_PRESSED) ||
+			kg::keyboardControl::poll(KGkey_W, KG_PRESSED))
+			m_speed += m_rotSpeed * deltaT;
+			
+		if (kg::keyboardControl::poll(KGkey_s, KG_PRESSED) ||
+			kg::keyboardControl::poll(KGkey_S, KG_PRESSED))
+			m_speed -= m_rotSpeed * deltaT;
+			
+		// Keep x angle in range (6.28318f is 360 degrees in radians):
+		kg::range<float>(m_angle.x, 0.0f, 6.28318f);
+		// Hard clamp y andgle and speed (3.1416f is 180 degrees in radians):
+		kg::clamp<float>(m_angle.y, 0.0f, 3.1416f);
+		kg::clamp<float>(m_speed, 0.0f, 8.5f);
+		
+		// Calculate velocity Vector, first the 2D direction, then the 3D:
+		m_vel.x = m_speed * cosf(m_angle.x) * cosf(m_angle.y);
+		m_vel.y = m_speed * sinf(m_angle.y);
+		m_vel.z = m_speed * sinf(m_angle.x) * cosf(m_angle.y);
 	
 		// Try grabbing spacebar input:
 		if (kg::keyboardControl::poll(KGkey_space, KG_DOWN))
 			// Start jump:
 			m_inAir = true;
-	
-		// Make sure frog is on the ground:
-		if (m_pos.y - m_radius < 0.0f)
-			m_pos.y = m_radius;
+		
+		// Set the initial position:
+		m_initPos = m_pos;
+		m_initVel = m_vel;
 		
 		// Early return:
 		return;
 	}
 	
-	// Frog is in air:
+	// Frog is in air, apply gravity and velocity:
+	m_vel.y -= KG_GR * deltaT;
+	m_pos.x += m_vel.x * deltaT;
+	m_pos.y += m_vel.y * deltaT;
+	m_pos.z += m_vel.z * deltaT;
 	
+	// Check if frog hit the ground:
+	if (m_pos.y < 0.0f)
+	{
+		m_inAir = false;
+		m_pos.y = 0.0f;
+	}
 }
 
 void Frog::draw()
@@ -51,11 +90,13 @@ void Frog::draw()
 	
 	// Set position:
 	glPushMatrix();
-	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
-	glRotatef(m_angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(m_pos.x, m_pos.y + m_radius, m_pos.z);
+	glPushMatrix();
+	// Why the f*** does this not take radians... (ง ͠° ͟ل͜ ͡°)ง:
+	glRotatef(-(m_angle.x * 57.29578f), 0.0f, 1.0f, 0.0f);
 	
 	// Draw frog:
-	/*glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLE_STRIP);
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
 		glNormal3fv(points[i].getV());
@@ -65,8 +106,38 @@ void Frog::draw()
 	glEnd();*/
 	
 	// TODO: Fix own sphere calculation:
-	glutSolidSphere(m_radius, 10, 10);
+	glutSolidSphere(m_radius, m_cDetail, m_cDetail);
+	
+	// Draw axis:
 	kg::drawAxis(0.5f);
+	
+	// Disable lighting:
+	glDisable(GL_LIGHTING);
+	
+	// Pop the matrix for rotation:
+	glPopMatrix();
+	
+	// Draw the velocity vector:
+	glColor3f(1.0f, 0.0f, 1.0f);
+	
+	Vector3 vDraw = m_initVel / 5.0f;
+	
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3fv(vDraw.getV());
+	glEnd();
+	
+	// We only want to draw the parabola from the initial frog position:
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(m_initPos.x, m_initPos.y, m_initPos.z);
+	
+	// Draw the parabola:
+	drawParabola();
+	
+	// Enable lighting again if it was before:
+	if (Ass2::getLightState() != KG_UNLIT)
+		glEnable(GL_LIGHTING);
 	
 	// We are done so pop the matrix position:
 	glPopMatrix();
@@ -128,5 +199,45 @@ void Frog::remakeSphere(const int &detail, const float &radius)
 				radius * cosf(phi + stepPhi)));
 		}
 	}
+}
+
+void Frog::drawParabola()
+{
+	// Work out initial variables:
+	float flightTime = (2.0f * m_speed * sinf(m_angle.y)) / KG_GR, t,
+		in = flightTime / (float)m_pSteps, preCalc = 0.5f * -KG_GR;
+		
+	Vector2 dir(cosf(m_angle.x), sinf(m_angle.x));
+	
+	// Set colour depending on air status:
+	(m_inAir) ? glColor3f(1.0, 0.0, 0.0) : glColor3f(0.0, 0.0, 1.0);
+	
+	// Work out direction:
+	bool xBack = (m_initVel.x < 0.0f);
+	bool zBack = (m_initVel.z < 0.0f);
+	
+	glBegin(GL_LINE_STRIP);
+	
+	// Always draw a starting point otherwise we may run into issues with
+	// selectivly drawing verts:
+	Vector3 v(m_pos - m_initPos);
+	glVertex3fv(v.getV());
+	
+	// Calculation loop, adding points as we go:
+	for (int i = 0; i <= m_pSteps; ++i)
+	{
+		t = i * in;
+		Vector3 c(m_initVel.x * t, (preCalc * t * t) + (m_initVel.y * t),
+			m_initVel.z * t);
+	
+		// Don't draw this vert if the frog has passed it:
+		if (((xBack && c.x >= v.x) || (!xBack && v.x >= c.x)) &&
+			((zBack && c.z >= v.z) || (!zBack && v.z >= c.z)))
+			continue;
+			
+		glVertex3fv(c.getV());
+	}
+	
+	glEnd();
 }
 

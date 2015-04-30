@@ -8,7 +8,7 @@ void Camera::init()
 	m_speed = 0.9f;
 	m_pos.z = -1.0f;
 	m_pos.y = 1.0f;
-	m_dist = 1.1f;
+	m_dist = 3.1f;
 	m_angle = 0.0f;
 	updateBoom();
 }
@@ -16,33 +16,25 @@ void Camera::init()
 void Camera::updateBoom()
 {
 	// Set the position of the camera based on the distance and rotation from
-	// the origin:
+	// the origin: TODO: Camera y rotation (look at frog vector calculation):
 	m_pos.x = m_origin->x + m_dist * cos(m_angle);
 	m_pos.z = m_origin->z - m_dist * sin(m_angle);
 }
 
 void Camera::update(const float &deltaT)
 {
-	bool updateB = false;
 
 	if (kg::mouseControl::poll(GLUT_LEFT_BUTTON, KG_PRESSED))
-	{
 		m_dist += (float)kg::mouseControl::pollMouseMoved()[1] * m_speed
 			* deltaT;
-		updateB = true;
-	}
 	
 	if (kg::mouseControl::poll(GLUT_RIGHT_BUTTON, KG_PRESSED))
-	{
 		m_angle += (float)kg::mouseControl::pollMouseMoved()[0] * m_speed
 			* deltaT;
-		updateB = true;
 		
-		kg::range<float>(m_angle, 0.0f, 6.28318f);
-	}
+	kg::range<float>(m_angle, 0.0f, 6.28318f);
 	
-	if (updateB)
-		updateBoom();
+	updateBoom();
 }
 
 void Camera::draw()

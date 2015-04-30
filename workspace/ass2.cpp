@@ -13,6 +13,7 @@ KG_LIGHT_MODE Ass2::lightMode = KG_UNLIT;
 void Ass2::init()
 {
 	m_sT = 0.0f;
+	m_dynObjects = 110;
 	m_debug = false;
 	m_camera.updateSize(&m_aspect);
 	m_camera.updateOrigin(m_frog.getPos());
@@ -23,6 +24,22 @@ void Ass2::init()
 	setDrawState(drawMode);
 	setLightState(lightMode);
 	setSmoothShading(smoothShading);
+	
+	m_dynObjList.resize(m_dynObjects);
+	
+	// Fill object list with cars and logs:
+	for (int i = 0; i < m_dynObjects; ++i)
+	{
+		m_dynObjList[i].isCar = (rand() % 2) - 1;
+		m_dynObjList[i].getPos().x = kg::getRandom<float>(-50.0f, 50.0f);
+		m_dynObjList[i].getPos().z = kg::getRandom<float>(-49.8f, 49.8f);
+		m_dynObjList[i].getVel().z = kg::getRandom<float>(-5.0f, 5.0f);
+	}
+
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
 }
 
 void Ass2::updateTime()
@@ -120,8 +137,13 @@ void Ass2::update()
 		// Cycle through draw modes:
 		cycleLightState();
 	
+	// Update primary objects:
 	m_frog.update(m_dT);
 	m_camera.update(m_dT);
+	
+	// Update secondary objects in object list:
+	for (unsigned int i = 0; i < m_dynObjList.size(); ++i)
+		m_dynObjList[i].update(m_dT);
 	
 	// Draw callback:
 	glutPostRedisplay();
@@ -142,12 +164,20 @@ void Ass2::draw()
 	// "Draw" our camera, this set's up the scene to look as if it was being
 	// looked at by the camera object:
 	m_camera.draw();
+	
+	//GLfloat pos[] = {1, 1, 1, 0};
+	//glLightfv(GL_LIGHT0, GL_POSITION, pos);
 
 	// Draw axis:
 	kg::drawAxis(1.5f);
 	
+	// Draw primary objects:
 	m_frog.draw();
 	m_floor.draw();
+	
+	// Draw secondary objects in object list:
+	for (unsigned int i = 0; i < m_dynObjList.size(); ++i)
+		m_dynObjList[i].draw();
 
 	// Swap buffers:
 	glutSwapBuffers();

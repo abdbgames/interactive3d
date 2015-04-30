@@ -6,6 +6,7 @@
 #include "frog.h"
 #include "camera.h"
 #include "floor.h"
+#include "car.h"
 
 class Ass2 : public Tute
 {
@@ -34,6 +35,8 @@ public:
 private:
 	void updateTime();
 
+	int m_dynObjects;
+
 	bool m_debug;
 	
 	static bool smoothShading;
@@ -50,6 +53,8 @@ private:
 	Frog m_frog;
 	Camera m_camera;
 	Floor m_floor;
+	
+	std::vector<Car> m_dynObjList;
 };
 
 #endif /* ass1_h */

@@ -16,9 +16,16 @@ public:
 	void remakeSphere(const int &detail, const float &radius);
 	
 private:
+	void drawParabola();
+
 	std::vector<Vector3> points;
 	
-	float m_radius, m_angle, m_rotSpeed;
+	Vector3 m_initPos, m_initVel;
+	Vector2 m_vel2, m_angle;
+	
+	int m_pSteps, m_cDetail;
+	
+	float m_radius, m_rotSpeed, m_speed;
 };
 
 #endif /* frog_h */

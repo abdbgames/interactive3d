@@ -51,5 +51,23 @@ namespace kg
 		if (Ass2::getLightState() != KG_UNLIT)
 			glEnable(GL_LIGHTING);
 	}
+	
+	void drawNormal(Vector3 &from, Vector3 &to)
+	{
+		glDisable(GL_LIGHTING);
+		glBegin(GL_LINE_STRIP);
+		glColor3f(1.0, 1.0, 0.0);
+		glVertex3fv(from.getV());
+		glVertex3fv(to.getV());
+		glEnd();
+		if (Ass2::getLightState() != KG_UNLIT)
+			glEnable(GL_LIGHTING);
+	}
+	
+	// Really confused by this...
+	// I don't really understand why, it can't be an infinent loop thing, but
+	// I just need to call something that takes a cpu step before moving on
+	// otherwise the program locks up? At least on my machine...
+	void forSomeReasonThisPreventsCrashingWTF() { return; }
 }
 

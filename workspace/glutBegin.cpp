@@ -17,6 +17,9 @@ void init(int *argc, char **argv, Tute *thisTute)
 	/* Inital stuff for setting up a GL/glut context
 	 * also sets up the callbacks for our draw/update etc
 	 * and starts the main loop. */
+	 
+	// Seeds the Standard Library random number generator from system time:
+	std::srand((unsigned int)time(NULL));
 
 	tute = thisTute;
 
