@@ -165,8 +165,11 @@ void Ass2::draw()
 	// looked at by the camera object:
 	m_camera.draw();
 	
-	//GLfloat pos[] = {1, 1, 1, 0};
-	//glLightfv(GL_LIGHT0, GL_POSITION, pos);
+	// Enbale light 0:
+	glEnable(GL_LIGHT0);
+	
+	GLfloat pos[] = {1, 1, 1, 0};
+	glLightfv(GL_LIGHT0, GL_POSITION, pos);
 
 	// Draw axis:
 	kg::drawAxis(1.5f);

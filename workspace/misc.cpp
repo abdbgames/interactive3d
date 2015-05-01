@@ -68,6 +68,8 @@ namespace kg
 	// I don't really understand why, it can't be an infinent loop thing, but
 	// I just need to call something that takes a cpu step before moving on
 	// otherwise the program locks up? At least on my machine...
+	// OK Tested in Sutherland, it works here without this, but at home breaks.
+	// I need a fresh install me thinks D:
 	void forSomeReasonThisPreventsCrashingWTF() { return; }
 }
 
