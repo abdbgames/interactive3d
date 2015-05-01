@@ -1,3 +1,4 @@
+// Welcome to the Rice Fields:
 #ifndef platformInclude_h
 #define platformInclude_h
 #include <cstdlib>
@@ -7,9 +8,9 @@
 #include <map>
 #include <vector>
 #include <time.h>
-// For SOIL image loader: https://github.com/nothings/stb
-#define STB_IMAGE_IMPLEMENTATION
-//#include "stb_image.h"
+// Program uses the Simple OpenGL Image Library for loading textures:
+// http://www.lonesock.net/soil.html
+#include <SOIL.h>
 // A press type:
 enum KG_PRESS_TYPE
 {
@@ -108,5 +109,7 @@ namespace kg
 #include <GL/glu.h>
 #include <GL/glut.h>
 #endif /* __APPLE__ */
+// See misc.cpp ln 76:
+GLuint loadTexture(const char *filename);
 #endif /* platformInclude_h */
 

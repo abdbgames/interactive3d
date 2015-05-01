@@ -28,8 +28,6 @@ void init(int *argc, char **argv, Tute *thisTute)
 		printf("No tute pointer given!\n");
 		exit(EXIT_FAILURE);
 	}
-
-	tute->init();
 	
 	Ass2::grabSize(screenWidth, screenHeight);
 
@@ -42,6 +40,8 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glMatrixMode(GL_PROJECTION);
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
+	
+	tute->init();
 
 	glutSpecialFunc(kg::keyboardControl::specialCallback);
 	glutSpecialUpFunc(kg::keyboardControl::specialUpCallback);
@@ -53,6 +53,8 @@ void init(int *argc, char **argv, Tute *thisTute)
 	glutDisplayFunc(draw);
 	glutIdleFunc(update);
 	glutReshapeFunc(Ass2::grabSize);
+
+	glEnable(GL_NORMALIZE);
 
 	glutMainLoop();
 

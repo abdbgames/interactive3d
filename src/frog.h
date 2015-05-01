@@ -11,6 +11,8 @@ public:
 	virtual void draw();
 	virtual void update(const float &deltaT);
 	
+	float *getAngle() { return m_angle.getV(); }
+	
 	bool m_inAir;
 	
 	void remakeSphere(const int &detail, const float &radius);

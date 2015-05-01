@@ -1,8 +1,8 @@
 # Linux (default)
 CC=g++
 TARGET=assignment
-LDFLAGS=-lGL -lGLU -lglut
-CFLAGS=-Wall
+LDFLAGS=-lGL -lGLU -lglut -lm lib/libSOIL.a
+CFLAGS=-Wall -Iinclude
 
 # Windows (cygwin)
 ifeq "$(OS)" "Windows_NT"
@@ -17,7 +17,7 @@ CFLAGS+=-D __APPLE__
 endif
 
 all:
-	$(CC) $(CFLAGS) workspace/*.cpp -o $(TARGET) $(LDFLAGS)
+	$(CC) $(CFLAGS) src/*.cpp -o $(TARGET) $(LDFLAGS)
 
 clean:
 	rm assignment *.exe

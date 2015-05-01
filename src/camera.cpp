@@ -2,14 +2,16 @@
 #include "platformInclude.h"
 #include "camera.h"
 #include "mouse.h"
+#include "ass2.h"
 
 void Camera::init()
 {
-	m_speed = 0.9f;
+	m_speed = 0.25f; // Mouse sensitivity.
 	m_pos.z = -1.0f;
 	m_pos.y = 1.0f;
 	m_dist = 3.1f;
 	m_angle = 0.0f;
+	m_angleY = 0.234f;
 	updateBoom();
 }
 
@@ -17,28 +19,50 @@ void Camera::updateBoom()
 {
 	// Set the position of the camera based on the distance and rotation from
 	// the origin: TODO: Camera y rotation (look at frog vector calculation):
-	m_pos.x = m_origin->x + m_dist * cos(m_angle);
-	m_pos.z = m_origin->z - m_dist * sin(m_angle);
+	m_pos.x = m_origin->x - m_dist * cos(m_angleF) * cosf(m_angleY);
+	m_pos.y = m_origin->y + m_dist * sinf(m_angleY);
+	m_pos.z = m_origin->z - m_dist * sin(m_angleF) * cosf(m_angleY);
 }
 
 void Camera::update(const float &deltaT)
 {
-
 	if (kg::mouseControl::poll(GLUT_LEFT_BUTTON, KG_PRESSED))
 		m_dist += (float)kg::mouseControl::pollMouseMoved()[1] * m_speed
 			* deltaT;
 	
 	if (kg::mouseControl::poll(GLUT_RIGHT_BUTTON, KG_PRESSED))
+	{
+		m_angleY -= (float)kg::mouseControl::pollMouseMoved()[1] * m_speed
+			* deltaT;
 		m_angle += (float)kg::mouseControl::pollMouseMoved()[0] * m_speed
 			* deltaT;
-		
-	kg::range<float>(m_angle, 0.0f, 6.28318f);
+	}
+	
+	m_angleF = m_angle + *m_baseAngle;
+	
+	// Keep angles between 0 and 360 degrees (in radians):
+	kg::range<float>(m_angleF, 0.0f, 6.28318f);
+	
+	// Hard clamp y angle and distance (3.1416f is 180 degrees in radians):
+	kg::clamp<float>(m_angleY, 0.0f, 3.1416f);
+	kg::clamp<float>(m_dist, 0.65f, 5.7f);
 	
 	updateBoom();
 }
 
 void Camera::draw()
-{	
+{
+	// TODO: Set up a point light at the position:
+	/*Vector3 dir = 0.0f - m_pos;
+	dir.normalise();
+	glEnable(GL_LIGHT1);
+	static GLfloat none[] = {0, 0, 0, 1};
+	static GLfloat intensity[] = {0.8f, 0.8f, 0.8f, 1};
+	glLightfv(GL_LIGHT1, GL_POSITION, dir.getV());
+	glLightfv(GL_LIGHT1, GL_AMBIENT, none);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, intensity);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, intensity);*/
+
 	// Set up camera position and perspective:
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

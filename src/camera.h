@@ -11,6 +11,7 @@ public:
 	virtual void update(const float &deltaT);
 	
 	void updateSize(float *a) { m_aspect = a; }
+	void updateBaseAngle(float *a) { m_baseAngle = a; }
 	void updateOrigin(Vector3 *o) { m_origin = o; }
 	
 	void remakeSphere(const int &detail, const float &radius);
@@ -20,7 +21,7 @@ protected:
 
 	Vector3 *m_origin;
 
-	float m_speed, *m_aspect, m_dist, m_angle;
+	float m_speed, *m_aspect, *m_baseAngle, m_dist, m_angle, m_angleF, m_angleY;
 };
 
 #endif /* camera_h */

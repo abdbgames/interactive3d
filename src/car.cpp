@@ -6,7 +6,6 @@
 
 void Car::init()
 {
-	
 }
 
 void Car::update(const float &deltaT)
@@ -23,13 +22,12 @@ void Car::draw()
 	glTranslatef(m_pos.x, m_pos.y, m_pos.z);
 	
 	if (isCar)
-	{
 		CarMesh::get()->draw();
-	}
 	else
-	{
 		LogMesh::get()->draw();
-	}
+		
+	// Draw axis:
+	kg::drawAxis(1.5f);
 	
 	// We are done so pop the matrix position:
 	glPopMatrix();

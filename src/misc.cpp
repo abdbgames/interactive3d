@@ -73,3 +73,20 @@ namespace kg
 	void forSomeReasonThisPreventsCrashingWTF() { return; }
 }
 
+// Texture loading from sample texture viewer application:
+GLuint loadTexture(const char *filename)
+{
+	GLuint tex = SOIL_load_OGL_texture(filename, SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+	
+	if (!tex)
+		return 0;
+
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return tex;
+}
+

@@ -8,7 +8,7 @@ float Ass2::m_aspect = 1.333333f;
 bool Ass2::smoothShading = true, Ass2::drawAxis = true,
 	Ass2::drawNormals = true, Ass2::drawTextures = true;
 KG_DRAW_MODE Ass2::drawMode = KG_FILLED;
-KG_LIGHT_MODE Ass2::lightMode = KG_UNLIT;
+KG_LIGHT_MODE Ass2::lightMode = KG_FULL;
 
 void Ass2::init()
 {
@@ -16,6 +16,7 @@ void Ass2::init()
 	m_dynObjects = 110;
 	m_debug = false;
 	m_camera.updateSize(&m_aspect);
+	m_camera.updateBaseAngle(m_frog.getAngle());
 	m_camera.updateOrigin(m_frog.getPos());
 	m_frog.init();
 	m_camera.init();
@@ -35,11 +36,6 @@ void Ass2::init()
 		m_dynObjList[i].getPos().z = kg::getRandom<float>(-49.8f, 49.8f);
 		m_dynObjList[i].getVel().z = kg::getRandom<float>(-5.0f, 5.0f);
 	}
-
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_NORMALIZE);
 }
 
 void Ass2::updateTime()
@@ -165,11 +161,16 @@ void Ass2::draw()
 	// looked at by the camera object:
 	m_camera.draw();
 	
-	// Enbale light 0:
+	// Enable light 0 (scene ambient lighting):
 	glEnable(GL_LIGHT0);
 	
-	GLfloat pos[] = {1, 1, 1, 0};
+	static GLfloat pos[] = {1.0f, 1.0f, 1.0f, 0.0f};
+	static GLfloat ambient[] = {0.05f, 0.05f, 0.05f, 1.0f};
+	static GLfloat other[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	glLightfv(GL_LIGHT0, GL_POSITION, pos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, other);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, other);
 
 	// Draw axis:
 	kg::drawAxis(1.5f);

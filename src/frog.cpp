@@ -15,6 +15,23 @@ void Frog::init()
 	m_cDetail = 30;
 	m_inAir = false;
 	//remakeSphere(10, m_cDetail);
+	
+	m_ambient = new GLfloat[4];
+	m_ambient[0] = 1.0f;
+	m_ambient[1] = 1.0f;
+	m_ambient[2] = 0.0f;
+	m_ambient[3] = 1.0f;
+	
+	m_diffuse = m_ambient;
+	
+	m_specular = new GLfloat[4];
+	m_specular[0] = 1.0f;
+	m_specular[1] = 1.0f;
+	m_specular[2] = 1.0f;
+	m_specular[3] = 1.0f;
+	
+	m_shininess = new GLfloat;
+	*m_shininess = 70;
 }
 
 void Frog::update(const float &deltaT)
@@ -47,7 +64,7 @@ void Frog::update(const float &deltaT)
 			
 		// Keep x angle in range (6.28318f is 360 degrees in radians):
 		kg::range<float>(m_angle.x, 0.0f, 6.28318f);
-		// Hard clamp y andgle and speed (3.1416f is 180 degrees in radians):
+		// Hard clamp y angle and speed (3.1416f is 180 degrees in radians):
 		kg::clamp<float>(m_angle.y, 0.0f, 3.1416f);
 		kg::clamp<float>(m_speed, 0.0f, 8.5f);
 		
@@ -85,6 +102,16 @@ void Frog::update(const float &deltaT)
 
 void Frog::draw()
 {
+	// Set material properties:
+	if (m_ambient)
+		glMaterialfv(GL_FRONT, GL_AMBIENT, m_ambient);
+	if (m_diffuse)
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diffuse);
+	if (m_specular)
+		glMaterialfv(GL_FRONT, GL_SPECULAR, m_specular);
+	if (m_shininess)
+		glMaterialfv(GL_FRONT, GL_SHININESS, m_shininess);
+
 	// Set colour:
 	glColor3f(1.0f, 1.0f, 0.0f);
 	

@@ -2,7 +2,7 @@
 #define floor_h
 
 #include "object.h"
-#include <vector>
+#include "meshes.h"
 
 class Floor : public Object
 {
@@ -17,7 +17,13 @@ public:
 		const int &rows, const int &columns);
 	
 private:
-	Vector3 *points;
+	Vector3 *m_points, m_normal;
+	
+	Vector2 *m_uvs;
+	
+	void clear();
+	
+	int m_texture;
 	
 	std::vector<int> indices;
 };
