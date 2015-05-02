@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "platformInclude.h"
 #include "vectors.h"
 #include "ass2.h"
@@ -80,7 +79,10 @@ GLuint loadTexture(const char *filename)
 		SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
 	
 	if (!tex)
+	{
+		printf("Failed to load: \"%s\".\n", filename);
 		return 0;
+	}
 
 	glBindTexture(GL_TEXTURE_2D, tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "glutBegin.h"
 #include "ass2.h"
 

@@ -15,10 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="ass2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="car.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="floor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="frog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="glutBegin.h">
@@ -27,30 +36,39 @@
     <ClInclude Include="keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="meshes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="platformInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tute1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tute2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="vectors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tute3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ass1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="ass2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="car.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="floor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="frog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glutBegin.cpp">
@@ -62,19 +80,19 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tute1.cpp">
+    <ClCompile Include="meshes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tute2.cpp">
+    <ClCompile Include="misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vectors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tute3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ass1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

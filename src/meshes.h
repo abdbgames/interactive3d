@@ -3,6 +3,7 @@
 
 #include "platformInclude.h"
 #include "vectors.h"
+#include <vector>
 
 struct Index
 {
@@ -45,11 +46,13 @@ protected:
 	
 	GLfloat *m_ambient, *m_diffuse, *m_specular, m_shininess;
 	
-	int m_edges, m_texture;
+	int m_edges, m_stacks, m_texture;
 	
-	Vector3 **m_points;
+	Vector3 **m_verts;
+
+	Vector2 **m_normals, **m_uvs;
 	
-	GLUquadric *gluQuad;
+	std::vector<Index> m_indices;
 	
 	static LogMesh *m_instance;
 };

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "platformInclude.h"
 #include "floor.h"
 #include "ass2.h"
@@ -33,7 +32,7 @@ void Floor::init()
 	
 	m_normal.y = 1.0f;
 	
-	m_texture = loadTexture("textures/wood.jpg");
+	m_texture = loadTexture("textures/ground.jpg");
 }
 
 void Floor::update(const float &deltaT)
@@ -43,20 +42,38 @@ void Floor::update(const float &deltaT)
 
 void Floor::draw()
 {
-	if (m_ambient)
-		glMaterialfv(GL_FRONT, GL_AMBIENT, m_ambient);
-	if (m_diffuse)
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diffuse);
-	if (m_specular)
-		glMaterialfv(GL_FRONT, GL_SPECULAR, m_specular);
-	if (m_shininess)
-		glMaterialfv(GL_FRONT, GL_SHININESS, m_shininess);
+	if (!m_texture)
+	{
+		if (m_ambient)
+			glMaterialfv(GL_FRONT, GL_AMBIENT, m_ambient);
+		if (m_diffuse)
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, m_diffuse);
+		if (m_specular)
+			glMaterialfv(GL_FRONT, GL_SPECULAR, m_specular);
+		if (m_shininess)
+			glMaterialfv(GL_FRONT, GL_SHININESS, m_shininess);
+		glColor3f(0.0f, 0.7f, 0.0f);
+	}
+	else
+	{
+		if (m_ambient)
+			glMaterialfv(GL_FRONT, GL_AMBIENT, m_specular);
+		if (m_diffuse)
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, m_specular);
+		if (m_specular)
+			glMaterialfv(GL_FRONT, GL_SPECULAR, m_specular);
+		if (m_shininess)
+			glMaterialfv(GL_FRONT, GL_SHININESS, m_shininess);
+		glColor3f(1.0f, 1.0f, 1.0f);
+	}
 
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
+	if (Ass2::drawTextures)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+	}
 
 	// Draw the plane:
-	glColor3f(0.0f, 0.7f, 0.0f);
 	glBegin(GL_TRIANGLE_STRIP);
 	for (unsigned int i = 0; i < indices.size(); ++i)
 	{

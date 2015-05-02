@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "platformInclude.h"
 #include "car.h"
 #include "ass2.h"

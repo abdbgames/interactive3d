@@ -10,6 +10,36 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ass2.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="car.h" />
+    <ClInclude Include="floor.h" />
+    <ClInclude Include="frog.h" />
+    <ClInclude Include="glutBegin.h" />
+    <ClInclude Include="keyboard.h" />
+    <ClInclude Include="meshes.h" />
+    <ClInclude Include="mouse.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="platformInclude.h" />
+    <ClInclude Include="tute.h" />
+    <ClInclude Include="vectors.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ass2.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="car.cpp" />
+    <ClCompile Include="floor.cpp" />
+    <ClCompile Include="frog.cpp" />
+    <ClCompile Include="glutBegin.cpp" />
+    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="meshes.cpp" />
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="mouse.cpp" />
+    <ClCompile Include="object.cpp" />
+    <ClCompile Include="vectors.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7175137C-2BF7-4552-AFD2-45DA474B9A67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -47,18 +77,19 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\glut-3.7.6-bin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\glut-3.7.6-bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glut32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glut32.lib;glu32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,33 +109,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="ass1.h" />
-    <ClInclude Include="glutBegin.h" />
-    <ClInclude Include="keyboard.h" />
-    <ClInclude Include="platformInclude.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="tute.h" />
-    <ClInclude Include="tute1.h" />
-    <ClInclude Include="tute2.h" />
-    <ClInclude Include="tute3.h" />
-    <ClInclude Include="vectors.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ass1.cpp" />
-    <ClCompile Include="glutBegin.cpp" />
-    <ClCompile Include="keyboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="tute1.cpp" />
-    <ClCompile Include="tute2.cpp" />
-    <ClCompile Include="tute3.cpp" />
-    <ClCompile Include="vectors.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

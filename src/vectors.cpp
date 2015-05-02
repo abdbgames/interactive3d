@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <math.h>
 #include "vectors.h"
 #include "platformInclude.h"

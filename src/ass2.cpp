@@ -1,12 +1,11 @@
-#include "stdafx.h"
 #include "ass2.h"
 #include "keyboard.h"
 
 // Default engine wide variables:
 int Ass2::m_width = 1024, Ass2::m_height = 768;
 float Ass2::m_aspect = 1.333333f;
-bool Ass2::smoothShading = true, Ass2::drawAxis = true,
-	Ass2::drawNormals = true, Ass2::drawTextures = true;
+bool Ass2::smoothShading = true, Ass2::drawAxis = false,
+	Ass2::drawNormals = false , Ass2::drawTextures = true;
 KG_DRAW_MODE Ass2::drawMode = KG_FILLED;
 KG_LIGHT_MODE Ass2::lightMode = KG_FULL;
 
@@ -28,11 +27,14 @@ void Ass2::init()
 	
 	m_dynObjList.resize(m_dynObjects);
 	
-	// Fill object list with cars and logs:
+	// Fill object list with cars and logs in random positions with random
+	// speeds:
 	for (int i = 0; i < m_dynObjects; ++i)
 	{
 		m_dynObjList[i].isCar = (rand() % 2) - 1;
-		m_dynObjList[i].getPos().x = kg::getRandom<float>(-50.0f, 50.0f);
+		m_dynObjList[i].getPos().x = (m_dynObjList[i].isCar) ?
+			kg::getRandom<float>(-49.0f, -1.0f) :
+			kg::getRandom<float>(1.0f, 49.0f);
 		m_dynObjList[i].getPos().z = kg::getRandom<float>(-49.8f, 49.8f);
 		m_dynObjList[i].getVel().z = kg::getRandom<float>(-5.0f, 5.0f);
 	}

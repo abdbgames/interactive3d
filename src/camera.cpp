@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "platformInclude.h"
 #include "camera.h"
 #include "mouse.h"
