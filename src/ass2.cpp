@@ -32,6 +32,7 @@ void Ass2::init()
 	for (int i = 0; i < m_dynObjects; ++i)
 	{
 		m_dynObjList[i].isCar = (rand() % 2) - 1;
+		m_dynObjList[i].init();
 		m_dynObjList[i].getPos().x = (m_dynObjList[i].isCar) ?
 			kg::getRandom<float>(-49.0f, -1.0f) :
 			kg::getRandom<float>(1.0f, 49.0f);

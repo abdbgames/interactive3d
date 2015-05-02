@@ -43,7 +43,7 @@ typedef void(*VoidF)();
 #define kgmin(X, Y) ((X) < (Y) ? (X) : (Y))
 #define kgmax(X, Y) ((X) > (Y) ? (X) : (Y))
 // Misc functions (misc.cpp):
-class Vector3;
+struct Vector3;
 namespace kg
 {
 	template <typename T>

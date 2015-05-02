@@ -17,7 +17,6 @@ void Camera::init()
 void Camera::updateBoom()
 {
 	// Set the position of the camera based on the distance and rotation from
-	// the origin: TODO: Camera y rotation (look at frog vector calculation):
 	m_pos.x = m_origin->x - m_dist * cos(m_angleF) * cosf(m_angleY);
 	m_pos.y = m_origin->y + m_dist * sinf(m_angleY);
 	m_pos.z = m_origin->z - m_dist * sin(m_angleF) * cosf(m_angleY);
@@ -51,17 +50,6 @@ void Camera::update(const float &deltaT)
 
 void Camera::draw()
 {
-	// TODO: Set up a point light at the position:
-	/*Vector3 dir = 0.0f - m_pos;
-	dir.normalise();
-	glEnable(GL_LIGHT1);
-	static GLfloat none[] = {0, 0, 0, 1};
-	static GLfloat intensity[] = {0.8f, 0.8f, 0.8f, 1};
-	glLightfv(GL_LIGHT1, GL_POSITION, dir.getV());
-	glLightfv(GL_LIGHT1, GL_AMBIENT, none);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, intensity);
-	glLightfv(GL_LIGHT1, GL_SPECULAR, intensity);*/
-
 	// Set up camera position and perspective:
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

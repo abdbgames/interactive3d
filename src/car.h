@@ -12,9 +12,13 @@ public:
 	
 	Vector3 &getPos() { return m_pos; }
 	Vector3 &getVel() { return m_vel; }
+
+	float m_rockSpeed, rotY, rotZ;
 	
 	bool isCar;
+
+private:
+	float m_t;
 };
 
 #endif /* car_h */
-

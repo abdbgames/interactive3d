@@ -5,6 +5,7 @@
 
 void Frog::init()
 {
+	m_pos.x = -49.5f;
 	m_radius = 0.3f;
 	m_speed = 4.0f;
 	m_rotSpeed = 1.2f;
