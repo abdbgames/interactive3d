@@ -1,31 +1,30 @@
-#include "Mouse.h"
-#include "PlatformInclude.h"
+#include "mouse.h"
 
 namespace kg
 {
 	std::vector<int> mouseControl::m_pressed,
 		mouseControl::m_press,
 		mouseControl::m_released;
-
+		
 	int mouseControl::m_x = 0,
 		mouseControl::m_y = 0,
 		mouseControl::m_xL = 0,
 		mouseControl::m_yL = 0,
 		mouseControl::m_xD = 0,
 		mouseControl::m_yD = 0;
-
+		
 	bool mouseControl::m_lock = true;
-
+		
 	void mouseControl::mouseMoveCallback(int x, int y)
 	{
 		m_x = x;
 		m_y = y;
 	}
-
+	
 	void mouseControl::mousePressCallback(int button, int state, int x, int y)
 	{
 		std::vector<int>::iterator i = findElement(m_pressed, button);
-
+	
 		switch (state)
 		{
 		case GLUT_DOWN:
@@ -41,19 +40,19 @@ namespace kg
 			// Check if the button is in the pressed list, and remove it:
 			if (i != m_pressed.end())
 				m_pressed.erase(i);
-
+				
 			m_released.push_back(button);
 			break;
 		default:
 			break;
 		}
 	}
-
+	
 	void mouseControl::setMousePos(int x, int y)
 	{
 		glutWarpPointer(x, y);
 	}
-
+	
 	void mouseControl::lockMouse(int x, int y)
 	{
 		if (!m_lock)
@@ -63,13 +62,13 @@ namespace kg
 			m_yL = y;
 		}
 	}
-
+	
 	void mouseControl::postUpdate()
 	{
 		// Empty the press and release lists:
 		m_press.clear();
 		m_released.clear();
-
+		
 		// If we need to lock the mouse then do it:
 		if (m_lock)
 		{
@@ -85,7 +84,7 @@ namespace kg
 			m_yD = 0;
 		}
 	}
-
+	
 	bool mouseControl::poll(const int &b, const KG_PRESS_TYPE &p)
 	{
 		switch (p)
@@ -97,10 +96,10 @@ namespace kg
 		case KG_UP:
 			return (findElement(m_released, b) != m_released.end());
 		}
-
+		
 		return false;
 	}
-
+	
 	bool mouseControl::pollAny(const KG_PRESS_TYPE &p)
 	{
 		switch (p)
@@ -112,12 +111,12 @@ namespace kg
 		case KG_UP:
 			return (m_released.size() != 0);
 		}
-
+		
 		return false;
 	}
-
+	
 	std::vector<int>::iterator mouseControl::findElement(std::vector<int> &v,
-		const int &b)
+			const int &b)
 	{
 		std::vector<int>::iterator i;
 
@@ -128,3 +127,4 @@ namespace kg
 		return i;
 	}
 }
+

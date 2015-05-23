@@ -11,29 +11,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="KGConstants.h" />
-    <ClInclude Include="Misc.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="ObjectList.h" />
-    <ClInclude Include="ObjectProperties.h" />
-    <ClInclude Include="PlatformInclude.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Vectors.h" />
+    <ClInclude Include="ass2.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="car.h" />
+    <ClInclude Include="floor.h" />
+    <ClInclude Include="frog.h" />
+    <ClInclude Include="glutBegin.h" />
+    <ClInclude Include="keyboard.h" />
+    <ClInclude Include="meshes.h" />
+    <ClInclude Include="mouse.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="platformInclude.h" />
+    <ClInclude Include="tute.h" />
+    <ClInclude Include="vectors.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Misc.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="ObjectList.cpp" />
-    <ClCompile Include="ObjectProperties.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Vectors.cpp" />
+    <ClCompile Include="ass2.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="car.cpp" />
+    <ClCompile Include="floor.cpp" />
+    <ClCompile Include="frog.cpp" />
+    <ClCompile Include="glutBegin.cpp" />
+    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="meshes.cpp" />
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="mouse.cpp" />
+    <ClCompile Include="object.cpp" />
+    <ClCompile Include="vectors.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7175137C-2BF7-4552-AFD2-45DA474B9A67}</ProjectGuid>

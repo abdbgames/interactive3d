@@ -1,68 +1,72 @@
 #ifndef vectors_h
 #define vectors_h
 
-struct Vector3;
-
-struct Vector2
+namespace kg
 {
-	Vector2();
-	Vector2(const Vector3 &v);
-	Vector2(const float &_x, const float &_y);
+	struct Vector3;
 
-	void normalise();
-	void glPoint();
+	struct Vector2
+	{
+		Vector2();
+		Vector2(const Vector3 &v);
+		Vector2(const float &_x, const float &_y);
 
-	float x, y;
-	float getMagnitude();
-	float getDistanceTo(const Vector2 &b);
-	float *getV() { return &x; }
+		void normalise();
 
-	static float getDistance(const Vector2 &a, const Vector2 &b);
-};
+		float x, y;
+		float getMagnitude();
+		float getDistanceTo(const Vector2 &b);
+		float *getV() { return &x; }
 
-struct Vector3
-{	
-	Vector3();
-	Vector3(const Vector2 &v);
-	Vector3(const Vector2 &v, const float &_z);
-	Vector3(const float &_x, const float &_y);
-	Vector3(const float &_x, const float &_y, const float &_z);
+		static float getDistance(const Vector2 &a, const Vector2 &b);
+		static float getDotProduct(const Vector2 &a, const Vector2 &b);
+	};
 
-	void normalise();
-	void glPoint();
+	struct Vector3
+	{
+		Vector3();
+		Vector3(const Vector2 &v);
+		Vector3(const Vector2 &v, const float &_z);
+		Vector3(const float &_x, const float &_y);
+		Vector3(const float &_x, const float &_y, const float &_z);
 
-	float x, y, z;
-	float getMagnitude();
-	float getDistanceTo(const Vector3 &b);
-	float *getV() { return &x; }
+		void normalise();
 
-	static float getDistance(const Vector3 &a, const Vector3 &b);
-};
+		float x, y, z;
+		float getMagnitude();
+		float getDistanceTo(const Vector3 &b);
+		float *getV() { return &x; }
 
-Vector2 operator +(const Vector2 &a, const Vector2 &b);
-Vector2 operator -(const Vector2 &a, const Vector2 &b);
-Vector2 operator *(const Vector2 &a, const Vector2 &b);
-Vector2 operator /(const Vector2 &a, const Vector2 &b);
-Vector3 operator +(const Vector3 &a, const Vector3 &b);
-Vector3 operator -(const Vector3 &a, const Vector3 &b);
-Vector3 operator *(const Vector3 &a, const Vector3 &b);
-Vector3 operator /(const Vector3 &a, const Vector3 &b);
-Vector2 operator +(const float &a, const Vector2 &b);
-Vector2 operator -(const float &a, const Vector2 &b);
-Vector2 operator *(const float &a, const Vector2 &b);
-Vector2 operator /(const float &a, const Vector2 &b);
-Vector3 operator +(const float &a, const Vector3 &b);
-Vector3 operator -(const float &a, const Vector3 &b);
-Vector3 operator *(const float &a, const Vector3 &b);
-Vector3 operator /(const float &a, const Vector3 &b);
-Vector2 operator +(const Vector2 &a, const float &b);
-Vector2 operator -(const Vector2 &a, const float &b);
-Vector2 operator *(const Vector2 &a, const float &b);
-Vector2 operator /(const Vector2 &a, const float &b);
-Vector3 operator +(const Vector3 &a, const float &b);
-Vector3 operator -(const Vector3 &a, const float &b);
-Vector3 operator *(const Vector3 &a, const float &b);
-Vector3 operator /(const Vector3 &a, const float &b);
+		static float getDistance(const Vector3 &a, const Vector3 &b);
+		static float getDotProduct(const Vector3 &a, const Vector3 &b);
+		
+		static Vector3 getCrossProduct(const Vector3 &a, const Vector3 &b);
+	};
+}
+
+kg::Vector2 operator +(const kg::Vector2 &a, const kg::Vector2 &b);
+kg::Vector2 operator -(const kg::Vector2 &a, const kg::Vector2 &b);
+kg::Vector2 operator *(const kg::Vector2 &a, const kg::Vector2 &b);
+kg::Vector2 operator /(const kg::Vector2 &a, const kg::Vector2 &b);
+kg::Vector3 operator +(const kg::Vector3 &a, const kg::Vector3 &b);
+kg::Vector3 operator -(const kg::Vector3 &a, const kg::Vector3 &b);
+kg::Vector3 operator *(const kg::Vector3 &a, const kg::Vector3 &b);
+kg::Vector3 operator /(const kg::Vector3 &a, const kg::Vector3 &b);
+kg::Vector2 operator +(const float &a, const kg::Vector2 &b);
+kg::Vector2 operator -(const float &a, const kg::Vector2 &b);
+kg::Vector2 operator *(const float &a, const kg::Vector2 &b);
+kg::Vector2 operator /(const float &a, const kg::Vector2 &b);
+kg::Vector3 operator +(const float &a, const kg::Vector3 &b);
+kg::Vector3 operator -(const float &a, const kg::Vector3 &b);
+kg::Vector3 operator *(const float &a, const kg::Vector3 &b);
+kg::Vector3 operator /(const float &a, const kg::Vector3 &b);
+kg::Vector2 operator +(const kg::Vector2 &a, const float &b);
+kg::Vector2 operator -(const kg::Vector2 &a, const float &b);
+kg::Vector2 operator *(const kg::Vector2 &a, const float &b);
+kg::Vector2 operator /(const kg::Vector2 &a, const float &b);
+kg::Vector3 operator +(const kg::Vector3 &a, const float &b);
+kg::Vector3 operator -(const kg::Vector3 &a, const float &b);
+kg::Vector3 operator *(const kg::Vector3 &a, const float &b);
+kg::Vector3 operator /(const kg::Vector3 &a, const float &b);
 
 #endif /* vectors_h */
-
