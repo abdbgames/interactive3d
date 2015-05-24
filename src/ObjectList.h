@@ -12,6 +12,7 @@ namespace kg
 
 		// Methods:
 		void update();
+		void render();
 
 		bool addObject(const char *name, Object *object);
 		bool removeObject(const char *name);

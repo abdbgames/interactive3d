@@ -56,6 +56,10 @@ namespace kg
 		Object *self;
 
 		KG_DRAW_MODE m_renderType;
+
+		KG_LIGHT_MODE m_lightType;
+
+		bool m_transparent;
 	};
 }
 

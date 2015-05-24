@@ -3,9 +3,10 @@
 
 #include "Object.h"
 #include "ObjectList.h"
+#include "PlatformInclude.h"
 #include "Engine.h"
 
-bool checknullptr(kg::BaseProperty *in) { return (in == nullptr); }
+bool checknullptr(kg::BaseProperty *in) { return (in == NULL); }
 
 namespace kg
 {
@@ -13,17 +14,21 @@ namespace kg
 	{
 		// Constructor for all Objects:
 		children = new ObjectList;
-		self = nullptr;
-		m_name = nullptr;
+		self = NULL;
+		m_name = NULL;
+		m_transparent = false;
 		m_renderType = KG_HIDE;
+		m_lightType = KG_UNLIT;
 	}
 
 	Object::Object(const char *name)
 	{
 		// Constructor for all Objects:
 		children = new ObjectList;
-		self = nullptr;
+		self = NULL;
 		m_renderType = KG_HIDE;
+		m_lightType = KG_UNLIT;
+		m_transparent = false;
 		setName(name);
 	}
 
@@ -31,33 +36,22 @@ namespace kg
 	{
 		// Destructor for all Objects:
 		for (unsigned i = 0; i < properties.size(); ++i)
-		{
-			if (properties[i] != nullptr)
-			{
+			if (properties[i])
 				delete properties[i];
-				properties[i] = nullptr;
-			}
-		}
 
 		properties.clear();
 
 		if (children)
-		{
 			delete children;
-			children = nullptr;
-		}
 
 		if (m_name)
-		{
 			delete [] m_name;
-			m_name = nullptr;
-		}
-
-		self = nullptr;
 	}
 
 	void Object::getSelf()
 	{
+		// This is more important than you think,
+		// It's actually for calling in the child instance:
 		self = this;
 	}
 
@@ -68,7 +62,7 @@ namespace kg
 		if (m_name)
 		{
 			delete[] m_name;
-			m_name = nullptr;
+			m_name = NULL;
 		}
 
 		size_t len = strlen(name);
@@ -80,7 +74,7 @@ namespace kg
 
 	void Object::run()
 	{
-		if (self == nullptr)
+		if (!self)
 		{
 			getSelf();
 			self->start();
@@ -98,11 +92,26 @@ namespace kg
 
 	void Object::render()
 	{
+		// Push local matrix:
+		glPushMatrix();
+
+		// Run transform calls:
+
 		// No drawing if Object is hidden:
 		if (m_renderType == KG_HIDE)
+		{
+			glPopMatrix();
 			return;
+		}
+
+		// Run material calls:
 
 
+		// Render mesh:
+
+
+		// Pop local Matrix:
+		glPopMatrix();
 	}
 
 	bool Object::addProperty(const char *name, BaseProperty *propertyType)
@@ -110,14 +119,14 @@ namespace kg
 		// Attaches a property to the Object:
 		BaseProperty *p = getProperty<BaseProperty>(name);
 
-		if (p == nullptr)
+		if (p == NULL)
 		{
 			properties.push_back(propertyType);
 			properties[properties.size() - 1]->setName(name);
 			return true;
 		}
 
-		p = nullptr;
+		p = NULL;
 
 		// Property never existed or could not be erased:
 		return false;
@@ -131,7 +140,7 @@ namespace kg
 		if (p)
 			delete p;
 
-		p = nullptr;
+		p = NULL;
 
 		// Property never existed or could not be erased:
 		return false;
@@ -140,14 +149,14 @@ namespace kg
 	bool Object::addChild(const char *name, Object *childObject)
 	{
 		// Attaches a child Object to the Object:
-		return (children != nullptr) ? children->addObject(name, childObject)
+		return (children != NULL) ? children->addObject(name, childObject)
 			: false;
 	}
 
 	bool Object::removeChild(const char *name)
 	{
 		// Detaches a child Object from the Object:
-		return (children != nullptr) ? children->removeObject(name) : false;
+		return (children != NULL) ? children->removeObject(name) : false;
 	}
 
 	template <typename T>
@@ -160,7 +169,7 @@ namespace kg
 			!= 0)
 			++i;
 
-		return (i == properties.size()) ? nullptr :
+		return (i == properties.size()) ? NULL :
 			dynamic_cast<T*>(properties[i]);
 	}
 

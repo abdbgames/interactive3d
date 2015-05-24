@@ -11,10 +11,12 @@ namespace kg
 	Vector2::Vector2(const float &_x, const float &_y) : x(_x), y(_y) {}
 	Vector3::Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
 	Vector3::Vector3(const Vector2 &v) : x(v.x), y(v.y), z(0.0f) {}
-	Vector3::Vector3(const Vector2 &v, const float &_z) : x(v.x), y(v.y), z(_z) {}
-	Vector3::Vector3(const float &_x, const float &_y) : x(_x), y(_y), z(0.0f) {}
-	Vector3::Vector3(const float &_x, const float &_y, const float &_z) : x(_x),
-		y(_y), z(_z) {}
+	Vector3::Vector3(const Vector2 &v, const float &_z) : x(v.x), y(v.y),
+		z(_z) {}
+	Vector3::Vector3(const float &_x, const float &_y) : x(_x), y(_y),
+		z(0.0f) {}
+	Vector3::Vector3(const float &_x, const float &_y, const float &_z)
+		: x(_x), y(_y), z(_z) {}
 
 	void Vector2::normalise()
 	{

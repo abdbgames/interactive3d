@@ -12,7 +12,7 @@ namespace kg
 
 	BaseProperty::~BaseProperty()
 	{
-		if (m_name != nullptr)
+		if (m_name != NULL)
 			delete[] m_name;
 	}
 

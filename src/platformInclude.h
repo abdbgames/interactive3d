@@ -4,6 +4,7 @@
 #if _WIN32
 #include <Windows.h>
 #endif /* _WIN32 */
+#include <cstdlib>
 #if __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>

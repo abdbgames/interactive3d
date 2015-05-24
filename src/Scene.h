@@ -7,18 +7,10 @@ namespace kg
 {
 	struct Scene
 	{
-		// Constructor:
-		Scene();
-
-		// Destructor:
-		virtual ~Scene();
-
-		// Methods:
 		void update();
 		void render();
 
-		// Members:
-		ObjectList *sceneObjects;
+		ObjectList sceneObjects;
 	};
 }
 

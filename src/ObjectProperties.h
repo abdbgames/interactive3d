@@ -1,12 +1,14 @@
 #ifndef objectProperties_h
 #define objectProperties_h
 
+#define NULL 0
+
 namespace kg
 {
 	struct BaseProperty
 	{
 		// Constructors:
-		BaseProperty() : m_name(nullptr) {}
+		BaseProperty() : m_name(NULL) {}
 		BaseProperty(const char *name);
 
 		// Desrtuctor:

@@ -12,7 +12,7 @@ namespace kg
 			if (objects[i])
 			{
 				delete objects[i];
-				objects[i] = nullptr;
+				objects[i] = NULL;
 			}
 		}
 
@@ -23,14 +23,16 @@ namespace kg
 	{
 		// Updates all Objects:
 		for (unsigned i = 0; i < objects.size(); ++i)
-		{
-			// Update all Objects:
 			if (objects[i])
-			{
 				objects[i]->run();
+	}
+
+	void ObjectList::render()
+	{
+		// Renders all Objects:
+		for (unsigned i = 0; i < objects.size(); ++i)
+			if (objects[i])
 				objects[i]->render();
-			}
-		}
 	}
 
 	bool ObjectList::addObject(const char *name, Object *object)
@@ -57,7 +59,7 @@ namespace kg
 		if (o)
 		{
 			delete o;
-			o = nullptr;
+			o = NULL;
 			objects.erase(objects.begin(), std::remove_if(objects.begin(),
 				objects.end(), checkNULL));
 			return true;
@@ -76,7 +78,7 @@ namespace kg
 		while (i < objects.size() && strcmp(name, objects[i]->getName()) != 0)
 			++i;
 
-		return (i == objects.size()) ? nullptr : dynamic_cast<T*>(objects[i]);
+		return (i == objects.size()) ? NULL : dynamic_cast<T*>(objects[i]);
 	}
 
 	bool ObjectList::renameObject(const char *name, const char *newName)

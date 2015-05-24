@@ -1,7 +1,10 @@
 #ifndef engine_h
 #define engine_h
 
+#include <vector>
+
 #include "KGConstants.h"
+#include "Scene.h"
 
 namespace kg
 {
@@ -11,8 +14,20 @@ namespace kg
 		static void renderCallback();
 		static void resizeCallback(int w, int h);
 		static void toggleDrawAxis();
+		static void toggleDrawTextures();
+		static void toggleSmoothShading();
+		static void setDrawMode(const KG_DRAW_MODE &dm);
+		static void setLightState(const KG_LIGHT_MODE &lm);
+		static void setDrawAxis(const bool &set) { get().m_drawAxis = set; }
+		static void setDrawTetxures(const bool &set);
+		static void setSmoothShading(const bool &set);
 
-		static bool drawAxisEnabled() { return get().m_drawAxis; }
+		static bool setCurrentScene(const unsigned &s);
+		static bool getDrawAxisEnabled() { return get().m_drawAxis; }
+		static bool getDrawTexturesEnabled() { return get().m_drawTextures; }
+
+		static Scene *getScene(const unsigned &s);
+		static Scene *getCurrentScene();
 
 		static KG_LIGHT_MODE getLightState() { return get().m_lightMode; }
 		
@@ -20,12 +35,13 @@ namespace kg
 
 		static unsigned getWidth() { return get().m_width; }
 		static unsigned getHeight() { return get().m_height; }
+		static unsigned pushScene(Scene *s, const bool &setCurrent);
 
 		static float getAspect() { return get().m_aspect; }
 
 	private:
 		Engine();
-		~Engine() {}
+		~Engine();
 
 		static Engine &get();
 
@@ -33,11 +49,16 @@ namespace kg
 
 		KG_DRAW_MODE m_drawMode;
 
-		bool m_drawAxis;
+		bool m_drawAxis, m_drawTextures, m_drawNormals, m_smoothShading;
 
-		unsigned m_width, m_height;
+		unsigned m_width, m_height, m_currentScene;
 
 		float m_aspect;
+
+		std::vector<Scene*> m_sceneList;
+
+		void textureRefresh();
+		void smoothShadingRefresh();
 	};
 }
 

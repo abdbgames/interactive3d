@@ -1,7 +1,5 @@
 #define TITLE "s3477450 Interactive 3D Assignment 3"
 
-#include <cstdlib>
-
 #include "Engine.h"
 #include "PlatformInclude.h"
 #include "Keyboard.h"
@@ -32,6 +30,8 @@ int main(int argc, char **argv)
 	glutReshapeFunc(kg::Engine::resizeCallback);
 
 	glEnable(GL_NORMALIZE);
+
+	unsigned scene = kg::Engine::pushScene(new kg::Scene(), true);
 
 	glutMainLoop();
 
