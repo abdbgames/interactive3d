@@ -69,7 +69,7 @@ namespace kg
 
 		m_name = new char[len];
 
-		strcpy_s(m_name, len, name);
+		strcpy_s(m_name, len-1, name);
 	}
 
 	void Object::run()

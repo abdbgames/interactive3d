@@ -13,18 +13,23 @@ namespace kg
 		static void updateCallback();
 		static void renderCallback();
 		static void resizeCallback(int w, int h);
+		static void quit();
 		static void toggleDrawAxis();
 		static void toggleDrawTextures();
 		static void toggleSmoothShading();
+		static void toggleDrawNormals();
 		static void setDrawMode(const KG_DRAW_MODE &dm);
 		static void setLightState(const KG_LIGHT_MODE &lm);
 		static void setDrawAxis(const bool &set) { get().m_drawAxis = set; }
 		static void setDrawTetxures(const bool &set);
 		static void setSmoothShading(const bool &set);
+		static void setDrawNormals(const bool &set)
+			{ get().m_drawNormals = set; }
 
 		static bool setCurrentScene(const unsigned &s);
 		static bool getDrawAxisEnabled() { return get().m_drawAxis; }
 		static bool getDrawTexturesEnabled() { return get().m_drawTextures; }
+		static bool getDrawNormalsEnabled() { return get().m_drawNormals; }
 
 		static Scene *getScene(const unsigned &s);
 		static Scene *getCurrentScene();

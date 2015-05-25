@@ -4,6 +4,7 @@
 
 #include "Engine.h"
 #include "PlatformInclude.h"
+#include "Mesh.h"
 
 namespace kg
 {
@@ -57,6 +58,8 @@ namespace kg
 
 	void Engine::renderCallback()
 	{
+		glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
+
 		// Don't do anything if no current scene:
 		if (!get().m_currentScene) return;
 
@@ -65,6 +68,8 @@ namespace kg
 
 		// Render current Scene:
 		get().m_sceneList[get().m_currentScene]->render();
+
+		glPopAttrib();
 	}
 
 	void Engine::resizeCallback(int w, int h)
@@ -76,6 +81,13 @@ namespace kg
 
 		// Reset viewport:
 		glViewport(0, 0, w, h);
+	}
+	
+	void Engine::quit()
+	{
+		MeshTable::cleanup();
+
+		exit(EXIT_SUCCESS);
 	}
 
 	void Engine::setDrawMode(const KG_DRAW_MODE &dm)
@@ -167,6 +179,11 @@ namespace kg
 	void Engine::toggleSmoothShading()
 	{
 		setSmoothShading(!get().m_smoothShading);
+	}
+
+	void Engine::toggleDrawNormals()
+	{
+		setDrawNormals(!get().m_drawNormals);
 	}
 
 	unsigned Engine::pushScene(Scene *s, const bool &setCurrent)

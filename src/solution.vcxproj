@@ -32,11 +32,13 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectList.cpp" />
     <ClCompile Include="ObjectProperties.cpp" />
+    <ClCompile Include="PlatformInclude.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Vectors.cpp" />
   </ItemGroup>

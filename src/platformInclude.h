@@ -14,4 +14,11 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #endif /* __APPLE__ */
+#define TITLE "s3477450 Interactive 3D Assignment 3"
+
+namespace kg
+{
+	void initGL(int *argc, char **argv);
+}
+
 #endif /* platformInclude_h */

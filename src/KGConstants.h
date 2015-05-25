@@ -120,6 +120,16 @@ namespace kg
 		KG_DIR, // Directional only.
 		KG_UNLIT,
 	};
+
+	// Mesh mode:
+	enum KG_MESH_MODE
+	{
+		KG_TRIS,
+		KG_TRI_STRIP,
+		KG_TRI_FAN,
+		KG_QUADS,
+		KG_QUAD_STRIP,
+	};
 }
 
 #endif /* KGConstants_h */
