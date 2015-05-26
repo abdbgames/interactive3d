@@ -86,10 +86,6 @@ typedef void(*VoidF)();
 // Gravity:
 #define KG_GR 9.8f
 
-// min and max macro functions:
-#define kgmin(X, Y) ((X) < (Y) ? (X) : (Y))
-#define kgmax(X, Y) ((X) > (Y) ? (X) : (Y))
-
 // Constant milliseconds value to divide from seconds:
 #define milli 1000
 

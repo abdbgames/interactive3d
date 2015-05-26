@@ -47,6 +47,10 @@ namespace kg
 			const unsigned &columns);
 		static Mesh *constructCube();
 		static Mesh *constructCircle(const unsigned &slices);
+		static Mesh *constructCylinder(const unsigned &stacks,
+			const unsigned &slices);
+		static Mesh *constructSphere(const unsigned &stacks,
+			const unsigned &slices);
 
 	private:
 		void renderDebugLines();

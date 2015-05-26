@@ -10,6 +10,8 @@ namespace kg
 {
 	Engine::Engine()
 	{
+		printf("Starting KGE!\n");
+
 		// Default Engine values:
 		m_lightMode = KG_FULL;
 		m_drawMode = KG_FILLED;
@@ -32,6 +34,8 @@ namespace kg
 
 	Engine::~Engine()
 	{
+		printf("Now cleaning KGE.\n");
+
 		// Delete Scenes:
 		for (unsigned i = 0; i < m_sceneList.size(); ++i)
 			delete m_sceneList[i];

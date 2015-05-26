@@ -1,6 +1,7 @@
 #include <string>
 
 #include "ObjectProperties.h"
+#include "PlatformInclude.h"
 #include "Engine.h"
 
 namespace kg

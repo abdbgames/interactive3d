@@ -308,6 +308,26 @@ namespace kg
 		return r;
 	}
 
+	Mesh *Mesh::constructCylinder(const unsigned &stacks,
+		const unsigned &slices)
+	{
+		Mesh *r = new Mesh;
+
+
+
+		return r;
+	}
+
+	Mesh *Mesh::constructSphere(const unsigned &stacks,
+		const unsigned &slices)
+	{
+		Mesh *r = new Mesh;
+		
+		
+		
+		return r;
+	}
+
 	std::map<std::string, Mesh*> MeshTable::m_list;
 
 	void MeshTable::cleanup()

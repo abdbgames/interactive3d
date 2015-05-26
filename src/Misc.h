@@ -7,7 +7,25 @@
 namespace kg
 {
 	template <typename T>
-	void clamp(T &in, const T &min, const T &max)
+	inline T min(const T &a, const T &b)
+	{
+		return (a < b) ? a : b;
+	}
+
+	template <typename T>
+	inline T max(const T &a, const T &b)
+	{
+		return (a > b) ? a : b;
+	}
+
+	template <typename T>
+	inline void abs(T &in)
+	{
+		return (in < 0) ? (in * -1) : in;
+	}
+
+	template <typename T>
+	inline void clamp(T &in, const T &min, const T &max)
 	{
 		if (in > max)
 			in = max;
@@ -16,7 +34,7 @@ namespace kg
 	}
 
 	template <typename T>
-	void range(T &in, const T &min, const T &max)
+	inline void range(T &in, const T &min, const T &max)
 	{
 		T range = max - min;
 		while (in > max)
@@ -27,7 +45,7 @@ namespace kg
 	}
 
 	template <typename T>
-	T getRandom(const T &min, const T &max)
+	inline T getRandom(const T &min, const T &max)
 	{
 		// Generates a random type in the range given:
 		if (max < min)
