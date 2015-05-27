@@ -3,28 +3,30 @@
 
 #define NULL 0
 
+#include <string>
+
 namespace kg
 {
 	struct BaseProperty
 	{
 		// Constructors:
-		BaseProperty() : m_name(NULL) {}
-		BaseProperty(const char *name);
+		BaseProperty() : m_name("Not set") {}
+		BaseProperty(const std::string &name);
 
 		// Desrtuctor:
-		~BaseProperty();
+		~BaseProperty() {}
 
 		// Virtual Methods:
 		virtual void update() {}
 
 		// Methods:
-		void setName(const char *name);
+		void setName(const std::string &name);
 
-		const char *getName() { return m_name; }
+		const std::string &getName() { return m_name; }
 
 	protected:
 		// Protected Methods:
-		char *m_name;
+		std::string m_name;
 	};
 }
 

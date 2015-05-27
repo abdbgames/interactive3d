@@ -54,7 +54,8 @@ namespace kg
 
 		KG_DRAW_MODE m_drawMode;
 
-		bool m_drawAxis, m_drawTextures, m_drawNormals, m_smoothShading;
+		bool m_drawAxis, m_drawTextures, m_drawNormals, m_smoothShading,
+			m_dirtyRendering;
 
 		unsigned m_width, m_height, m_currentScene;
 

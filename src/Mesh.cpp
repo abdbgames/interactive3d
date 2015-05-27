@@ -7,25 +7,18 @@ namespace kg
 {
 	Mesh::Mesh(const unsigned &uvs_size, const unsigned &normals_size,
 		const unsigned &verts_size, const unsigned &indices_size,
-		Vector2 **uvs, Vector3 **normals, Vector3 **verts, Index **indices,
-		const char *name, const KG_MESH_MODE &renderType)
+		Vector2 **uvs, Vector3 **normals, Vector3 **verts,
+		Index **indices, const std::string &name,
+		const KG_MESH_MODE &renderType)
 		: m_uvs_t(uvs_size), m_normals_t(normals_size), m_verts_t(verts_size),
 		m_indices_t(indices_size), m_uvs(uvs), m_normals(normals),
-		m_verts(verts), m_indices(indices), m_name(NULL),
-		m_renderType(renderType)
+		m_verts(verts), m_indices(indices), m_renderType(renderType)
 	{
-		size_t len = strlen(name);
-
-		m_name = new char[len];
-
-		strcpy_s(m_name, len-1, name);
+		m_name = name;
 	}
 
 	Mesh::~Mesh()
 	{
-		if (m_name)
-			delete [] m_name;
-
 		if (m_uvs)
 		{
 			for (unsigned i = 0; i < m_uvs_t; ++i)
@@ -348,6 +341,8 @@ namespace kg
 		}
 		else
 			m_list.insert(std::pair<std::string, Mesh*>(name, m));
+
+		m->setName(name);
 	}
 	
 	bool MeshTable::canFind(const std::string &name)

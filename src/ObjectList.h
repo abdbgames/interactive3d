@@ -14,16 +14,16 @@ namespace kg
 		void update();
 		void render();
 
-		bool addObject(const char *name, Object *object);
-		bool removeObject(const char *name);
-		bool renameObject(const char *name, const char *newName);
+		Object *addObject(const std::string &name, Object *object);
+		bool removeObject(const std::string &name);
+		bool renameObject(const std::string &name, const std::string &newName);
 
 		template <typename T>
-		T *getObject(const char *name);
+		T *getObject(const std::string &name);
 
 	protected:
 		// Protected Members:
-		std::vector<Object*> objects;
+		std::map<std::string, Object*> objects;
 	};
 }
 

@@ -7,70 +7,62 @@ namespace kg
 	ObjectList::~ObjectList()
 	{
 		// Destructor for all Objects:
-		for (unsigned i = 0; i < objects.size(); ++i)
-		{
-			if (objects[i])
-			{
-				delete objects[i];
-				objects[i] = NULL;
-			}
-		}
-
-		objects.clear();
+		for (std::map<std::string, Object*>::iterator i = objects.begin();
+			i != objects.end(); ++i)
+			if (i->second)
+				delete i->second;
 	}
 
 	void ObjectList::update()
 	{
 		// Updates all Objects:
-		for (unsigned i = 0; i < objects.size(); ++i)
-			if (objects[i])
-				objects[i]->run();
+		for (std::map<std::string, Object*>::iterator i = objects.begin();
+			i != objects.end(); ++i)
+			if (i->second)
+				i->second->run();
 	}
 
 	void ObjectList::render()
 	{
 		// Renders all Objects:
-		for (unsigned i = 0; i < objects.size(); ++i)
-			if (objects[i])
-				objects[i]->render();
+		for (std::map<std::string, Object*>::iterator i = objects.begin();
+			i != objects.end(); ++i)
+			if (i->second)
+				i->second->render();
 	}
 
-	bool ObjectList::addObject(const char *name, Object *object)
+	Object *ObjectList::addObject(const std::string &name, Object *object)
 	{
-		if (!object) return false;
+		if (!object) return NULL;
 
 		// Adds in an Object:
 		if (!getObject<Object>(name))
 		{
-			objects.push_back(object);
-			objects[objects.size() - 1]->setName(name);
-			return true;
+			objects.insert(std::pair<std::string, Object*>(name, object));
+			object->setName(name);
+			return object;
 		}
 
-		// Object never existed or could not be erased:
-		return false;
+		// Object never existed or could not be added:
+		return NULL;
 	}
 
-	bool ObjectList::removeObject(const char *name)
+	bool ObjectList::removeObject(const std::string &name)
 	{
-		// Removes an Object:
-		Object *o = getObject<Object>(name);
+		std::map<std::string, Object*>::iterator i = objects.find(name);
 
-		if (o)
-		{
-			delete o;
-			o = NULL;
-			objects.erase(objects.begin(), std::remove_if(objects.begin(),
-				objects.end(), checkNULL));
-			return true;
-		}
+		if (i == objects.end()) return false;
 
-		// Object never existed or could not be erased:
-		return false;
+		delete i->second;
+		i->second = NULL; // Just to be thread safe in future mainly...
+
+		objects.erase(i);
+
+		return true;
 	}
 
 	template <typename T>
-	T *ObjectList::getObject(const char *name)
+	T *ObjectList::getObject(const std::string &name)
 	{
 		// Finds and returns an instance of an Object:
 		unsigned i = 0;
@@ -81,9 +73,10 @@ namespace kg
 		return (i == objects.size()) ? NULL : dynamic_cast<T*>(objects[i]);
 	}
 
-	bool ObjectList::renameObject(const char *name, const char *newName)
+	bool ObjectList::renameObject(const std::string &name,
+		const std::string &newName)
 	{
-		// Renames an Object, quite a complex process actually... :P
+		// Renames an Object:
 		Object *o = getObject<Object>(name);
 
 		if (o)

@@ -7,25 +7,25 @@
 namespace kg
 {
 	template <typename T>
-	inline T min(const T &a, const T &b)
+	T kgmin(const T &a, const T &b)
 	{
 		return (a < b) ? a : b;
 	}
 
 	template <typename T>
-	inline T max(const T &a, const T &b)
+	T kgmax(const T &a, const T &b)
 	{
 		return (a > b) ? a : b;
 	}
 
 	template <typename T>
-	inline void abs(T &in)
+	void kgabs(T &in)
 	{
 		return (in < 0) ? (in * -1) : in;
 	}
 
 	template <typename T>
-	inline void clamp(T &in, const T &min, const T &max)
+	void clamp(T &in, const T &min, const T &max)
 	{
 		if (in > max)
 			in = max;
@@ -34,7 +34,7 @@ namespace kg
 	}
 
 	template <typename T>
-	inline void range(T &in, const T &min, const T &max)
+	void range(T &in, const T &min, const T &max)
 	{
 		T range = max - min;
 		while (in > max)
@@ -45,7 +45,7 @@ namespace kg
 	}
 
 	template <typename T>
-	inline T getRandom(const T &min, const T &max)
+	T getRandom(const T &min, const T &max)
 	{
 		// Generates a random type in the range given:
 		if (max < min)

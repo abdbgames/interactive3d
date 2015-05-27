@@ -19,12 +19,12 @@ namespace kg
 	struct Mesh : public BaseProperty
 	{
 		Mesh() : m_uvs_t(0), m_normals_t(0), m_verts_t(0), m_indices_t(0),
-			m_name(NULL), m_uvs(NULL), m_normals(NULL), m_verts(NULL),
+			m_uvs(NULL), m_normals(NULL), m_verts(NULL),
 			m_indices(NULL), m_renderType(KG_TRIS) {}
 		Mesh(const unsigned &uvs_size, const unsigned &normals_size,
 			const unsigned &verts_size, const unsigned &indices_size,
 			Vector2 **uvs, Vector3 **normals, Vector3 **verts,
-			Index **indices, const char *name,
+			Index **indices, const std::string &name,
 			const KG_MESH_MODE &renderType);
 
 		~Mesh();
@@ -32,8 +32,6 @@ namespace kg
 		void render();
 
 		unsigned m_uvs_t, m_normals_t, m_verts_t, m_indices_t;
-
-		char *m_name;
 
 		Vector2 **m_uvs;
 

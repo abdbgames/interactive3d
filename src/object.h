@@ -4,7 +4,7 @@
 #include "ObjectProperties.h"
 #include "KGConstants.h"
 
-#include <vector>
+#include <map>
 #include <algorithm>
 
 namespace kg
@@ -15,7 +15,7 @@ namespace kg
 	{
 		// Constructors:
 		Object();
-		Object(const char *name);
+		Object(const std::string &name);
 
 		// Destructor:
 		~Object();
@@ -23,20 +23,20 @@ namespace kg
 		// Methods:
 		void run();
 		void render();
-		void setName(const char *name);
+		void setName(const std::string &name);
 
-		bool addProperty(const char *name, BaseProperty *propertyType);
-		bool removeProperty(const char *name);
-		bool addChild(const char *name, Object *childObject);
-		bool removeChild(const char *name);
+		bool addProperty(const std::string &name, BaseProperty *propertyType);
+		bool removeProperty(const std::string &name);
+		bool addChild(const std::string &name, Object *childObject);
+		bool removeChild(const std::string &name);
 
-		const char *getName() { return m_name; }
-
-		template <typename T>
-		T *getProperty(const char *name);
+		const std::string &getName() { return m_name; }
 
 		template <typename T>
-		T *getChild(const char *name);
+		T *getProperty(const std::string &name);
+
+		template <typename T>
+		T *getChild(const std::string &name);
 
 		// Virtual Methods:
 		virtual void start() {}
@@ -47,9 +47,9 @@ namespace kg
 		void getSelf();
 
 		// Protected Members:
-		std::vector<BaseProperty*> properties;
+		std::map<std::string, BaseProperty*> properties;
 
-		char *m_name;
+		std::string m_name;
 
 		ObjectList *children;
 

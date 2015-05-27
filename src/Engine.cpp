@@ -5,6 +5,8 @@
 #include "Engine.h"
 #include "PlatformInclude.h"
 #include "Mesh.h"
+#include "Misc.h"
+#include "Keyboard.h"
 
 namespace kg
 {
@@ -18,6 +20,7 @@ namespace kg
 		m_drawAxis = false;
 		m_smoothShading = true;
 		m_drawTextures = true;
+		m_dirtyRendering = false;
 		m_drawNormals = false;
 		m_width = 1024;
 		m_height = 768;
@@ -50,28 +53,43 @@ namespace kg
 
 	void Engine::updateCallback()
 	{
+		// Check if program should be quit:
+		if (keyboardControl::poll(KGKey_q, KG_DOWN) ||
+			keyboardControl::poll(KGKey_Q, KG_DOWN) ||
+			keyboardControl::poll(KGKey_esc, KG_DOWN))
+			// Quit the program:
+			exit(EXIT_SUCCESS);
+
 		// Don't do anything if no current scene:
-		if (!get().m_currentScene) return;
+		if (!get().m_currentScene)
+			// Don't do anything for invalid input:
+			if (get().m_currentScene >= get().m_sceneList.size())
+				// Update current Scene:
+				get().m_sceneList[get().m_currentScene]->update();
 
-		// Don't do anything for invalid input:
-		if (get().m_currentScene >= get().m_sceneList.size()) return;
-
-		// Update current Scene:
-		get().m_sceneList[get().m_currentScene]->update();
+		// Draw callback:
+		glutPostRedisplay();
 	}
 
 	void Engine::renderCallback()
 	{
 		glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
 
+		// Clear screen:
+		if (!get().m_dirtyRendering)
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Render origin axis:
+		drawAxis(1.0f);
+
 		// Don't do anything if no current scene:
-		if (!get().m_currentScene) return;
+		if (!get().m_currentScene)
+			// Don't do anything for invalid input:
+			if (get().m_currentScene >= get().m_sceneList.size())
+				// Render current Scene:
+				get().m_sceneList[get().m_currentScene]->render();
 
-		// Don't do anything for invalid input:
-		if (get().m_currentScene >= get().m_sceneList.size()) return;
-
-		// Render current Scene:
-		get().m_sceneList[get().m_currentScene]->render();
+		glutSwapBuffers();
 
 		glPopAttrib();
 	}

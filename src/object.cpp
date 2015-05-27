@@ -15,13 +15,13 @@ namespace kg
 		// Constructor for all Objects:
 		children = new ObjectList;
 		self = NULL;
-		m_name = NULL;
+		m_name = "Not set";
 		m_transparent = false;
 		m_renderType = KG_HIDE;
 		m_lightType = KG_UNLIT;
 	}
 
-	Object::Object(const char *name)
+	Object::Object(const std::string &name)
 	{
 		// Constructor for all Objects:
 		children = new ObjectList;
@@ -34,18 +34,14 @@ namespace kg
 
 	Object::~Object()
 	{
-		// Destructor for all Objects:
-		for (unsigned i = 0; i < properties.size(); ++i)
-			if (properties[i])
-				delete properties[i];
-
-		properties.clear();
+		// Destructor for all Properties:
+		for (std::map<std::string, BaseProperty*>::iterator
+			i = properties.begin(); i != properties.end(); ++i)
+			if (i->second)
+				delete i->second;
 
 		if (children)
 			delete children;
-
-		if (m_name)
-			delete [] m_name;
 	}
 
 	void Object::getSelf()
@@ -55,21 +51,9 @@ namespace kg
 		self = this;
 	}
 
-	void Object::setName(const char *name)
+	void Object::setName(const std::string &name)
 	{
-		if (!name) return;
-
-		if (m_name)
-		{
-			delete[] m_name;
-			m_name = NULL;
-		}
-
-		size_t len = strlen(name);
-
-		m_name = new char[len];
-
-		strcpy_s(m_name, len-1, name);
+		m_name = name;
 	}
 
 	void Object::run()
@@ -83,9 +67,9 @@ namespace kg
 		self->update();
 
 		// Update Method for all Properties:
-		for (unsigned i = 0; i < properties.size(); ++i)
-			// Attempt to update all Object properties:
-			properties[i]->update();
+		for (std::map<std::string, BaseProperty*>::iterator
+			i = properties.begin(); i != properties.end(); ++i)
+			i->second->update();
 
 		children->update();
 	}
@@ -114,25 +98,25 @@ namespace kg
 		glPopMatrix();
 	}
 
-	bool Object::addProperty(const char *name, BaseProperty *propertyType)
+	bool Object::addProperty(const std::string &name,
+		BaseProperty *propertyType)
 	{
 		// Attaches a property to the Object:
 		BaseProperty *p = getProperty<BaseProperty>(name);
 
-		if (p == NULL)
+		if (!p)
 		{
-			properties.push_back(propertyType);
-			properties[properties.size() - 1]->setName(name);
+			properties.insert(std::pair<std::string, BaseProperty*>(name,
+				propertyType));
+			propertyType->setName(name);
 			return true;
 		}
-
-		p = NULL;
 
 		// Property never existed or could not be erased:
 		return false;
 	}
 
-	bool Object::removeProperty(const char *name)
+	bool Object::removeProperty(const std::string &name)
 	{
 		// Detaches a property from the Object:
 		BaseProperty *p = getProperty<BaseProperty>(name);
@@ -146,31 +130,28 @@ namespace kg
 		return false;
 	}
 
-	bool Object::addChild(const char *name, Object *childObject)
+	bool Object::addChild(const std::string &name, Object *childObject)
 	{
 		// Attaches a child Object to the Object:
-		return (children != NULL) ? children->addObject(name, childObject)
+		return (children) ? children->addObject(name, childObject)
 			: false;
 	}
 
-	bool Object::removeChild(const char *name)
+	bool Object::removeChild(const std::string &name)
 	{
 		// Detaches a child Object from the Object:
-		return (children != NULL) ? children->removeObject(name) : false;
+		return (children) ? children->removeObject(name) : false;
 	}
 
 	template <typename T>
-	T *Object::getProperty(const char *name)
+	T *Object::getProperty(const std::string &name)
 	{
-		// Checks if an Object property exists and return a pointer to it:
-		unsigned i = 0;
+		std::map<std::string, BaseProperty*>::iterator
+			i = properties.find(name);
+		
+		if (i == properties.end()) return NULL;
 
-		while (i < properties.size() && strcmp(name, properties[i]->getName())
-			!= 0)
-			++i;
-
-		return (i == properties.size()) ? NULL :
-			dynamic_cast<T*>(properties[i]);
+		return dynamic_cast<T*>(i->second);
 	}
 
 	template <typename T>
