@@ -32,62 +32,62 @@ namespace kg
 }
 
 // Operator overloading:
-const kg::Colour &operator +(const kg::Colour &a, const kg::Colour &b)
+kg::Colour operator +(const kg::Colour &a, const kg::Colour &b)
 {
 	return kg::Colour(a.r + b.r, a.g + b.g, a.b + b.b, a.a + b.a);
 }
 
-const kg::Colour &operator -(const kg::Colour &a, const kg::Colour &b)
+kg::Colour operator -(const kg::Colour &a, const kg::Colour &b)
 {
 	return kg::Colour(a.r - b.r, a.g - b.g, a.b - b.b, a.a - b.a);
 }
 
-const kg::Colour &operator *(const kg::Colour &a, const kg::Colour &b)
+kg::Colour operator *(const kg::Colour &a, const kg::Colour &b)
 {
 	return kg::Colour(a.r * b.r, a.g * b.g, a.b * b.b, a.a * b.a);
 }
 
-const kg::Colour &operator /(const kg::Colour &a, const kg::Colour &b)
+kg::Colour operator /(const kg::Colour &a, const kg::Colour &b)
 {
 	return kg::Colour(a.r / b.r, a.g / b.g, a.b / b.b, a.a / b.a);
 }
 
-const kg::Colour &operator +(const float &a, const kg::Colour &b)
+kg::Colour operator +(const float &a, const kg::Colour &b)
 {
 	return kg::Colour(a + b.r, a + b.g, a + b.b, a + b.a);
 }
 
-const kg::Colour &operator -(const float &a, const kg::Colour &b)
+kg::Colour operator -(const float &a, const kg::Colour &b)
 {
 	return kg::Colour(a - b.r, a - b.g, a - b.b, a - b.a);
 }
 
-const kg::Colour &operator *(const float &a, const kg::Colour &b)
+kg::Colour operator *(const float &a, const kg::Colour &b)
 {
 	return kg::Colour(a * b.r, a * b.g, a * b.b, a * b.a);
 }
 
-const kg::Colour &operator /(const float &a, const kg::Colour &b)
+kg::Colour operator /(const float &a, const kg::Colour &b)
 {
 	return kg::Colour(a / b.r, a / b.g, a / b.b, a / b.a);
 }
 
-const kg::Colour &operator +(const kg::Colour &a, const float &b)
+kg::Colour operator +(const kg::Colour &a, const float &b)
 {
 	return kg::Colour(a.r + b, a.g + b, a.b + b, a.a + b);
 }
 
-const kg::Colour &operator -(const kg::Colour &a, const float &b)
+kg::Colour operator -(const kg::Colour &a, const float &b)
 {
 	return kg::Colour(a.r - b, a.g - b, a.b - b, a.a - b);
 }
 
-const kg::Colour &operator *(const kg::Colour &a, const float &b)
+kg::Colour operator *(const kg::Colour &a, const float &b)
 {
 	return kg::Colour(a.r * b, a.g * b, a.b * b, a.a * b);
 }
 
-const kg::Colour &operator /(const kg::Colour &a, const float &b)
+kg::Colour operator /(const kg::Colour &a, const float &b)
 {
 	return kg::Colour(a.r / b, a.g / b, a.b / b, a.a / b);
 }

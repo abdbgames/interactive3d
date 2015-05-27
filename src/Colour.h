@@ -26,17 +26,17 @@ namespace kg
 	};
 }
 
-const kg::Colour &operator +(const kg::Colour &a, const kg::Colour &b);
-const kg::Colour &operator -(const kg::Colour &a, const kg::Colour &b);
-const kg::Colour &operator *(const kg::Colour &a, const kg::Colour &b);
-const kg::Colour &operator /(const kg::Colour &a, const kg::Colour &b);
-const kg::Colour &operator +(const float &a, const kg::Colour &b);
-const kg::Colour &operator -(const float &a, const kg::Colour &b);
-const kg::Colour &operator *(const float &a, const kg::Colour &b);
-const kg::Colour &operator /(const float &a, const kg::Colour &b);
-const kg::Colour &operator +(const kg::Colour &a, const float &b);
-const kg::Colour &operator -(const kg::Colour &a, const float &b);
-const kg::Colour &operator *(const kg::Colour &a, const float &b);
-const kg::Colour &operator /(const kg::Colour &a, const float &b);
+kg::Colour operator +(const kg::Colour &a, const kg::Colour &b);
+kg::Colour operator -(const kg::Colour &a, const kg::Colour &b);
+kg::Colour operator *(const kg::Colour &a, const kg::Colour &b);
+kg::Colour operator /(const kg::Colour &a, const kg::Colour &b);
+kg::Colour operator +(const float &a, const kg::Colour &b);
+kg::Colour operator -(const float &a, const kg::Colour &b);
+kg::Colour operator *(const float &a, const kg::Colour &b);
+kg::Colour operator /(const float &a, const kg::Colour &b);
+kg::Colour operator +(const kg::Colour &a, const float &b);
+kg::Colour operator -(const kg::Colour &a, const float &b);
+kg::Colour operator *(const kg::Colour &a, const float &b);
+kg::Colour operator /(const kg::Colour &a, const float &b);
 
 #endif /* colour_h */

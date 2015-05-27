@@ -27,8 +27,9 @@ namespace kg
 
 		bool addProperty(const std::string &name, BaseProperty *propertyType);
 		bool removeProperty(const std::string &name);
-		bool addChild(const std::string &name, Object *childObject);
 		bool removeChild(const std::string &name);
+
+		Object *addChild(const std::string &name, Object *childObject);
 
 		const std::string &getName() { return m_name; }
 

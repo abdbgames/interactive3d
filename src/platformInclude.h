@@ -6,15 +6,6 @@
 #else
 #include <math.h>
 #include <string.h>
-
-namespace kg
-{
-	inline char* strcpy_s(char *in, const size_t &len, const char *cp)
-	{
-		return strcpy(in, cp);
-	}
-}
-
 #endif /* _WIN32 */
 #include <cstdlib>
 #if __APPLE__

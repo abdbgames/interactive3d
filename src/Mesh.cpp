@@ -127,10 +127,10 @@ namespace kg
 		r->m_indices_t = 0;
 		r->m_normals_t = 1;
 
-		for (int i = 0; i < rows - 1; ++i)
+		for (unsigned i = 0; i < rows - 1; ++i)
 		{
 			if (i != 0) ++r->m_indices_t;
-			for (int j = 0; j < columns; ++j)
+			for (unsigned j = 0; j < columns; ++j)
 				r->m_indices_t += 2;
 			if (i != rows - 2) ++r->m_indices_t;
 		}
@@ -150,11 +150,11 @@ namespace kg
 		float s;
 
 		// Build a grid of vertex m_points:
-		for (int i = 0; i < rows; ++i)
+		for (unsigned i = 0; i < rows; ++i)
 		{
 			s = (float)i / (float)rows;
 
-			for (int j = 0; j < columns; ++j)
+			for (unsigned j = 0; j < columns; ++j)
 			{
 				id = j + (i * rows);
 				r->m_verts[id] = new Vector3((scale.x * (float)j), 0.0f,
@@ -167,7 +167,7 @@ namespace kg
 
 		// Build an index list to access those vertcies in an order to make a
 		// valid triangle strip:
-		for (int i = 0; i < rows - 1; ++i)
+		for (unsigned i = 0; i < rows - 1; ++i)
 		{
 			if (i != 0)
 			{
@@ -175,7 +175,7 @@ namespace kg
 				r->m_indices[back++] = new Index(id, 0, id);
 			}
 
-			for (int j = 0; j < columns; ++j)
+			for (unsigned j = 0; j < columns; ++j)
 			{
 				id = i * columns + j;
 				r->m_indices[back++] = new Index(id, 0, id);

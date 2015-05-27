@@ -130,11 +130,11 @@ namespace kg
 		return false;
 	}
 
-	bool Object::addChild(const std::string &name, Object *childObject)
+	Object *Object::addChild(const std::string &name, Object *childObject)
 	{
 		// Attaches a child Object to the Object:
 		return (children) ? children->addObject(name, childObject)
-			: false;
+			: NULL;
 	}
 
 	bool Object::removeChild(const std::string &name)
@@ -155,7 +155,7 @@ namespace kg
 	}
 
 	template <typename T>
-	T *Object::getChild(const char *name)
+	T *Object::getChild(const std::string &name)
 	{
 		return children->getObject<T>(name);
 	}

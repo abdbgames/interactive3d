@@ -65,12 +65,9 @@ namespace kg
 	T *ObjectList::getObject(const std::string &name)
 	{
 		// Finds and returns an instance of an Object:
-		unsigned i = 0;
+		std::map<std::string, Object*>::iterator i = objects.find(name);
 
-		while (i < objects.size() && strcmp(name, objects[i]->getName()) != 0)
-			++i;
-
-		return (i == objects.size()) ? NULL : dynamic_cast<T*>(objects[i]);
+		return (i == objects.end()) ? NULL : dynamic_cast<T*>(i->second);
 	}
 
 	bool ObjectList::renameObject(const std::string &name,
