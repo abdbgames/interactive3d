@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="colour.h" />
     <ClInclude Include="engine.h" />
+    <ClInclude Include="frog.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="kgConstants.h" />
     <ClInclude Include="material.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="objectProperties.cpp" />
     <ClCompile Include="platformInclude.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="transform.cpp" />
     <ClCompile Include="vectors.cpp" />
   </ItemGroup>
   <ItemGroup>

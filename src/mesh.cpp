@@ -49,12 +49,12 @@ namespace kg
 		}
 
 		if (m_indices)
-		{/* TODO FIX FIX FIX!!!!!!!!!!!!!!!!!!!!!!!!?????????!?!?!?!?!?!?
+		{
 			for (unsigned i = 0; i < m_indices_t; ++i)
 				if (m_indices[i])
 					delete m_indices[i];
 
-			delete [] m_indices;*/
+			delete [] m_indices;
 		}
 	}
 
@@ -136,8 +136,6 @@ namespace kg
 				r->m_indices_t += 2;
 			if (i != rows - 2) ++r->m_indices_t;
 		}
-
-		++r->m_indices_t;
 
 		r->m_uvs = new Vector2*[r->m_uvs_t];
 		r->m_verts = new Vector3*[r->m_verts_t];
@@ -347,8 +345,9 @@ namespace kg
 		m->setName(name);
 	}
 	
-	bool MeshTable::canFind(const std::string &name)
+	Mesh *MeshTable::find(const std::string &name)
 	{
-		return (m_list.find(name) == m_list.end());
+		std::map<std::string, Mesh*>::iterator i = m_list.find(name);
+		return (i == m_list.end()) ? NULL : i->second;
 	}
 }

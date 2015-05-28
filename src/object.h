@@ -5,6 +5,7 @@
 #include "kgConstants.h"
 #include "mesh.h"
 #include "material.h"
+#include "transform.h"
 
 #include <map>
 #include <algorithm>
@@ -70,6 +71,10 @@ namespace kg
 		BasicMaterial *m_mat;
 
 		Mesh *m_mesh;
+
+		Transform *m_transform;
+
+		Transform2D *m_transform2D;
 	};
 }
 

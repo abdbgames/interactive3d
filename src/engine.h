@@ -13,7 +13,6 @@ namespace kg
 		static void updateCallback();
 		static void renderCallback();
 		static void resizeCallback(int w, int h);
-		static void quit();
 		static void toggleDrawAxis();
 		static void toggleDrawTextures();
 		static void toggleSmoothShading();
@@ -43,6 +42,7 @@ namespace kg
 		static unsigned pushScene(Scene *s, const bool &setCurrent);
 
 		static float getAspect() { return get().m_aspect; }
+		static float getDeltaTime() { return get().m_dt; }
 
 	private:
 		Engine();
@@ -59,7 +59,7 @@ namespace kg
 
 		unsigned m_width, m_height, m_currentScene;
 
-		float m_aspect;
+		float m_aspect, m_dt;
 
 		std::vector<Scene*> m_sceneList;
 

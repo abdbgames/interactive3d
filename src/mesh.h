@@ -59,7 +59,7 @@ namespace kg
 		static void cleanup();
 		static void pushMesh(const std::string &name, Mesh *m);
 
-		static bool canFind(const std::string &name);
+		static Mesh *find(const std::string &name);
 
 	private:
 		static std::map<std::string, Mesh*> m_list;

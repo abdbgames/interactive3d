@@ -42,6 +42,11 @@ namespace kg
 		// Delete Scenes:
 		for (unsigned i = 0; i < m_sceneList.size(); ++i)
 			delete m_sceneList[i];
+
+		// Cleanup:
+		MeshTable::cleanup();
+
+		exit(EXIT_SUCCESS);
 	}
 
 	Engine &Engine::get()
@@ -53,11 +58,22 @@ namespace kg
 
 	void Engine::updateCallback()
 	{
+		// Update delta time:
+		static int t1 = -1;
+
+		if (t1 == -1)
+			t1 = glutGet(GLUT_ELAPSED_TIME);
+
+		int t2 = glutGet(GLUT_ELAPSED_TIME);
+
+		get().m_dt = (t2 - t1) / 1000.0f;
+
+		t1 = t2;
+
 		// Check if program should be quit:
 		if (keyboardControl::poll(KGKey_q, KG_DOWN) ||
 			keyboardControl::poll(KGKey_Q, KG_DOWN) ||
 			keyboardControl::poll(KGKey_esc, KG_DOWN))
-			// Quit the program:
 			exit(EXIT_SUCCESS);
 
 		// Don't do anything if no current scene:
@@ -103,13 +119,6 @@ namespace kg
 
 		// Reset viewport:
 		glViewport(0, 0, w, h);
-	}
-	
-	void Engine::quit()
-	{
-		MeshTable::cleanup();
-
-		exit(EXIT_SUCCESS);
 	}
 
 	void Engine::setDrawMode(const KG_DRAW_MODE &dm)
