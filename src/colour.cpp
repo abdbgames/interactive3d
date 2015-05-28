@@ -1,5 +1,5 @@
-#include "Colour.h"
-#include "Misc.h"
+#include "colour.h"
+#include "misc.h"
 
 namespace kg
 {

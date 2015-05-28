@@ -4,9 +4,9 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "PlatformInclude.h"
-#include "Misc.h"
-#include "Engine.h"
+#include "platformInclude.h"
+#include "misc.h"
+#include "engine.h"
 
 namespace kg
 {

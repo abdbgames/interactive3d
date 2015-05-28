@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "KGConstants.h"
-#include "Scene.h"
+#include "kgConstants.h"
+#include "scene.h"
 
 namespace kg
 {

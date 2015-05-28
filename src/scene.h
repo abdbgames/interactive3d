@@ -1,7 +1,7 @@
 #ifndef scene_h
 #define scene_h
 
-#include "ObjectList.h"
+#include "objectList.h"
 
 namespace kg
 {

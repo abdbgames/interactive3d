@@ -1,8 +1,8 @@
 #ifndef material_h
 #define material_h
 
-#include "ObjectProperties.h"
-#include "Colour.h"
+#include "objectProperties.h"
+#include "colour.h"
 
 namespace kg
 {
@@ -35,6 +35,8 @@ namespace kg
 		void setSpecular(const Colour &specular) { m_specular = specular; }
 		void setShininess(const float &shininess) { m_shininess = shininess; }
 		void render();
+		
+		static BasicMaterial *getFromFile(const char *fname);
 
 	private:
 		Colour m_ambient, m_diffuse, m_specular;
@@ -46,3 +48,4 @@ namespace kg
 }
 
 #endif /* material_h */
+

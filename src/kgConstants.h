@@ -126,6 +126,17 @@ namespace kg
 		KG_QUADS,
 		KG_QUAD_STRIP,
 	};
+	
+	// Material file read mode:
+	enum KG_MATFILE_READ_MODE
+	{
+		KG_NAME,
+		KG_NEW,
+		KG_AMBIENT,
+		KG_DIFFUSE,
+		KG_SPECULAR,
+		KG_SHININESS,
+	};
 }
 
 #endif /* KGConstants_h */

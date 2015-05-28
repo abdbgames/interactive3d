@@ -1,7 +1,7 @@
 #ifndef objectList_h
 #define objectList_h
 
-#include "Object.h"
+#include "object.h"
 
 namespace kg
 {

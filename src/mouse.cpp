@@ -1,5 +1,5 @@
-#include "Mouse.h"
-#include "PlatformInclude.h"
+#include "mouse.h"
+#include "platformInclude.h"
 
 namespace kg
 {

@@ -2,7 +2,7 @@
 #define keyboard_h
 
 #include "platformInclude.h"
-#include "KGConstants.h"
+#include "kgConstants.h"
 
 #include <vector>
 

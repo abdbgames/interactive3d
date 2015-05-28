@@ -1,7 +1,7 @@
-#include "PlatformInclude.h"
-#include "Engine.h"
-#include "Keyboard.h"
-#include "Mouse.h"
+#include "platformInclude.h"
+#include "engine.h"
+#include "keyboard.h"
+#include "mouse.h"
 
 namespace kg
 {

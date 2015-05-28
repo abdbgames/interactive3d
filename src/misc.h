@@ -1,8 +1,8 @@
 #ifndef misc_h
 #define misc_h
 
-#include "PlatformInclude.h"
-#include "Vectors.h"
+#include "platformInclude.h"
+#include "vectors.h"
 
 namespace kg
 {

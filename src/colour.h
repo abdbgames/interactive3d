@@ -1,7 +1,7 @@
 #ifndef colour_h
 #define colour_h
 
-#include "PlatformInclude.h"
+#include "platformInclude.h"
 
 // NOTE: Down to personal prefrence, I like to spell colour properly ;)
 

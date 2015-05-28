@@ -4,9 +4,9 @@
 #include <map>
 #include <string>
 
-#include "ObjectProperties.h"
-#include "Vectors.h"
-#include "KGConstants.h"
+#include "objectProperties.h"
+#include "vectors.h"
+#include "kgConstants.h"
 
 namespace kg
 {

@@ -1,8 +1,8 @@
 #ifndef object_h
 #define object_h
 
-#include "ObjectProperties.h"
-#include "KGConstants.h"
+#include "objectProperties.h"
+#include "kgConstants.h"
 
 #include <map>
 #include <algorithm>
@@ -18,7 +18,7 @@ namespace kg
 		Object(const std::string &name);
 
 		// Destructor:
-		~Object();
+		virtual ~Object();
 
 		// Methods:
 		void run();

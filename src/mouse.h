@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "KGConstants.h"
+#include "kgConstants.h"
 
 namespace kg
 {

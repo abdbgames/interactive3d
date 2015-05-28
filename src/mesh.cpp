@@ -1,7 +1,9 @@
-#include "Mesh.h"
-#include "PlatformInclude.h"
-#include "Engine.h"
-#include "Misc.h"
+#include <cstdio>
+
+#include "mesh.h"
+#include "platformInclude.h"
+#include "engine.h"
+#include "misc.h"
 
 namespace kg
 {

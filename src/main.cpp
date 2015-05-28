@@ -1,8 +1,8 @@
 #include <cstdio>
 
-#include "Engine.h"
-#include "PlatformInclude.h"
-#include "Mesh.h"
+#include "engine.h"
+#include "platformInclude.h"
+#include "mesh.h"
 
 int main(int argc, char **argv)
 {

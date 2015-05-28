@@ -1,10 +1,10 @@
 #include <cstdlib>
 #include <string>
 
-#include "Object.h"
-#include "ObjectList.h"
-#include "PlatformInclude.h"
-#include "Engine.h"
+#include "object.h"
+#include "objectList.h"
+#include "platformInclude.h"
+#include "engine.h"
 
 bool checknullptr(kg::BaseProperty *in) { return (in == NULL); }
 

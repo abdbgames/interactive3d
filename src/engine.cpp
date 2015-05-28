@@ -2,11 +2,11 @@
 #include <time.h>
 #include <cstdio>
 
-#include "Engine.h"
-#include "PlatformInclude.h"
-#include "Mesh.h"
-#include "Misc.h"
-#include "Keyboard.h"
+#include "engine.h"
+#include "platformInclude.h"
+#include "mesh.h"
+#include "misc.h"
+#include "keyboard.h"
 
 namespace kg
 {

@@ -1,4 +1,4 @@
-#include "ObjectProperties.h"
+#include "objectProperties.h"
 
 namespace kg
 {

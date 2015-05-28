@@ -1,9 +1,9 @@
 #ifndef objectProperties_h
 #define objectProperties_h
 
-#define NULL 0
-
 #include <string>
+
+#include "platformInclude.h"
 
 namespace kg
 {
@@ -12,9 +12,8 @@ namespace kg
 		// Constructors:
 		BaseProperty() : m_name("Not set") {}
 		BaseProperty(const std::string &name);
-
-		// Desrtuctor:
-		~BaseProperty() {}
+		
+		virtual ~BaseProperty() {}
 
 		// Virtual Methods:
 		virtual void update() {}
