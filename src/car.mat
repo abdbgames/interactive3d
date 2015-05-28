@@ -1,0 +1,7 @@
+carbody
+{
+	specular = { 1.0f , 0.4f , 0.4f }
+	ambient = red
+	diffuse = red
+	shininess = 150
+}

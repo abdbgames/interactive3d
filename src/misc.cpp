@@ -10,6 +10,36 @@
 
 namespace kg
 {
+	float lerpf(const float &from, const float &to, const float &delta)
+	{
+		// Safe lerp:
+		return (1.0f - delta) * from + delta * to;
+	}
+
+	float degToRad(const float &in)
+	{
+		// Returns the angle in degrees converted to radians:
+		return in / (KG_PI / 180.0f);
+	}
+
+	float radToDeg(const float &in)
+	{
+		// Returns the angle in radians converted to degrees:
+		return in * (180.0f / KG_PI);
+	}
+
+	void clampDeg(float &in)
+	{
+		// Clamps variable between 0 and 360 degrees:
+		clamp(in, 0.0f, 360.0f);
+	}
+
+	void clampRad(float &in)
+	{
+		// Clamps variable between 0 and 360 degrees as radians:
+		clamp(in, 0.0f, (float)(KG_PI * 2.0f));
+	}
+
 	void drawAxis(const Vector3 &pos, const float &size)
 	{
 		// If axis drawing is disabled, son't worry about this call:

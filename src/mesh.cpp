@@ -49,12 +49,12 @@ namespace kg
 		}
 
 		if (m_indices)
-		{
+		{/* TODO FIX FIX FIX!!!!!!!!!!!!!!!!!!!!!!!!?????????!?!?!?!?!?!?
 			for (unsigned i = 0; i < m_indices_t; ++i)
 				if (m_indices[i])
 					delete m_indices[i];
 
-			delete [] m_indices;
+			delete [] m_indices;*/
 		}
 	}
 

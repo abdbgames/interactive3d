@@ -21,6 +21,8 @@ namespace kg
 			m_diffuse(diffuse), m_specular(specular),
 			m_shininess(shininess), m_textureID(new unsigned(textureID)) {}
 
+		~BasicMaterial();
+
 		const Colour &getAmbient() { return m_ambient; }
 		const Colour &getDiffuse() { return m_diffuse; }
 		const Colour &getSpecular() { return m_specular; }
@@ -30,10 +32,13 @@ namespace kg
 		const float *getDiffuseArray() { return m_diffuse.getArray(); }
 		const float *getSpecularArray() { return m_specular.getArray(); }
 
+		const unsigned *getTextureID() { return m_textureID; }
+
 		void setAmbient(const Colour &ambient) { m_ambient = ambient; }
 		void setDiffuse(const Colour &diffuse) { m_diffuse = diffuse; }
 		void setSpecular(const Colour &specular) { m_specular = specular; }
 		void setShininess(const float &shininess) { m_shininess = shininess; }
+		void setTextureID(unsigned *id) { m_textureID = id; }
 		void render();
 		
 		static BasicMaterial *getFromFile(const char *fname);
@@ -48,4 +53,3 @@ namespace kg
 }
 
 #endif /* material_h */
-

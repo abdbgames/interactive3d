@@ -4,6 +4,7 @@
 
 #include "material.h"
 #include "kgConstants.h"
+#include "misc.h"
 
 namespace kg
 {
@@ -19,6 +20,12 @@ namespace kg
 		// Bind texture if possible:
 		if (m_textureID)
 			glBindTexture(GL_TEXTURE_2D, *m_textureID);
+	}
+
+	BasicMaterial::~BasicMaterial()
+	{
+		if (m_textureID)
+			delete m_textureID;
 	}
 	
 	Colour getColour(const std::string &n, std::ifstream &file)
@@ -37,6 +44,9 @@ namespace kg
 				if (file.eof())
 					return Colour::White;
 				
+				if (nn == ",")
+					continue;
+
 				if (nn == "}")
 					return c;
 				
@@ -158,6 +168,8 @@ namespace kg
 					rm = KG_SPECULAR;
 				else if (n == "shininess")
 					rm = KG_SHININESS;
+				else if (n == "texture")
+					rm = KG_TEXTURE;
 				else
 				{
 					printf("Unexpected format given.\n"
@@ -170,16 +182,24 @@ namespace kg
 				break;
 			case KG_AMBIENT:
 				m->setAmbient(getColour(n, file));
+				rm = KG_NEW;
 				break;
 			case KG_DIFFUSE:
 				m->setDiffuse(getColour(n, file));
+				rm = KG_NEW;
 				break;
 			case KG_SPECULAR:
 				m->setSpecular(getColour(n, file));
+				rm = KG_NEW;
 				break;
 			case KG_SHININESS:
 				s = std::stof(n);
 				m->setShininess(s);
+				rm = KG_NEW;
+				break;
+			case KG_TEXTURE:
+				m->setTextureID(new unsigned(loadTexture(n.c_str())));
+				rm = KG_NEW;
 				break;
 			default:
 				printf("Undefined case reading: %s\n", fname);

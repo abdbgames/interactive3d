@@ -3,6 +3,7 @@
 #include "engine.h"
 #include "platformInclude.h"
 #include "mesh.h"
+#include "material.h"
 
 int main(int argc, char **argv)
 {
@@ -16,10 +17,11 @@ int main(int argc, char **argv)
 		new kg::Object());
 
 	// TODO mesh table:
-	floor->addProperty("FloorMesh", kg::Mesh::constructPlane(100, 100));
+	floor->addProperty("Mesh", kg::Mesh::constructPlane(40, 40), true);
+	floor->addProperty("Material", kg::BasicMaterial::getFromFile("car.mat"),
+		true);
 
 	printf("Starting main loop...\n");
-
 	glutMainLoop();
 
 	kg::Engine::quit();

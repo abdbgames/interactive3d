@@ -136,6 +136,7 @@ namespace kg
 		KG_DIFFUSE,
 		KG_SPECULAR,
 		KG_SHININESS,
+		KG_TEXTURE,
 	};
 }
 

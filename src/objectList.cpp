@@ -47,13 +47,26 @@ namespace kg
 		return NULL;
 	}
 
-	bool ObjectList::removeObject(const std::string &name)
+	bool ObjectList::deleteObject(const std::string &name)
 	{
 		std::map<std::string, Object*>::iterator i = objects.find(name);
 
 		if (i == objects.end()) return false;
 
 		delete i->second;
+		i->second = NULL; // Just to be thread safe in future mainly...
+
+		objects.erase(i);
+
+		return true;
+	}
+
+	bool ObjectList::detachObject(const std::string &name)
+	{
+		std::map<std::string, Object*>::iterator i = objects.find(name);
+
+		if (i == objects.end()) return false;
+
 		i->second = NULL; // Just to be thread safe in future mainly...
 
 		objects.erase(i);

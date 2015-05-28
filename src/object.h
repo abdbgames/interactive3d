@@ -3,6 +3,8 @@
 
 #include "objectProperties.h"
 #include "kgConstants.h"
+#include "mesh.h"
+#include "material.h"
 
 #include <map>
 #include <algorithm>
@@ -25,9 +27,11 @@ namespace kg
 		void render();
 		void setName(const std::string &name);
 
-		bool addProperty(const std::string &name, BaseProperty *propertyType);
+		bool addProperty(const std::string &name, BaseProperty *propertyType,
+			const bool &attemptDepend);
 		bool removeProperty(const std::string &name);
-		bool removeChild(const std::string &name);
+		bool deleteChild(const std::string &name);
+		bool detachChild(const std::string &name);
 
 		Object *addChild(const std::string &name, Object *childObject);
 
@@ -61,6 +65,11 @@ namespace kg
 		KG_LIGHT_MODE m_lightType;
 
 		bool m_transparent;
+
+		// Possible dependencies:
+		BasicMaterial *m_mat;
+
+		Mesh *m_mesh;
 	};
 }
 

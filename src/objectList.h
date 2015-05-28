@@ -15,7 +15,8 @@ namespace kg
 		void render();
 
 		Object *addObject(const std::string &name, Object *object);
-		bool removeObject(const std::string &name);
+		bool deleteObject(const std::string &name);
+		bool detachObject(const std::string &name);
 		bool renameObject(const std::string &name, const std::string &newName);
 
 		template <typename T>

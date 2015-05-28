@@ -15,6 +15,8 @@ namespace kg
 		// Constructor for all Objects:
 		children = new ObjectList;
 		self = NULL;
+		m_mat = NULL;
+		m_mesh = NULL;
 		m_name = "Not set";
 		m_transparent = false;
 		m_renderType = KG_HIDE;
@@ -26,6 +28,8 @@ namespace kg
 		// Constructor for all Objects:
 		children = new ObjectList;
 		self = NULL;
+		m_mat = NULL;
+		m_mesh = NULL;
 		m_renderType = KG_HIDE;
 		m_lightType = KG_UNLIT;
 		m_transparent = false;
@@ -99,17 +103,39 @@ namespace kg
 	}
 
 	bool Object::addProperty(const std::string &name,
-		BaseProperty *propertyType)
+		BaseProperty *propertyType, const bool &attemptDepend)
 	{
 		// Attaches a property to the Object:
 		BaseProperty *p = getProperty<BaseProperty>(name);
+
+		bool set = false;
 
 		if (!p)
 		{
 			properties.insert(std::pair<std::string, BaseProperty*>(name,
 				propertyType));
 			propertyType->setName(name);
-			return true;
+			set = true;
+		}
+
+		if (set && attemptDepend)
+		{
+			/* Attempt to put new property into dependency slot.
+			Note that although std::string comparisons are O log(N) complexity
+			I will be looking into string to intiger hashing to speed
+			up this process (and other kge string lookups) in the future. */
+
+			if (name == "Material")
+			{
+				m_mat = dynamic_cast<BasicMaterial*>(propertyType);
+				return true;
+			}
+			if (name == "Mesh")
+			{
+				m_mesh = dynamic_cast<Mesh*>(propertyType);
+				return true;
+			}
+
 		}
 
 		// Property never existed or could not be erased:
@@ -137,10 +163,16 @@ namespace kg
 			: NULL;
 	}
 
-	bool Object::removeChild(const std::string &name)
+	bool Object::deleteChild(const std::string &name)
 	{
 		// Detaches a child Object from the Object:
-		return (children) ? children->removeObject(name) : false;
+		return (children) ? children->deleteObject(name) : false;
+	}
+
+	bool Object::detachChild(const std::string &name)
+	{
+		// Detaches a child Object from the Object:
+		return (children) ? children->deleteObject(name) : false;
 	}
 
 	template <typename T>
