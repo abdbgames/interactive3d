@@ -238,10 +238,6 @@ namespace kg
 
 	Scene *Engine::getCurrentScene()
 	{
-		// Return NULL if no current scene:
-		if (!get().m_currentScene)
-			return NULL;
-
 		// Return NULL for invalid input:
 		if (get().m_currentScene >= get().m_sceneList.size())
 			return NULL;
