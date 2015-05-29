@@ -10,7 +10,7 @@ namespace kg
 	struct BaseProperty
 	{
 		// Constructors:
-		BaseProperty() : m_name("Not set") {}
+		BaseProperty() : m_name("Not set"), canDelete(true) {}
 		BaseProperty(const std::string &name);
 		
 		virtual ~BaseProperty() {}
@@ -22,6 +22,8 @@ namespace kg
 		void setName(const std::string &name);
 
 		const std::string &getName() { return m_name; }
+		
+		bool canDelete;
 
 	protected:
 		// Protected Methods:

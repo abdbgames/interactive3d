@@ -40,3 +40,4 @@ kg::Colour operator *(const kg::Colour &a, const float &b);
 kg::Colour operator /(const kg::Colour &a, const float &b);
 
 #endif /* colour_h */
+

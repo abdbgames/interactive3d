@@ -24,3 +24,4 @@ int main(int argc, char **argv)
 	printf("Starting main loop...\n");
 	glutMainLoop();
 }
+

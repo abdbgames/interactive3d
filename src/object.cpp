@@ -41,7 +41,7 @@ namespace kg
 		// Destructor for all Properties:
 		for (std::map<std::string, BaseProperty*>::iterator
 			i = properties.begin(); i != properties.end(); ++i)
-			if (i->second)
+			if (i->second && i->second->canDelete)
 				delete i->second;
 
 		if (children)
@@ -105,6 +105,10 @@ namespace kg
 	bool Object::addProperty(const std::string &name,
 		BaseProperty *propertyType, const bool &attemptDepend)
 	{
+		// If property is NULL, return not added:
+		if (!propertyType)
+			return false;
+	
 		// Attaches a property to the Object:
 		BaseProperty *p = getProperty<BaseProperty>(name);
 
@@ -147,7 +151,7 @@ namespace kg
 		// Detaches a property from the Object:
 		BaseProperty *p = getProperty<BaseProperty>(name);
 
-		if (p)
+		if (p && p->canDelete)
 			delete p;
 
 		p = NULL;
@@ -192,3 +196,4 @@ namespace kg
 		return children->getObject<T>(name);
 	}
 }
+

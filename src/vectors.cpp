@@ -27,7 +27,7 @@ namespace kg
 
 	float Vector2::getMagnitude()
 	{
-		return sqrtf((x*x) + (y*y));
+		return sqrtf((x * x) + (y * y));
 	}
 
 	float Vector2::getDistance(const Vector2 &a, const Vector2 &b)
@@ -47,7 +47,7 @@ namespace kg
 
 	float Vector2::getDotProduct(const Vector2 &a, const Vector2 &b)
 	{
-		return (a.x*b.x) + (a.y*b.y);
+		return (a.x * b.x) + (a.y * b.y);
 	}
 
 	void Vector3::normalise()
@@ -60,7 +60,7 @@ namespace kg
 
 	float Vector3::getMagnitude()
 	{
-		return sqrtf((x*x) + (y*y) + (z*z));
+		return sqrtf((x * x) + (y * y) + (z * z));
 	}
 
 	float Vector3::getDistance(const Vector3 &a, const Vector3 &b)
@@ -216,3 +216,4 @@ kg::Vector3 operator /(const kg::Vector3 &a, const float &b)
 {
 	return kg::Vector3(a.x / b, a.y / b, a.z / b);
 }
+

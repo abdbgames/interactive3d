@@ -50,3 +50,4 @@ namespace kg
 			glRotatef(radToDeg(m_rot.z), 0.0f, 0.0f, 1.0f);
 	}
 }
+

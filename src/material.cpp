@@ -53,16 +53,16 @@ namespace kg
 				switch (upTo)
 				{
 				case 0:
-					c.r = std::stof(nn);
+					c.r = atof(nn.c_str());
 					break;
 				case 1:
-					c.g = std::stof(nn);
+					c.g = atof(nn.c_str());
 					break;
 				case 2:
-					c.b = std::stof(nn);
+					c.b = atof(nn.c_str());
 					break;
 				case 3:
-					c.a = std::stof(nn);
+					c.a = atof(nn.c_str());
 					break;
 				default:
 					printf("Unexpected input: %s", nn.c_str());
@@ -193,7 +193,7 @@ namespace kg
 				rm = KG_NEW;
 				break;
 			case KG_SHININESS:
-				s = std::stof(n);
+				s = atof(n.c_str());
 				m->setShininess(s);
 				rm = KG_NEW;
 				break;

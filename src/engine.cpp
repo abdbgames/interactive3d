@@ -267,3 +267,4 @@ namespace kg
 		glShadeModel((m_smoothShading) ? GL_SMOOTH : GL_FLAT);
 	}
 }
+

@@ -91,3 +91,4 @@ kg::Colour operator /(const kg::Colour &a, const float &b)
 {
 	return kg::Colour(a.r / b, a.g / b, a.b / b, a.a / b);
 }
+

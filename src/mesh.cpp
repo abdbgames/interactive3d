@@ -332,12 +332,15 @@ namespace kg
 
 	void MeshTable::pushMesh(const std::string &name, Mesh *m)
 	{
+		if (!m) return;
+	
 		std::map<std::string, Mesh*>::iterator i = m_list.find(name);
 		
 		if (i != m_list.end())
 		{
 			delete i->second;
 			i->second = m;
+			i->second->canDelete = false;
 		}
 		else
 			m_list.insert(std::pair<std::string, Mesh*>(name, m));
@@ -351,3 +354,4 @@ namespace kg
 		return (i == m_list.end()) ? NULL : i->second;
 	}
 }
+
