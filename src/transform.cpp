@@ -15,12 +15,12 @@ namespace kg
 
 	void Transform2D::glStuff()
 	{
-		glScalef(m_scale.x, m_scale.y, 1.0f);
-
 		glTranslatef(m_pos.x, m_pos.y, 0.0f);
 
 		if (!m_freezeAngle)
 			glRotatef(radToDeg(m_angle), 1.0f, 0.0f, 0.0f);
+
+		glScalef(m_scale.x, m_scale.y, 1.0f);
 	}
 
 	void Transform::update()
@@ -38,8 +38,6 @@ namespace kg
 
 	void Transform::glStuff()
 	{
-		glScalef(m_scale.x, m_scale.y, m_scale.z);
-
 		glTranslatef(m_pos.x, m_pos.y, m_pos.z);
 
 		if (!m_freezeRotX)
@@ -48,6 +46,7 @@ namespace kg
 			glRotatef(radToDeg(m_rot.y), 0.0f, 1.0f, 0.0f);
 		if (!m_freezeRotZ)
 			glRotatef(radToDeg(m_rot.z), 0.0f, 0.0f, 1.0f);
+
+		glScalef(m_scale.x, m_scale.y, m_scale.z);
 	}
 }
-

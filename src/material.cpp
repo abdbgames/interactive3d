@@ -19,7 +19,10 @@ namespace kg
 
 		// Bind texture if possible:
 		if (m_textureID)
+		{
+			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, *m_textureID);
+		}
 	}
 
 	BasicMaterial::~BasicMaterial()
@@ -213,4 +216,3 @@ namespace kg
 		return m;
 	}
 }
-

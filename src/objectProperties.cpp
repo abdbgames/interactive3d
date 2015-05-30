@@ -8,6 +8,11 @@ namespace kg
 		canDelete = true;
 	}
 
+	BaseProperty::~BaseProperty()
+	{
+		printf("Cleaning property %s.\n", m_name.c_str());
+	}
+
 	void BaseProperty::setName(const std::string &name)
 	{
 		m_name = name;

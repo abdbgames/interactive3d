@@ -1,0 +1,7 @@
+frogPupil
+{
+	specular = { 1.0f , 1.0f , 1.0f }
+	ambient = black
+	diffuse = black
+	shininess = 90
+}

@@ -93,6 +93,8 @@ namespace kg
 		}
 
 		glEnd();
+
+		renderDebugLines();
 	}
 
 	void Mesh::renderDebugLines()
@@ -104,6 +106,8 @@ namespace kg
 		{
 			glDisable(GL_LIGHTING);
 			glBegin(GL_LINES);
+
+			glColor4fv(Colour::Yellow.getArray());
 
 			for (unsigned i = 0; i < m_indices_t; ++i)
 			{
@@ -122,6 +126,13 @@ namespace kg
 	}
 
 	Mesh *Mesh::constructPlane(const unsigned &rows, const unsigned &columns)
+	{
+		return constructTerrain(rows, columns, 0, 0, 0.0f);
+	}
+
+	Mesh *Mesh::constructTerrain(const unsigned &rows,
+		const unsigned &columns, const unsigned &dipFrom,
+		const unsigned &dipTo, const float &dipAmount)
 	{
 		Mesh *r = new Mesh();
 
@@ -144,7 +155,7 @@ namespace kg
 		r->m_normals[0] = new Vector3(0.0f, 1.0f, 0.0f);
 		r->m_renderType = KG_TRI_STRIP;
 
-		Vector2 scale(1.0f / (float)columns, 1.0f / (float)rows);
+		Vector2 scale(1.0f / (float)(columns - 1), 1.0f / (float)(rows - 1));
 
 		unsigned id;
 		float s;
@@ -154,11 +165,13 @@ namespace kg
 		{
 			s = (float)i / (float)rows;
 
+			float z = (i >= dipFrom && i <= dipTo) ? dipAmount : 0.0f;
+
 			for (unsigned j = 0; j < columns; ++j)
 			{
 				id = j + (i * rows);
-				r->m_verts[id] = new Vector3((scale.x * (float)j), 0.0f,
-					(scale.y * (float)i));
+				r->m_verts[id] = new Vector3(-0.5f + (scale.x * (float)j), z,
+					-0.5f + (scale.y * (float)i));
 				r->m_uvs[id] = new Vector2((float)j / (float)columns, s);
 			}
 		}
@@ -199,9 +212,9 @@ namespace kg
 
 		r->m_uvs_t = 4;
 		r->m_verts_t = 8;
-		r->m_indices_t = 36;
+		r->m_indices_t = 24;
 		r->m_normals_t = 6;
-		r->m_renderType = KG_TRIS;
+		r->m_renderType = KG_QUADS;
 
 		r->m_uvs = new Vector2*[r->m_uvs_t];
 		r->m_uvs[0] = new Vector2(0.0f, 0.0f);
@@ -228,42 +241,41 @@ namespace kg
 		r->m_verts[7] = new Vector3(0.5f, 0.5f, 0.5f);
 
 		r->m_indices = new Index*[r->m_indices_t];
-		r->m_indices[0] = new Index(0, 3, 0);
-		r->m_indices[1] = new Index(2, 3, 1);
-		r->m_indices[2] = new Index(1, 3, 2);
-		r->m_indices[3] = new Index(1, 3, 2);
-		r->m_indices[4] = new Index(3, 3, 3);
-		r->m_indices[5] = new Index(2, 3, 1);
-		r->m_indices[6] = new Index(0, 1, 0);
-		r->m_indices[7] = new Index(4, 1, 1);
-		r->m_indices[8] = new Index(2, 1, 2);
-		r->m_indices[9] = new Index(2, 1, 2);
+		// Top:
+		r->m_indices[0] = new Index(1, 3, 2);
+		r->m_indices[1] = new Index(3, 3, 3);
+		r->m_indices[2] = new Index(2, 3, 1);
+		r->m_indices[3] = new Index(0, 3, 0);
+
+		// Bottom:
+		r->m_indices[4] = new Index(4, 2, 2);
+		r->m_indices[5] = new Index(6, 2, 3);
+		r->m_indices[6] = new Index(7, 2, 1);
+		r->m_indices[7] = new Index(5, 2, 0);
+
+		// Left:
+		r->m_indices[8] = new Index(0, 1, 0);
+		r->m_indices[9] = new Index(2, 1, 1);
 		r->m_indices[10] = new Index(6, 1, 3);
-		r->m_indices[11] = new Index(4, 1, 1);
-		r->m_indices[12] = new Index(1, 0, 1);
-		r->m_indices[13] = new Index(5, 0, 0);
-		r->m_indices[14] = new Index(3, 0, 1);
-		r->m_indices[15] = new Index(3, 0, 2);
-		r->m_indices[16] = new Index(7, 0, 2);
-		r->m_indices[17] = new Index(5, 0, 3);
-		r->m_indices[18] = new Index(4, 2, 0);
-		r->m_indices[19] = new Index(6, 2, 1);
-		r->m_indices[20] = new Index(5, 2, 2);
-		r->m_indices[21] = new Index(5, 2, 2);
-		r->m_indices[22] = new Index(7, 2, 3);
-		r->m_indices[23] = new Index(6, 2, 1);
-		r->m_indices[24] = new Index(0, 5, 0);
-		r->m_indices[25] = new Index(4, 5, 1);
-		r->m_indices[26] = new Index(1, 5, 2);
-		r->m_indices[27] = new Index(1, 5, 2);
-		r->m_indices[28] = new Index(5, 5, 3);
-		r->m_indices[29] = new Index(4, 5, 1);
-		r->m_indices[30] = new Index(2, 4, 0);
-		r->m_indices[31] = new Index(6, 4, 1);
-		r->m_indices[32] = new Index(3, 4, 2);
-		r->m_indices[33] = new Index(3, 4, 2);
-		r->m_indices[34] = new Index(7, 4, 3);
-		r->m_indices[35] = new Index(6, 4, 1);
+		r->m_indices[11] = new Index(4, 1, 2);
+
+		// Right:
+		r->m_indices[12] = new Index(5, 0, 0);
+		r->m_indices[13] = new Index(7, 0, 1);
+		r->m_indices[14] = new Index(3, 0, 3);
+		r->m_indices[15] = new Index(1, 0, 2);
+
+		// Front:
+		r->m_indices[16] = new Index(6, 4, 3);
+		r->m_indices[17] = new Index(2, 4, 2);
+		r->m_indices[18] = new Index(3, 4, 0);
+		r->m_indices[19] = new Index(7, 4, 1);
+
+		// Back:
+		r->m_indices[20] = new Index(0, 5, 3);
+		r->m_indices[21] = new Index(4, 5, 2);
+		r->m_indices[22] = new Index(5, 5, 0);
+		r->m_indices[23] = new Index(1, 5, 1);
 
 		return r;
 	}
@@ -325,6 +337,8 @@ namespace kg
 
 	void MeshTable::cleanup()
 	{
+		printf("Cleaning up meshes.\n");
+
 		for (std::map<std::string, Mesh*>::iterator i = m_list.begin();
 			i != m_list.end(); ++i)
 			delete i->second;
@@ -334,13 +348,14 @@ namespace kg
 	{
 		if (!m) return;
 	
+		m->canDelete = false;
+
 		std::map<std::string, Mesh*>::iterator i = m_list.find(name);
 		
 		if (i != m_list.end())
 		{
 			delete i->second;
 			i->second = m;
-			i->second->canDelete = false;
 		}
 		else
 			m_list.insert(std::pair<std::string, Mesh*>(name, m));

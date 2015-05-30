@@ -1,0 +1,7 @@
+frogEye
+{
+	specular = { 1.0f , 1.0f , 1.0f }
+	ambient = gray
+	diffuse = gray
+	shininess = 40
+}

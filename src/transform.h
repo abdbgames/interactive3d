@@ -9,15 +9,16 @@ namespace kg
 	struct Transform2D : public BaseProperty
 	{
 		Transform2D() : m_speed(0.0f), m_angle(0.0f), m_freezePos(false),
-			m_freezeAngle(false) {}
+			m_freezeAngle(false), m_scale(1.0f, 1.0f) {}
 		Transform2D(const Vector2 &pos) : m_pos(pos), m_speed(0.0f),
-			m_angle(0.0f), m_freezePos(false), m_freezeAngle(false) {}
+			m_angle(0.0f), m_freezePos(false), m_freezeAngle(false),
+			m_scale(1.0f, 1.0f) {}
 		Transform2D(const Vector2 &pos, const float &angle) : m_pos(pos),
 			m_speed(0.0f), m_angle(angle), m_freezePos(false),
-			m_freezeAngle(false) {}
+			m_freezeAngle(false), m_scale(1.0f, 1.0f) {}
 		Transform2D(const Vector2 &pos, const float &speed, const float &angle)
 			: m_pos(pos), m_speed(speed), m_angle(angle), m_freezePos(false),
-			m_freezeAngle(false) {}
+			m_freezeAngle(false), m_scale(1.0f, 1.0f) {}
 		Transform2D(const Vector2 &pos, const Vector2 &scale) : m_pos(pos),
 			m_scale(scale), m_speed(0.0f), m_angle(0.0f), m_freezePos(false),
 			m_freezeAngle(false) {}
@@ -47,13 +48,16 @@ namespace kg
 
 	struct Transform : public BaseProperty
 	{
-		Transform() : m_speed(0.0f), m_freezePos(false) {}
+		Transform() : m_speed(0.0f), m_freezePos(false),
+			m_scale(1.0f, 1.0f, 1.0f), m_freezeRotX(false),
+			m_freezeRotY(false), m_freezeRotZ(false) {}
 		Transform(const Vector3 &pos) : m_pos(pos), m_speed(0.0f),
 			m_freezePos(false), m_freezeRotX(false), m_freezeRotY(false),
-			m_freezeRotZ(false) {}
+			m_freezeRotZ(false), m_scale(1.0f, 1.0f, 1.0f) {}
 		Transform(const Vector3 &pos, const float &speed) : m_pos(pos),
 			m_speed(speed), m_freezePos(false), m_freezeRotX(false),
-			m_freezeRotY(false), m_freezeRotZ(false)  {}
+			m_freezeRotY(false), m_freezeRotZ(false),
+			m_scale(1.0f, 1.0f, 1.0f) {}
 		Transform(const Vector3 &pos, const Vector3 &scale) : m_pos(pos),
 			m_scale(scale), m_speed(0.0f), m_freezePos(false),
 			m_freezeRotX(false), m_freezeRotY(false), m_freezeRotZ(false)  {}

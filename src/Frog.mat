@@ -1,0 +1,7 @@
+frog
+{
+	specular = { 0.4f , 1.0f , 0.4f }
+	ambient = green
+	diffuse = green
+	shininess = 80
+}

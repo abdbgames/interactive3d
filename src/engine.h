@@ -5,6 +5,7 @@
 
 #include "kgConstants.h"
 #include "scene.h"
+#include "camera.h"
 
 namespace kg
 {
@@ -24,6 +25,9 @@ namespace kg
 		static void setSmoothShading(const bool &set);
 		static void setDrawNormals(const bool &set)
 			{ get().m_drawNormals = set; }
+		static void setCameraLookAt(Vector3 *pos)
+			{ get().m_cam.m_lookAt = pos; }
+		static void setCameraLookAt(Object *la);
 
 		static bool setCurrentScene(const unsigned &s);
 		static bool getDrawAxisEnabled() { return get().m_drawAxis; }
@@ -32,6 +36,8 @@ namespace kg
 
 		static Scene *getScene(const unsigned &s);
 		static Scene *getCurrentScene();
+
+		static Camera &getCamera() { return get().m_cam; }
 
 		static KG_LIGHT_MODE getLightState() { return get().m_lightMode; }
 		
@@ -54,8 +60,10 @@ namespace kg
 
 		KG_DRAW_MODE m_drawMode;
 
+		Camera m_cam;
+
 		bool m_drawAxis, m_drawTextures, m_drawNormals, m_smoothShading,
-			m_dirtyRendering;
+			m_dirtyRendering, m_osd;
 
 		unsigned m_width, m_height, m_currentScene;
 

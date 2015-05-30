@@ -49,6 +49,9 @@ namespace kg
 			const unsigned &slices);
 		static Mesh *constructSphere(const unsigned &stacks,
 			const unsigned &slices);
+		static Mesh *constructTerrain(const unsigned &rows,
+			const unsigned &columns, const unsigned &dipFrom,
+			const unsigned &dipTo, const float &dipAmount);
 
 	private:
 		void renderDebugLines();

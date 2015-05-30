@@ -13,7 +13,7 @@ namespace kg
 		BaseProperty() : m_name("Not set"), canDelete(true) {}
 		BaseProperty(const std::string &name);
 		
-		virtual ~BaseProperty() {}
+		virtual ~BaseProperty();
 
 		// Virtual Methods:
 		virtual void update() {}

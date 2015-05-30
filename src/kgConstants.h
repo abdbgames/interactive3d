@@ -81,7 +81,7 @@
 typedef void(*VoidF)();
 
 // Pi:
-#define KG_PI 3.14159265359
+#define KG_PI 3.14159265359f
 
 // Gravity:
 #define KG_GR 9.8f

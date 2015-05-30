@@ -1,0 +1,7 @@
+flat
+{
+	specular = white
+	ambient = white
+	diffuse = white
+	shininess = 30
+}

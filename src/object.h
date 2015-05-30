@@ -23,10 +23,11 @@ namespace kg
 		// Destructor:
 		virtual ~Object();
 
-		// Methods:
 		void run();
 		void render();
 		void setName(const std::string &name);
+		void setHidden(const bool &hide) { m_hidden = hide; }
+		void setTransparent(const bool &a) { m_transparent = a; }
 
 		bool addProperty(const std::string &name, BaseProperty *propertyType,
 			const bool &attemptDepend);
@@ -44,15 +45,18 @@ namespace kg
 		template <typename T>
 		T *getChild(const std::string &name);
 
-		// Virtual Methods:
+		BasicMaterial *getMaterial() { return m_mat; }
+
+		Mesh *getMesh() { return m_mesh; }
+
+		Transform *getTransform() { return m_transform; }
+
+		Transform2D *getTransform2D() { return m_transform2D; }
+
 		virtual void start() {}
 		virtual void update() {}
 
 	protected:
-		// Protected Methods:
-		void getSelf();
-
-		// Protected Members:
 		std::map<std::string, BaseProperty*> properties;
 
 		std::string m_name;
@@ -61,11 +65,7 @@ namespace kg
 
 		Object *self;
 
-		KG_DRAW_MODE m_renderType;
-
-		KG_LIGHT_MODE m_lightType;
-
-		bool m_transparent;
+		bool m_hidden, m_lit, m_transparent;
 
 		// Possible dependencies:
 		BasicMaterial *m_mat;

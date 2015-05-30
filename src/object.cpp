@@ -17,10 +17,12 @@ namespace kg
 		self = NULL;
 		m_mat = NULL;
 		m_mesh = NULL;
+		m_transform = NULL;
+		m_transform2D = NULL;
 		m_name = "Not set";
 		m_transparent = false;
-		m_renderType = KG_HIDE;
-		m_lightType = KG_UNLIT;
+		m_hidden = false;
+		m_lit = false;
 	}
 
 	Object::Object(const std::string &name)
@@ -30,8 +32,10 @@ namespace kg
 		self = NULL;
 		m_mat = NULL;
 		m_mesh = NULL;
-		m_renderType = KG_HIDE;
-		m_lightType = KG_UNLIT;
+		m_transform = NULL;
+		m_transform2D = NULL;
+		m_hidden = false;
+		m_lit = false;
 		m_transparent = false;
 		setName(name);
 	}
@@ -39,20 +43,17 @@ namespace kg
 	Object::~Object()
 	{
 		// Destructor for all Properties:
+		printf("Cleaning %s properties.\n", m_name.c_str());
 		for (std::map<std::string, BaseProperty*>::iterator
 			i = properties.begin(); i != properties.end(); ++i)
 			if (i->second && i->second->canDelete)
 				delete i->second;
 
+		printf("Cleaning %s children.\n", m_name.c_str());
 		if (children)
 			delete children;
-	}
 
-	void Object::getSelf()
-	{
-		// This is more important than you think,
-		// It's actually for calling in the child instance:
-		self = this;
+		printf("Cleaning %s complete.\n", m_name.c_str());
 	}
 
 	void Object::setName(const std::string &name)
@@ -64,7 +65,7 @@ namespace kg
 	{
 		if (!self)
 		{
-			getSelf();
+			self = this;
 			self->start();
 		}
 
@@ -82,24 +83,48 @@ namespace kg
 	{
 		// Push local matrix:
 		glPushMatrix();
+		glPushAttrib(GL_CURRENT_BIT);
 
-		// Run transform calls:
-
-		// No drawing if Object is hidden:
-		if (m_renderType == KG_HIDE)
+		if (m_transparent)
 		{
-			glPopMatrix();
-			return;
+			glDepthMask(GL_FALSE);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
-		// Run material calls:
+		// Enable lighting:
+		if (m_lit && Engine::getLightState() != KG_UNLIT)
+			glEnable(GL_LIGHTING);
+		else
+			glDisable(GL_LIGHTING);
 
+		// Run transform calls:
+		if (m_transform)
+			m_transform->glStuff();
+		else if (m_transform2D)
+			m_transform2D->glStuff();
 
-		// Render mesh:
+		// No drawing if Object is hidden:
+		if (!m_hidden)
+		{
+			// Run material calls:
+			if (m_mat)
+				m_mat->render();
 
+			// Render mesh:
+			if (m_mesh)
+				m_mesh->render();
+		}
+
+		// Render Children:
+		children->render();
+		
+		glDisable(GL_TEXTURE_2D);
+		glDepthMask(GL_TRUE);
 
 		// Pop local Matrix:
 		glPopMatrix();
+		glPopAttrib();
 	}
 
 	bool Object::addProperty(const std::string &name,
@@ -139,7 +164,16 @@ namespace kg
 				m_mesh = dynamic_cast<Mesh*>(propertyType);
 				return true;
 			}
-
+			if (name == "Transform")
+			{
+				m_transform = dynamic_cast<Transform*>(propertyType);
+				return true;
+			}
+			if (name == "Transform2D")
+			{
+				m_transform2D = dynamic_cast<Transform2D*>(propertyType);
+				return true;
+			}
 		}
 
 		// Property never existed or could not be erased:
@@ -196,4 +230,3 @@ namespace kg
 		return children->getObject<T>(name);
 	}
 }
-

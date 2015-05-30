@@ -28,16 +28,16 @@ namespace kg
 		return in * (180.0f / KG_PI);
 	}
 
-	void clampDeg(float &in)
+	void keepDegRange(float &in)
 	{
 		// Clamps variable between 0 and 360 degrees:
-		clamp(in, 0.0f, 360.0f);
+		range(in, 0.0f, 360.0f);
 	}
 
-	void clampRad(float &in)
+	void keepRadRange(float &in)
 	{
 		// Clamps variable between 0 and 360 degrees as radians:
-		clamp(in, 0.0f, (float)(KG_PI * 2.0f));
+		range(in, 0.0f, (float)(KG_PI * 2.0f));
 	}
 
 	void drawAxis(const Vector3 &pos, const float &size)
@@ -89,19 +89,6 @@ namespace kg
 			glEnable(GL_LIGHTING);
 	}
 
-	void drawNormal(Vector3 &from, Vector3 &to)
-	{
-		glDisable(GL_LIGHTING);
-		glBegin(GL_LINE_STRIP);
-		glColor3f(1.0, 1.0, 0.0);
-		glVertex3fv(from.getV());
-		glVertex3fv(to.getV());
-		glEnd();
-
-		if (Engine::getLightState() != KG_UNLIT)
-			glEnable(GL_LIGHTING);
-	}
-
 	// Texture loading from sample texture viewer application:
 	GLuint loadTexture(const char *filename)
 	{
@@ -117,7 +104,7 @@ namespace kg
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, tex);
 
 		return tex;
 	}

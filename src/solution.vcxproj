@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="colour.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="frog.h" />
@@ -29,8 +30,10 @@
     <ClInclude Include="vectors.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="colour.cpp" />
     <ClCompile Include="engine.cpp" />
+    <ClCompile Include="frog.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
@@ -47,6 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="car.mat" />
+    <None Include="flat.mat" />
+    <None Include="Frog.mat" />
+    <None Include="frogPupil.mat" />
+    <None Include="water.mat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="frogEye.mat" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7175137C-2BF7-4552-AFD2-45DA474B9A67}</ProjectGuid>

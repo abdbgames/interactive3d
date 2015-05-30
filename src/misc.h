@@ -61,8 +61,8 @@ namespace kg
 	float degToRad(const float &in);
 	float radToDeg(const float &in);
 
-	void clampDeg(float &in);
-	void clampRad(float &in);
+	void keepDegRange(float &in);
+	void keepRadRange(float &in);
 	void drawAxis(const Vector3 &pos, const float &size);
 	void drawAxis(const float &size);
 	void drawNormal(Vector3 &from, Vector3 &to);

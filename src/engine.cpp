@@ -7,6 +7,7 @@
 #include "mesh.h"
 #include "misc.h"
 #include "keyboard.h"
+#include "mouse.h"
 
 namespace kg
 {
@@ -15,13 +16,12 @@ namespace kg
 		printf("Starting KGE!\n");
 
 		// Default Engine values:
-		m_lightMode = KG_FULL;
-		m_drawMode = KG_FILLED;
 		m_drawAxis = false;
 		m_smoothShading = true;
 		m_drawTextures = true;
 		m_dirtyRendering = false;
 		m_drawNormals = false;
+		m_osd = true;
 		m_width = 1024;
 		m_height = 768;
 		m_aspect = (float)m_width / (float)m_height;
@@ -30,6 +30,9 @@ namespace kg
 		// setup kg::Engine/OpenGL defaults:
 		smoothShadingRefresh();
 		textureRefresh();
+
+		setLightState(KG_UNLIT);
+		setDrawMode(KG_FILLED);
 
 		// Seed random generator:
 		std::srand((unsigned int)time(NULL));
@@ -76,12 +79,62 @@ namespace kg
 			keyboardControl::poll(KGKey_esc, KG_DOWN))
 			exit(EXIT_SUCCESS);
 
+		// Toggle axis drawing:
+		if (kg::keyboardControl::poll(KGKey_o, KG_DOWN) ||
+			kg::keyboardControl::poll(KGKey_O, KG_DOWN))
+			toggleDrawAxis();
+
+		// Toggle normal drawing:
+		if (kg::keyboardControl::poll(KGKey_n, KG_DOWN) ||
+			kg::keyboardControl::poll(KGKey_N, KG_DOWN))
+			toggleDrawNormals();
+
+		// Toggle texture drawing:
+		if (kg::keyboardControl::poll(KGKey_t, KG_DOWN) ||
+			kg::keyboardControl::poll(KGKey_T, KG_DOWN))
+			toggleDrawTextures();
+
+		if (kg::keyboardControl::poll(KGKey_l, KG_DOWN) ||
+			kg::keyboardControl::poll(KGKey_L, KG_DOWN))
+			get().setLightState((get().m_lightMode == KG_UNLIT) ? KG_FULL :
+				KG_UNLIT);
+
+		// If we are hitting a mouse button, lock the mouse to that position
+		// and hide the cursor, otherwise unlock and set cursor to "clickable":
+		if (kg::mouseControl::pollAny(KG_PRESSED))
+		{
+			// The locking itself always occurs at the end of an update,
+			// so it's safe to put this call anywhere:
+			kg::mouseControl::lockMouse(kg::mouseControl::m_x,
+				kg::mouseControl::m_y);
+			glutSetCursor(GLUT_CURSOR_NONE);
+		}
+		else
+		{
+			kg::mouseControl::unlockMouse();
+			glutSetCursor(GLUT_CURSOR_INFO);
+		}
+
+		// Update camera movement:
+		if (mouseControl::poll(GLUT_LEFT_BUTTON, KG_PRESSED))
+		{
+			get().m_cam.updateRot(mouseControl::pollMouseMoved()[1],
+				mouseControl::pollMouseMoved()[0]);
+		}
+		
+		if (mouseControl::poll(GLUT_RIGHT_BUTTON, KG_PRESSED))
+		{
+			get().m_cam.updateZoom(mouseControl::pollMouseMoved()[1]);
+		}
+
 		// Don't do anything if no current scene:
 		if (!get().m_currentScene)
-			// Don't do anything for invalid input:
-			if (get().m_currentScene >= get().m_sceneList.size())
-				// Update current Scene:
-				get().m_sceneList[get().m_currentScene]->update();
+			// TODO scene validation:
+			get().m_sceneList[get().m_currentScene]->update();
+
+		// Update keyboard/mouse:
+		keyboardControl::postUpdate();
+		mouseControl::postUpdate();
 
 		// Draw callback:
 		glutPostRedisplay();
@@ -95,15 +148,32 @@ namespace kg
 		if (!get().m_dirtyRendering)
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		get().m_cam.projectionGL();
+		get().m_cam.modelViewGL();
+
 		// Render origin axis:
 		drawAxis(1.0f);
 
 		// Don't do anything if no current scene:
 		if (!get().m_currentScene)
-			// Don't do anything for invalid input:
-			if (get().m_currentScene >= get().m_sceneList.size())
-				// Render current Scene:
-				get().m_sceneList[get().m_currentScene]->render();
+			// TODO error checking for invalid scene:
+			get().m_sceneList[get().m_currentScene]->render();
+
+		// For drawing hud elements:
+		glPushMatrix();
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0.0f, (float)getWidth(), (float)getHeight(), 0.0f, -1.0f,
+			1.0f);
+		glPushMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glDisable(GL_DEPTH_TEST);
+		glRasterPos2f(2.0f, 12.0f);
+		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, 'K');
+		glEnable(GL_DEPTH_TEST);
+		glPopMatrix();
+		glPopMatrix();
 
 		glutSwapBuffers();
 
@@ -267,4 +337,3 @@ namespace kg
 		glShadeModel((m_smoothShading) ? GL_SMOOTH : GL_FLAT);
 	}
 }
-
