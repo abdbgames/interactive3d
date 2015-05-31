@@ -87,7 +87,7 @@ typedef void(*VoidF)();
 #define KG_GR 9.8f
 
 // Constant milliseconds value to divide from seconds:
-#define milli 1000
+#define KG_MILLIS 1000.0f
 
 namespace kg
 {

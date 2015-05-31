@@ -25,7 +25,8 @@ namespace kg
 		m_width = 1024;
 		m_height = 768;
 		m_aspect = (float)m_width / (float)m_height;
-		m_currentScene = 0;
+		m_s = m_sum = m_ft = 0.0f;
+		m_currentScene = m_fc = m_fps = 0;
 
 		// setup kg::Engine/OpenGL defaults:
 		smoothShadingRefresh();
@@ -61,6 +62,9 @@ namespace kg
 
 	void Engine::updateCallback()
 	{
+		// Engine referance:
+		static Engine &self = get();
+
 		// Update delta time:
 		static int t1 = -1;
 
@@ -69,9 +73,21 @@ namespace kg
 
 		int t2 = glutGet(GLUT_ELAPSED_TIME);
 
-		get().m_dt = (t2 - t1) / 1000.0f;
+		self.m_dt = (t2 - t1) / KG_MILLIS;
 
 		t1 = t2;
+
+		self.m_s += self.m_dt;
+
+		// FPS Update:
+		if (self.m_s >= 1.0f)
+		{
+			self.m_fps = get().m_fc;
+			self.m_ft = get().m_sum / (float)get().m_fc;
+			self.m_sum = 0.0f;
+			self.m_fc = 0;
+			self.m_s -= 1.0f;
+		}
 
 		// Check if program should be quit:
 		if (keyboardControl::poll(KGKey_q, KG_DOWN) ||
@@ -94,10 +110,16 @@ namespace kg
 			kg::keyboardControl::poll(KGKey_T, KG_DOWN))
 			toggleDrawTextures();
 
+		/* TODO: Lighting
 		if (kg::keyboardControl::poll(KGKey_l, KG_DOWN) ||
 			kg::keyboardControl::poll(KGKey_L, KG_DOWN))
 			get().setLightState((get().m_lightMode == KG_UNLIT) ? KG_FULL :
-				KG_UNLIT);
+				KG_UNLIT);*/
+
+		// Toggle osd drawing:
+		if (kg::keyboardControl::poll(KGKey_p, KG_DOWN) ||
+			kg::keyboardControl::poll(KGKey_P, KG_DOWN))
+			toggleOSD();
 
 		// If we are hitting a mouse button, lock the mouse to that position
 		// and hide the cursor, otherwise unlock and set cursor to "clickable":
@@ -118,7 +140,7 @@ namespace kg
 		// Update camera movement:
 		if (mouseControl::poll(GLUT_LEFT_BUTTON, KG_PRESSED))
 		{
-			get().m_cam.updateRot(mouseControl::pollMouseMoved()[1],
+			self.m_cam.updateRot(mouseControl::pollMouseMoved()[1],
 				mouseControl::pollMouseMoved()[0]);
 		}
 		
@@ -130,7 +152,7 @@ namespace kg
 		// Don't do anything if no current scene:
 		if (!get().m_currentScene)
 			// TODO scene validation:
-			get().m_sceneList[get().m_currentScene]->update();
+			get().m_sceneList[self.m_currentScene]->update();
 
 		// Update keyboard/mouse:
 		keyboardControl::postUpdate();
@@ -159,25 +181,28 @@ namespace kg
 			// TODO error checking for invalid scene:
 			get().m_sceneList[get().m_currentScene]->render();
 
-		// For drawing hud elements:
-		glPushMatrix();
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0.0f, (float)getWidth(), (float)getHeight(), 0.0f, -1.0f,
-			1.0f);
-		glPushMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glDisable(GL_DEPTH_TEST);
-		glRasterPos2f(2.0f, 12.0f);
-		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, 'K');
-		glEnable(GL_DEPTH_TEST);
-		glPopMatrix();
-		glPopMatrix();
+		// Draw the on screen display:
+		if (get().m_osd)
+		{
+			// Like my string concatenation? ayyy:
+			std::string text = TITLE"\n";
+			text = text + "FPS: " + get().m_fps + " f/s\n" +
+				"Frame time: " + get().m_ft + " ms/f";
+
+			glColor3fv(Colour::Maroon.getArray());
+
+			renderText(GLUT_BITMAP_8_BY_13, text, 0.0f, 0.0f);
+		}
 
 		glutSwapBuffers();
 
 		glPopAttrib();
+
+		// Frame counter:
+		++get().m_fc;
+
+		// Frame time counter:
+		get().m_sum += get().m_dt;
 	}
 
 	void Engine::resizeCallback(int w, int h)
@@ -255,6 +280,42 @@ namespace kg
 			get().m_lightMode = lm;
 	}
 
+	void Engine::renderText(void *font, const std::string &str, const float &x,
+		const float &y)
+	{
+		glPushMatrix();
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+
+		glOrtho(0.0f, (float)getWidth(), (float)getHeight(), 0.0f, -1.0f,
+			1.0f);
+
+		glPushMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glDisable(GL_DEPTH_TEST);
+
+		float _x = x + 1.0f, _y = y + 10.0f;
+
+		glRasterPos2f(_x, _y);
+
+		for (unsigned i = 0; i < str.size(); ++i)
+		{
+			if (str.c_str()[i] == '\n')
+			{
+				_y += 13.2f;
+				glRasterPos2f(_x, _y);
+				continue;
+			}
+
+			glutBitmapCharacter(font, str.c_str()[i]);
+		}
+
+		glEnable(GL_DEPTH_TEST);
+		glPopMatrix();
+		glPopMatrix();
+	}
+
 	void Engine::setDrawTetxures(const bool &set)
 	{
 		get().m_drawTextures = set;
@@ -285,6 +346,11 @@ namespace kg
 	void Engine::toggleDrawNormals()
 	{
 		setDrawNormals(!get().m_drawNormals);
+	}
+
+	void Engine::toggleOSD()
+	{
+		setOSD(!get().m_osd);
 	}
 
 	unsigned Engine::pushScene(Scene *s, const bool &setCurrent)

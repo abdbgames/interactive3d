@@ -17,6 +17,7 @@
     <ClInclude Include="frog.h" />
     <ClInclude Include="keyboard.h" />
     <ClInclude Include="kgConstants.h" />
+    <ClInclude Include="log.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="misc.h" />
@@ -35,6 +36,7 @@
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="frog.cpp" />
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />

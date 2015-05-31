@@ -65,7 +65,7 @@ namespace kg
 		clamp(m_zoom, m_near, m_far / 2.0f);
 	}
 
-	const Vector3 &Camera::getCamPos()
+	const Vector3 Camera::getCamPos()
 	{
 		// Camera world pos:
 		Vector3 pos = m_pos;

@@ -1,6 +1,9 @@
 #ifndef misc_h
 #define misc_h
 
+#include <sstream>
+#include <string>
+
 #include "platformInclude.h"
 #include "vectors.h"
 
@@ -69,5 +72,26 @@ namespace kg
 
 	GLuint loadTexture(const char *filename);
 }
+
+// std::string concatenation with different types:
+template <typename T>
+std::string kgcc(const T &l, const std::string &r, const bool &flip)
+{
+	std::stringstream ss;
+	if (flip)
+		ss << r << l;
+	else
+		ss << l << r;
+	return ss.str();
+}
+
+std::string operator +(const std::string &l, const float &r);
+std::string operator +(const float &l, const std::string &r);
+std::string operator +(const std::string &l, const int &r);
+std::string operator +(const int &l, const std::string &r);
+std::string operator +(const std::string &l, const unsigned &r);
+std::string operator +(const unsigned &l, const std::string &r);
+std::string operator +(const std::string &l, const bool &r);
+std::string operator +(const bool &l, const std::string &r);
 
 #endif /* misc_h */

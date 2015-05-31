@@ -19,9 +19,12 @@ int main(int argc, char **argv)
 	// Setup Mesh Table:
 	kg::MeshTable::pushMesh("BigPlane", kg::Mesh::constructTerrain(
 		40, 40, 25, 30, -0.0834f));
-	kg::MeshTable::pushMesh("RiverPlane", kg::Mesh::constructPlane(10, 10));
+	kg::MeshTable::pushMesh("RiverPlane", kg::Mesh::constructPlane(11, 11));
 	kg::MeshTable::pushMesh("SinglePlane", kg::Mesh::constructPlane(4, 4));
 	kg::MeshTable::pushMesh("Cube", kg::Mesh::constructCube());
+	kg::MeshTable::pushMesh("Log", kg::Mesh::constructCylinder(4, 11));
+	kg::MeshTable::pushMesh("Sphere", kg::Mesh::constructSphere(11, 11));
+	kg::MeshTable::pushMesh("Circle", kg::Mesh::constructCircle(11));
 
 	// Add floor:
 	kg::BasicMaterial *mat = kg::BasicMaterial::getFromFile("flat.mat");

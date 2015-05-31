@@ -1,11 +1,21 @@
-#ifndef frog_h
-#define frog_h
+#ifndef log_h
+#define log_h
 
 #include "object.h"
 
-struct Frog : public kg::Object
+struct LogCap : public kg::Object
 {
-
+	LogCap();
 };
 
-#endif /* frog_h */
+struct Log : public kg::Object
+{
+	Log();
+
+	virtual void start();
+	virtual void update();
+	
+	LogCap *m_l, *m_r;
+};
+
+#endif /* log_h */

@@ -12,7 +12,7 @@ namespace kg
 	Colour Colour::Maroon = Colour(0.5f, 0.0f, 0.0f);
 	Colour Colour::Yellow = Colour(1.0f, 1.0f, 0.0f);
 	Colour Colour::Olive = Colour(0.5f, 0.5f, 0.0f);
-	Colour Colour::Lime = Colour(1.0f, 1.0f, 0.0f);
+	Colour Colour::Lime = Colour(0.0f, 1.0f, 0.0f);
 	Colour Colour::Green = Colour(0.0f, 0.5f, 0.0f);
 	Colour Colour::Aqua = Colour(0.0f, 1.0f, 1.0f);
 	Colour Colour::Teal = Colour(0.0f, 0.5f, 0.5f);

@@ -109,3 +109,43 @@ namespace kg
 		return tex;
 	}
 }
+
+std::string operator +(const std::string &l, const float &r)
+{
+	return kgcc<float>(r, l, true);
+}
+
+std::string operator +(const float &l, const std::string &r)
+{
+	return kgcc<float>(l, r, false);
+}
+
+std::string operator +(const std::string &l, const int &r)
+{
+	return kgcc<float>(r, l, true);
+}
+
+std::string operator +(const int &l, const std::string &r)
+{
+	return kgcc<float>(l, r, false);
+}
+
+std::string operator +(const std::string &l, const unsigned &r)
+{
+	return kgcc<float>(r, l, true);
+}
+
+std::string operator +(const unsigned &l, const std::string &r)
+{
+	return kgcc<float>(l, r, false);
+}
+
+std::string operator +(const std::string &l, const bool &r)
+{
+	return l + ((r) ? "true" : "false");
+}
+
+std::string operator +(const bool &l, const std::string &r)
+{
+	return ((l) ? "true" : "false") + r;
+}

@@ -287,6 +287,7 @@ namespace kg
 		r->m_indices_t = slices + 1;
 		r->m_uvs_t = slices + 1;
 		r->m_verts_t = slices + 1;
+		r->m_normals_t = 1;
 
 		r->m_uvs = new Vector2*[r->m_uvs_t];
 		r->m_verts = new Vector3*[r->m_verts_t];
@@ -332,7 +333,7 @@ namespace kg
 
 		r->m_uvs_t = (slices + 1) * stacks;
 		r->m_verts_t = slices * stacks;
-		r->m_normals_t = slices + 1;
+		r->m_normals_t = slices;
 
 		r->m_indices = new Index*[r->m_indices_t];
 		r->m_verts = new Vector3*[r->m_verts_t];
@@ -408,8 +409,53 @@ namespace kg
 	{
 		Mesh *r = new Mesh;
 		
+		float twoPi = KG_PI * 2.0f;
+
+		r->m_uvs_t = stacks * slices;
+		r->m_verts_t = stacks * slices;
+		r->m_normals_t = stacks * slices;
+		r->m_indices_t = (stacks - 1) * (slices - 1) * 6;
+
+		r->m_indices = new Index*[r->m_indices_t];
+		r->m_verts = new Vector3*[r->m_verts_t];
+		r->m_uvs = new Vector2*[r->m_uvs_t];
+		r->m_normals = new Vector3*[r->m_normals_t];
+		r->m_renderType = KG_TRIS;
 		
-		
+		unsigned back = 0;
+
+		for (unsigned stack = 0; stack < stacks; stack++)
+		{
+			float u = (stack / (float)(stacks - 1)) * KG_PI;
+
+			for (unsigned slice = 0; slice < slices; slice++)
+			{
+				unsigned pos = stack * stacks + slice;
+				float v = (slice / (float)(slices - 1)) * twoPi;
+				Vector3 p(sinf(u) * cosf(v), sinf(u) * sinf(v), cosf(u));
+				r->m_verts[pos] = new Vector3(p);
+				r->m_uvs[pos] = new Vector2(
+					1.0f - (float)slice / (float)slices,
+					1.0f - (float)stack / (float)stacks);
+				p.normalise();
+				r->m_normals[pos] = new Vector3(p);
+
+				if (stack != stacks - 1 && slice != slices - 1)
+				{
+					r->m_indices[back++] = new Index(slice * stacks + stack);
+					r->m_indices[back++] = new Index(
+						(slice + 1) *stacks + stack + 1);
+					r->m_indices[back++] = new Index(
+						slice * stacks + stack + 1);
+					r->m_indices[back++] = new Index(slice * stacks + stack);
+					r->m_indices[back++] = new Index(
+						(slice + 1) * stacks + stack);
+					r->m_indices[back++] = new Index(
+						(slice + 1) * stacks + stack + 1);
+				}
+			}
+		}
+
 		return r;
 	}
 

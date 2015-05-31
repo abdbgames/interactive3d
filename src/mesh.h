@@ -12,7 +12,9 @@ namespace kg
 {
 	struct Index
 	{
-		Index(int _v, int _n, int _uv) : v(_v), n(_n), uv(_uv) {}
+		Index(const int &_v, const int &_n, const int &_uv) : v(_v), n(_n),
+			uv(_uv) {}
+		Index(const int &i) : v(i), n(i), uv(i) {}
 		unsigned v, n, uv;
 	};
 

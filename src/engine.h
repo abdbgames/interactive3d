@@ -18,11 +18,15 @@ namespace kg
 		static void toggleDrawTextures();
 		static void toggleSmoothShading();
 		static void toggleDrawNormals();
+		static void toggleOSD();
 		static void setDrawMode(const KG_DRAW_MODE &dm);
 		static void setLightState(const KG_LIGHT_MODE &lm);
 		static void setDrawAxis(const bool &set) { get().m_drawAxis = set; }
 		static void setDrawTetxures(const bool &set);
 		static void setSmoothShading(const bool &set);
+		static void setOSD(const bool &set) { get().m_osd = set; }
+		static void renderText(void *font, const std::string &str,
+			const float &x, const float &y);
 		static void setDrawNormals(const bool &set)
 			{ get().m_drawNormals = set; }
 		static void setCameraLookAt(Vector3 *pos)
@@ -65,9 +69,9 @@ namespace kg
 		bool m_drawAxis, m_drawTextures, m_drawNormals, m_smoothShading,
 			m_dirtyRendering, m_osd;
 
-		unsigned m_width, m_height, m_currentScene;
+		unsigned m_width, m_height, m_currentScene, m_fc, m_fps;
 
-		float m_aspect, m_dt;
+		float m_aspect, m_dt, m_s, m_sum, m_ft;
 
 		std::vector<Scene*> m_sceneList;
 

@@ -16,7 +16,7 @@ namespace kg
 		void updateRot(const int &dx, const int &dy);
 		void updateZoom(const int &dy);
 
-		const Vector3 &getCamPos();
+		const Vector3 getCamPos();
 
 		float m_fov, m_near, m_far, m_zoom, m_sensitivity;
 
