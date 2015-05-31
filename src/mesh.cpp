@@ -318,7 +318,87 @@ namespace kg
 	{
 		Mesh *r = new Mesh;
 
+		r->m_indices_t = 0;
 
+		for (unsigned i = 0; i < slices; ++i)
+		{
+			if (i != 0) ++r->m_indices_t;
+
+			for (unsigned j = 0; j < stacks; ++j)
+				r->m_indices_t += 2;
+
+			if (i != (slices - 1)) ++r->m_indices_t;
+		}
+
+		r->m_uvs_t = (slices + 1) * stacks;
+		r->m_verts_t = slices * stacks;
+		r->m_normals_t = slices + 1;
+
+		r->m_indices = new Index*[r->m_indices_t];
+		r->m_verts = new Vector3*[r->m_verts_t];
+		r->m_uvs = new Vector2*[r->m_uvs_t];
+		r->m_normals = new Vector3*[r->m_normals_t];
+		r->m_renderType = KG_TRI_STRIP;
+	
+		float t, width = 1.0f, hWidth = width * 0.5f;
+		unsigned id, idb;
+
+		for (unsigned i = 0; i < slices; ++i)
+		{
+			// Work out the normals, they also count as our circle values for
+			// when we need them:
+			if (i < slices)
+			{
+				t = ((float)i / (float)slices) * 2.0f * KG_PI;
+				r->m_normals[i] = new Vector3(cos(t), sin(t), 0.0f);
+			}
+
+			idb = i * stacks;
+
+			for (unsigned j = 0; j < stacks; ++j)
+			{
+				// Each point will be the normal value with the z being added
+				// as the current stack / width:
+				id = j + idb;
+				r->m_verts[id] = new Vector3(*r->m_normals[i]);
+				r->m_verts[id]->z = (float)j * (width / (stacks - 1)) - hWidth;
+
+				// Each uv will be the current edge / edges for y and current
+				// stack / stacks for x:
+				r->m_uvs[id] = new Vector2((float)j / (float)stacks,
+					(float)i / (float)slices);
+
+				if (i == slices - 1)
+					r->m_uvs[stacks * slices + j] = new Vector2((float)j /
+						(float)stacks, 1.0f);
+			}
+
+			// Build an index list for a triangle strip with degenerate
+			// triangles:
+			idb = 0;
+
+			unsigned uv, back = 0;
+
+			for (unsigned i = 0; i < slices; ++i)
+			{
+				id = idb;
+				uv = (i + 1) * stacks;
+				idb = (i == slices - 1) ? 0 : uv;
+
+				if (i != 0)
+					r->m_indices[back++] = new Index(id, i, uv);
+
+				for (unsigned j = 0; j < stacks; ++j)
+				{
+					r->m_indices[back++] = new Index(id + j, i, id + j);
+					r->m_indices[back++] = new Index(idb + j, i, uv + j);
+				}
+
+				if (i != (slices - 1))
+					r->m_indices[back++] = new Index(idb + (stacks - 1), i,
+						uv + (stacks - 1));
+			}
+		}
 
 		return r;
 	}
@@ -369,4 +449,3 @@ namespace kg
 		return (i == m_list.end()) ? NULL : i->second;
 	}
 }
-
