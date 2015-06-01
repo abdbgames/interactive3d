@@ -1,7 +1,28 @@
 #ifndef frog_h
 #define frog_h
 
-#include "object.h"
+#include <vector>
+
+#include "engine.h"
+#include "log.h"
+#include "car.h"
+
+struct FrogParabola : public kg::BaseProperty
+{
+	FrogParabola(kg::Transform *t, kg::Vector3 *initVel, kg::Vector3 *initPos,
+		bool *inAir) : m_t(t), m_initVel(initVel), m_initPos(initPos),
+		m_inAir(inAir), m_pSteps(30) {}
+
+	virtual void render();
+
+	bool *m_inAir;
+
+	unsigned m_pSteps;
+
+	kg::Transform *m_t;
+
+	kg::Vector3 *m_initVel, *m_initPos;
+};
 
 struct FrogFinger : public kg::Object
 {
@@ -114,7 +135,23 @@ struct FrogBase : public kg::Object
 	virtual void start();
 	virtual void update();
 
+	void kill(const std::string &message);
+
+	bool m_inAir, m_gameOver;
+
+	float m_rotSpeed, m_radius;
+
+	unsigned m_numLogs, m_numCars, m_lives, m_points;
+
 	FrogBody *m_body;
+
+	kg::Vector3 m_initVel, m_initPos;
+
+	std::vector<kg::Vector3> m_checkpoints;
+
+	Log *m_logOn, **m_logs;
+
+	Car **m_cars;
 };
 
 #endif /* frog_h */

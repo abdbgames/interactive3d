@@ -1,6 +1,8 @@
 #ifndef material_h
 #define material_h
 
+#include <map>
+
 #include "objectProperties.h"
 #include "colour.h"
 
@@ -39,16 +41,18 @@ namespace kg
 		void setSpecular(const Colour &specular) { m_specular = specular; }
 		void setShininess(const float &shininess) { m_shininess = shininess; }
 		void setTextureID(unsigned *id) { m_textureID = id; }
-		void render();
+		
+		virtual void render();
 		
 		static BasicMaterial *getFromFile(const char *fname);
-
 	private:
 		Colour m_ambient, m_diffuse, m_specular;
 
 		float m_shininess;
 
 		unsigned *m_textureID;
+
+		static std::map<std::string, BasicMaterial> preLoad;
 	};
 }
 

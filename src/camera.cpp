@@ -24,8 +24,8 @@ namespace kg
 		}
 
 		glTranslatef(-m_pos.x, -m_pos.y, -m_pos.z);
-		glRotatef(m_rot.x, 1, 0, 0);
-		glRotatef(m_rot.y, 0, 1, 0);
+		glRotatef(m_rot.x, 1.0f, 0.0f, 0.0f);
+		glRotatef(m_rot.y, 0.0f, 1.0f, 0.0f);
 
 		if (m_lookAt)
 			glTranslatef(-m_lookAt->x, -m_lookAt->y, -m_lookAt->z);

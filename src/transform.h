@@ -50,24 +50,27 @@ namespace kg
 	{
 		Transform() : m_speed(0.0f), m_freezePos(false),
 			m_scale(1.0f, 1.0f, 1.0f), m_freezeRotX(false),
-			m_freezeRotY(false), m_freezeRotZ(false) {}
+			m_freezeRotY(false), m_freezeRotZ(false), m_g(false) {}
 		Transform(const Vector3 &pos) : m_pos(pos), m_speed(0.0f),
 			m_freezePos(false), m_freezeRotX(false), m_freezeRotY(false),
-			m_freezeRotZ(false), m_scale(1.0f, 1.0f, 1.0f) {}
+			m_freezeRotZ(false), m_scale(1.0f, 1.0f, 1.0f), m_g(false) {}
 		Transform(const Vector3 &pos, const float &speed) : m_pos(pos),
 			m_speed(speed), m_freezePos(false), m_freezeRotX(false),
 			m_freezeRotY(false), m_freezeRotZ(false),
-			m_scale(1.0f, 1.0f, 1.0f) {}
+			m_scale(1.0f, 1.0f, 1.0f), m_g(false) {}
 		Transform(const Vector3 &pos, const Vector3 &scale) : m_pos(pos),
 			m_scale(scale), m_speed(0.0f), m_freezePos(false),
-			m_freezeRotX(false), m_freezeRotY(false), m_freezeRotZ(false)  {}
+			m_freezeRotX(false), m_freezeRotY(false), m_freezeRotZ(false),
+			m_g(false) {}
 		Transform(const Vector3 &pos, const Vector3 &scale, const float &speed)
 			: m_pos(pos), m_scale(scale), m_speed(speed), m_freezePos(false),
-			m_freezeRotX(false), m_freezeRotY(false), m_freezeRotZ(false)  {}
+			m_freezeRotX(false), m_freezeRotY(false), m_freezeRotZ(false),
+			m_g(false) {}
 
 		virtual void update();
 
 		void glStuff();
+		void applyGravity(const float &g);
 
 		const Vector3 &getVelocity() { return m_vel; }
 
@@ -81,6 +84,8 @@ namespace kg
 
 	protected:
 		Vector3 m_vel;
+
+		bool m_g;
 	};
 }
 

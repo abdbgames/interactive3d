@@ -20,6 +20,8 @@ namespace kg
 			i != objects.end(); ++i)
 			if (i->second)
 				i->second->run();
+			else
+				objects.erase(i++);
 	}
 
 	void ObjectList::render()
@@ -54,9 +56,7 @@ namespace kg
 		if (i == objects.end()) return false;
 
 		delete i->second;
-		i->second = NULL; // Just to be thread safe in future mainly...
-
-		objects.erase(i);
+		i->second = NULL;
 
 		return true;
 	}
@@ -67,9 +67,7 @@ namespace kg
 
 		if (i == objects.end()) return false;
 
-		i->second = NULL; // Just to be thread safe in future mainly...
-
-		objects.erase(i);
+		i->second = NULL;
 
 		return true;
 	}

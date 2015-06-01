@@ -8,8 +8,9 @@ namespace kg
 {
 	struct Camera
 	{
-		Camera() : m_fov(75.0f), m_near(0.01f), m_far(150.0f), m_zoom(10.0f),
-			m_sensitivity(6.7f), m_perspective(true), m_lookAt(NULL) {}
+		Camera() : m_fov(75.0f), m_near(0.01f), m_far(150.0f), m_zoom(18.0f),
+			m_sensitivity(6.7f), m_perspective(true), m_lookAt(NULL),
+			m_rot(45.0f, 180.0f) {}
 
 		void modelViewGL();
 		void projectionGL();

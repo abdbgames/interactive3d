@@ -3,6 +3,7 @@
 #include <SOIL.h>
 #include <cstdio>
 #include <cstdlib>
+#include <map>
 
 #include "platformInclude.h"
 #include "misc.h"
@@ -90,16 +91,24 @@ namespace kg
 	}
 
 	// Texture loading from sample texture viewer application:
-	GLuint loadTexture(const char *filename)
+	GLuint &loadTexture(const char *filename)
 	{
-		GLuint tex = SOIL_load_OGL_texture(filename, SOIL_LOAD_AUTO,
-			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y);
+		static std::map<std::string, GLuint> textureIndex;
+
+		static std::map<std::string, GLuint>::iterator
+			i = textureIndex.find(filename);
+
+		if (i != textureIndex.end())
+			return i->second;
+
+		textureIndex.insert(std::pair<std::string, GLuint>(filename,
+			SOIL_load_OGL_texture(filename, SOIL_LOAD_AUTO,
+			SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y)));
+
+		GLuint &tex = textureIndex.find(filename)->second;
 
 		if (!tex)
-		{
 			printf("Failed to load: \"%s\".\n", filename);
-			return 0;
-		}
 
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);

@@ -31,7 +31,7 @@ namespace kg
 
 		~Mesh();
 
-		void render();
+		virtual void render();
 
 		unsigned m_uvs_t, m_normals_t, m_verts_t, m_indices_t;
 

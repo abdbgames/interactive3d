@@ -37,5 +37,9 @@ namespace kg
 		glMatrixMode(GL_PROJECTION);
 		glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 		glMatrixMode(GL_MODELVIEW);
+
+		// Lighting:
+		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+		glEnable(GL_LIGHT0);
 	}
 }

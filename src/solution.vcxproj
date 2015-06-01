@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="car.h" />
     <ClInclude Include="colour.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="frog.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="objectList.h" />
     <ClInclude Include="objectProperties.h" />
+    <ClInclude Include="particleSystem.h" />
     <ClInclude Include="platformInclude.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="transform.h" />
@@ -32,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="car.cpp" />
     <ClCompile Include="colour.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="frog.cpp" />
@@ -45,6 +48,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectList.cpp" />
     <ClCompile Include="objectProperties.cpp" />
+    <ClCompile Include="particleSystem.cpp" />
     <ClCompile Include="platformInclude.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="transform.cpp" />
@@ -55,6 +59,7 @@
     <None Include="flat.mat" />
     <None Include="Frog.mat" />
     <None Include="frogPupil.mat" />
+    <None Include="logCap.mat" />
     <None Include="water.mat" />
   </ItemGroup>
   <ItemGroup>

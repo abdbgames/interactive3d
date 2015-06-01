@@ -8,6 +8,8 @@
 
 namespace kg
 {
+	std::map<std::string, BasicMaterial> BasicMaterial::preLoad;
+
 	void BasicMaterial::render()
 	{
 		// Set material properties:
@@ -116,7 +118,18 @@ namespace kg
 
 	BasicMaterial *BasicMaterial::getFromFile(const char *fname)
 	{
-		BasicMaterial *m = new BasicMaterial();
+		if (!fname) return NULL;
+
+		std::map<std::string, BasicMaterial>::iterator
+			i = preLoad.find(fname);
+
+		if (i != preLoad.end())
+			return new BasicMaterial(i->second);
+
+		preLoad.insert(std::pair<std::string, BasicMaterial>(fname,
+			BasicMaterial()));
+
+		BasicMaterial &m = preLoad.find(fname)->second;
 
 		std::ifstream file;
 		file.open(fname);
@@ -124,7 +137,6 @@ namespace kg
 		if (!file.is_open())
 		{
 			printf("Could not open material file: %s\n", fname);
-			delete m;
 			return NULL;
 		}
 		
@@ -139,7 +151,7 @@ namespace kg
 			{
 				printf("Reached unexpected end of file: %s\n", fname);
 				file.close();
-				return m;
+				return new BasicMaterial(m);
 			}
 			
 			if (n == "=")
@@ -150,14 +162,14 @@ namespace kg
 			switch (rm)
 			{
 			case KG_NAME:
-				m->setName(n);
+				m.setName(n);
 				rm = KG_NEW;
 				break;
 			case KG_NEW:
 				if (n == "}")
 				{
 					file.close();
-					return m;
+					return new BasicMaterial(m);
 				}
 				
 				if (n == "{")
@@ -177,42 +189,40 @@ namespace kg
 				{
 					printf("Unexpected format given.\n"
 						"Material %s could not be loaded.", fname);
-					delete m;
 					file.close();
 					return NULL;
 				}
 				
 				break;
 			case KG_AMBIENT:
-				m->setAmbient(getColour(n, file));
+				m.setAmbient(getColour(n, file));
 				rm = KG_NEW;
 				break;
 			case KG_DIFFUSE:
-				m->setDiffuse(getColour(n, file));
+				m.setDiffuse(getColour(n, file));
 				rm = KG_NEW;
 				break;
 			case KG_SPECULAR:
-				m->setSpecular(getColour(n, file));
+				m.setSpecular(getColour(n, file));
 				rm = KG_NEW;
 				break;
 			case KG_SHININESS:
 				s = atof(n.c_str());
-				m->setShininess(s);
+				m.setShininess(s);
 				rm = KG_NEW;
 				break;
 			case KG_TEXTURE:
-				m->setTextureID(new unsigned(loadTexture(n.c_str())));
+				m.setTextureID(new unsigned(loadTexture(n.c_str())));
 				rm = KG_NEW;
 				break;
 			default:
 				printf("Undefined case reading: %s\n", fname);
-				delete m;
 				file.close();
 				return NULL;
 			}
 		}
 		
 		file.close();
-		return m;
+		return new BasicMaterial(m);
 	}
 }

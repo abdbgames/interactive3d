@@ -69,6 +69,12 @@
     <ClInclude Include="log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="car.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="particleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="scene.cpp">
@@ -125,6 +131,12 @@
     <ClCompile Include="log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="car.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="car.mat">
@@ -140,6 +152,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="water.mat">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="logCap.mat">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

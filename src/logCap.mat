@@ -1,0 +1,7 @@
+logCap
+{
+	specular = white
+	ambient = { 0.23f, 0.18f, 0.0f }
+	diffuse = { 0.23f, 0.18f, 0.0f }
+	shininess = 25
+}

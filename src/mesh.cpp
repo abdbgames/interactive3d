@@ -284,28 +284,29 @@ namespace kg
 	{
 		Mesh *r = new Mesh;
 
-		r->m_indices_t = slices + 1;
-		r->m_uvs_t = slices + 1;
-		r->m_verts_t = slices + 1;
+		r->m_indices_t = slices + 2;
+		r->m_uvs_t = slices + 2;
+		r->m_verts_t = slices + 2;
 		r->m_normals_t = 1;
 
 		r->m_uvs = new Vector2*[r->m_uvs_t];
 		r->m_verts = new Vector3*[r->m_verts_t];
 		r->m_normals = new Vector3*[r->m_normals_t];
 		r->m_indices = new Index*[r->m_indices_t];
-		r->m_normals[0] = new Vector3(0.0f, 1.0f, 0.0f);
+		r->m_normals[0] = new Vector3(0.0f, 0.0f, 1.0f);
 		r->m_renderType = KG_TRI_FAN;
 
 		r->m_verts[0] = new Vector3();
 		r->m_uvs[0] = new Vector2(0.5f, 0.5f);
 		r->m_indices[0] = new Index(0, 0, 0);
 
+		float twoPi = 2.0f * KG_PI;
 		float t;
 
-		for (unsigned i = 1; i <= slices; ++i)
+		for (unsigned i = 1; i <= slices + 1; ++i)
 		{
-			t = ((float)i / (float)slices) * 2.0f * KG_PI;
-			r->m_verts[i] = new Vector3(cos(t), 0.0f, sin(t));
+			t = ((float)i / (float)slices) * twoPi;
+			r->m_verts[i] = new Vector3(cos(t), sin(t), 0.0f);
 			r->m_uvs[i] = new Vector2((r->m_verts[i]->x * 0.5f) + 0.5f,
 				(r->m_verts[i]->z * 0.5f) + 0.5f);
 			r->m_indices[i] = new Index(i, 0, i);

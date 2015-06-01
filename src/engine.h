@@ -2,6 +2,7 @@
 #define engine_h
 
 #include <vector>
+#include <string>
 
 #include "kgConstants.h"
 #include "scene.h"
@@ -9,6 +10,15 @@
 
 namespace kg
 {
+	struct EText
+	{
+		EText(const std::string &input, const float &time) : render(input),
+			timeAlive(0.0f), timeAllowed(time) {}
+
+		std::string render;
+		float timeAlive, timeAllowed;
+	};
+
 	struct Engine
 	{
 		static void updateCallback();
@@ -32,6 +42,10 @@ namespace kg
 		static void setCameraLookAt(Vector3 *pos)
 			{ get().m_cam.m_lookAt = pos; }
 		static void setCameraLookAt(Object *la);
+		static void setLives(const unsigned &l) { get().m_lives = l; }
+		static void setScore(const unsigned &s) { get().m_score = s; }
+
+		static EText &newMessage(const std::string &input, const float &time);
 
 		static bool setCurrentScene(const unsigned &s);
 		static bool getDrawAxisEnabled() { return get().m_drawAxis; }
@@ -54,6 +68,8 @@ namespace kg
 		static float getAspect() { return get().m_aspect; }
 		static float getDeltaTime() { return get().m_dt; }
 
+		static ObjectList &getPreScene() { return get().preScene; }
+
 	private:
 		Engine();
 		~Engine();
@@ -67,13 +83,18 @@ namespace kg
 		Camera m_cam;
 
 		bool m_drawAxis, m_drawTextures, m_drawNormals, m_smoothShading,
-			m_dirtyRendering, m_osd;
+			m_dirtyRendering, m_osd, m_paused;
 
-		unsigned m_width, m_height, m_currentScene, m_fc, m_fps;
+		unsigned m_width, m_height, m_currentScene, m_fc, m_fps, m_lives,
+			m_score;
 
 		float m_aspect, m_dt, m_s, m_sum, m_ft;
 
 		std::vector<Scene*> m_sceneList;
+
+		std::vector<EText> m_messages;
+
+		ObjectList preScene;
 
 		void textureRefresh();
 		void smoothShadingRefresh();

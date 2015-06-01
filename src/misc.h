@@ -70,7 +70,7 @@ namespace kg
 	void drawAxis(const float &size);
 	void drawNormal(Vector3 &from, Vector3 &to);
 
-	GLuint loadTexture(const char *filename);
+	GLuint &loadTexture(const char *filename);
 }
 
 // std::string concatenation with different types:

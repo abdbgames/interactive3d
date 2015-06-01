@@ -92,6 +92,9 @@ namespace kg
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
+		// Disable textures, material will add this if necesary:
+		glDisable(GL_TEXTURE_2D);
+
 		// Enable lighting:
 		if (m_lit && Engine::getLightState() != KG_UNLIT)
 			glEnable(GL_LIGHTING);
@@ -107,19 +110,15 @@ namespace kg
 		// No drawing if Object is hidden:
 		if (!m_hidden)
 		{
-			// Run material calls:
-			if (m_mat)
-				m_mat->render();
-
-			// Render mesh:
-			if (m_mesh)
-				m_mesh->render();
+			// Render properties, make sure material is pushed before mesh!
+			for (std::map<std::string, BaseProperty*>::iterator
+				i = properties.begin(); i != properties.end(); ++i)
+				i->second->render();
 		}
 
 		// Render Children:
 		children->render();
 		
-		glDisable(GL_TEXTURE_2D);
 		glDepthMask(GL_TRUE);
 
 		// Pop local Matrix:

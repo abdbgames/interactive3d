@@ -37,6 +37,10 @@ namespace kg
 
 		// Seed random generator:
 		std::srand((unsigned int)time(NULL));
+
+		// Run update on all pre scene objects once (this is mainly intended
+		// for skybox objects so it would be a waste of calls to do othersise):
+		preScene.update();
 	}
 
 	Engine::~Engine()
@@ -110,16 +114,20 @@ namespace kg
 			kg::keyboardControl::poll(KGKey_T, KG_DOWN))
 			toggleDrawTextures();
 
-		/* TODO: Lighting
 		if (kg::keyboardControl::poll(KGKey_l, KG_DOWN) ||
 			kg::keyboardControl::poll(KGKey_L, KG_DOWN))
 			get().setLightState((get().m_lightMode == KG_UNLIT) ? KG_FULL :
-				KG_UNLIT);*/
+				KG_UNLIT);
+
+		// Toggle osd drawing:
+		if (kg::keyboardControl::poll(KGKey_i, KG_DOWN) ||
+			kg::keyboardControl::poll(KGKey_I, KG_DOWN))
+			toggleOSD();
 
 		// Toggle osd drawing:
 		if (kg::keyboardControl::poll(KGKey_p, KG_DOWN) ||
 			kg::keyboardControl::poll(KGKey_P, KG_DOWN))
-			toggleOSD();
+			self.m_paused = !self.m_paused;
 
 		// If we are hitting a mouse button, lock the mouse to that position
 		// and hide the cursor, otherwise unlock and set cursor to "clickable":
@@ -164,30 +172,66 @@ namespace kg
 
 	void Engine::renderCallback()
 	{
+		static Engine &self = get();
+
 		glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
 
 		// Clear screen:
-		if (!get().m_dirtyRendering)
+		if (self.m_dirtyRendering)
+			glClear(GL_DEPTH_BUFFER_BIT);
+		else
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		get().m_cam.projectionGL();
-		get().m_cam.modelViewGL();
+		self.m_cam.projectionGL();
+
+		glPushMatrix();
+		self.preScene.render();
+		glPopMatrix();
+
+		glLightfv(GL_LIGHT0, GL_POSITION,
+			Vector3(100.0f, 100.0f, -100.0f).getV());
+		glLightfv(GL_LIGHT0, GL_AMBIENT, Colour::Gray.getArray());
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, Colour::Gray.getArray());
+		glLightfv(GL_LIGHT0, GL_SPECULAR, Colour::White.getArray());
+
+		if (self.m_lightMode != KG_UNLIT)
+			glEnable(GL_LIGHTING);
+		glEnable(GL_DEPTH_TEST);
+		self.m_cam.modelViewGL();
 
 		// Render origin axis:
 		drawAxis(1.0f);
 
 		// Don't do anything if no current scene:
-		if (!get().m_currentScene)
+		if (!self.m_currentScene)
 			// TODO error checking for invalid scene:
-			get().m_sceneList[get().m_currentScene]->render();
+			self.m_sceneList[self.m_currentScene]->render();
+
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_LIGHTING);
 
 		// Draw the on screen display:
-		if (get().m_osd)
+		if (self.m_osd)
 		{
-			// Like my string concatenation? ayyy:
 			std::string text = TITLE"\n";
-			text = text + "FPS: " + get().m_fps + " f/s\n" +
-				"Frame time: " + get().m_ft + " ms/f";
+			text = text + "FPS: " + self.m_fps + " f/s\n" +
+				"Frame time: " + self.m_ft + " ms/f\n" +
+				"Score: " + self.m_score + ", Lives: " + self.m_lives + '\n';
+
+			std::vector<EText>::iterator i = self.m_messages.begin();
+
+			while (i != self.m_messages.end())
+			{
+				// Print and update messages in message list:
+				text = text + i->render;
+				i->timeAlive += self.m_dt;
+
+				// Doing this in a for loop throws strange behaviour:
+				if (i->timeAllowed > 0.0f && i->timeAlive >= i->timeAllowed)
+					i = self.m_messages.erase(i);
+				else
+					++i;
+			}
 
 			glColor3fv(Colour::Maroon.getArray());
 
@@ -199,18 +243,30 @@ namespace kg
 		glPopAttrib();
 
 		// Frame counter:
-		++get().m_fc;
+		++self.m_fc;
 
 		// Frame time counter:
-		get().m_sum += get().m_dt;
+		self.m_sum += self.m_dt;
+	}
+
+	EText &Engine::newMessage(const std::string &input, const float &time)
+	{
+		// Insert message to message list:
+		static std::vector<EText> &m = get().m_messages;
+
+		m.push_back(EText(input, time));
+
+		return m[m.size() - 1];
 	}
 
 	void Engine::resizeCallback(int w, int h)
 	{
+		static Engine &self = get();
+
 		// Update internal width height and aspect:
-		get().m_width = w;
-		get().m_height = h;
-		get().m_aspect = (float)get().m_width / (float)get().m_height;
+		self.m_width = w;
+		self.m_height = h;
+		self.m_aspect = (float)self.m_width / (float)self.m_height;
 
 		// Reset viewport:
 		glViewport(0, 0, w, h);
@@ -218,6 +274,8 @@ namespace kg
 
 	void Engine::setDrawMode(const KG_DRAW_MODE &dm)
 	{
+		static Engine &self = get();
+
 		bool change = true;
 
 		switch (dm)
@@ -248,11 +306,13 @@ namespace kg
 		}
 
 		if (change)
-			get().m_drawMode = dm;
+			self.m_drawMode = dm;
 	}
 
 	void Engine::setLightState(const KG_LIGHT_MODE &lm)
 	{
+		static Engine &self = get();
+
 		bool change = true;
 
 		switch (lm)
@@ -277,7 +337,7 @@ namespace kg
 		}
 
 		if (change)
-			get().m_lightMode = lm;
+			self.m_lightMode = lm;
 	}
 
 	void Engine::renderText(void *font, const std::string &str, const float &x,
@@ -293,7 +353,6 @@ namespace kg
 		glPushMatrix();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glDisable(GL_DEPTH_TEST);
 
 		float _x = x + 1.0f, _y = y + 10.0f;
 
@@ -311,61 +370,69 @@ namespace kg
 			glutBitmapCharacter(font, str.c_str()[i]);
 		}
 
-		glEnable(GL_DEPTH_TEST);
 		glPopMatrix();
 		glPopMatrix();
 	}
 
 	void Engine::setDrawTetxures(const bool &set)
 	{
-		get().m_drawTextures = set;
-		get().textureRefresh();
+		static Engine &self = get();
+		self.m_drawTextures = set;
+		self.textureRefresh();
 	}
 
 	void Engine::setSmoothShading(const bool &set)
 	{
-		get().m_smoothShading = set;
-		get().smoothShadingRefresh();
+		static Engine &self = get();
+		self.m_smoothShading = set;
+		self.smoothShadingRefresh();
 	}
 
 	void Engine::toggleDrawAxis()
 	{
-		get().m_drawAxis = !get().m_drawAxis;
+		static Engine &self = get();
+		self.m_drawAxis = !self.m_drawAxis;
 	}
 
 	void Engine::toggleDrawTextures()
 	{
-		setDrawTetxures(!get().m_drawTextures);
+		static Engine &self = get();
+		setDrawTetxures(!self.m_drawTextures);
 	}
 
 	void Engine::toggleSmoothShading()
 	{
-		setSmoothShading(!get().m_smoothShading);
+		static Engine &self = get();
+		setSmoothShading(!self.m_smoothShading);
 	}
 
 	void Engine::toggleDrawNormals()
 	{
-		setDrawNormals(!get().m_drawNormals);
+		static Engine &self = get();
+		setDrawNormals(!self.m_drawNormals);
 	}
 
 	void Engine::toggleOSD()
 	{
-		setOSD(!get().m_osd);
+		static Engine &self = get();
+		setOSD(!self.m_osd);
 	}
 
 	unsigned Engine::pushScene(Scene *s, const bool &setCurrent)
 	{
+		static Engine &self = get();
+
 		// If you set this to NULL, you are Satan:
 		if (!s) return 666;
 
 		// Push scene onto scene list:
-		get().m_sceneList.push_back(s);
+		self.m_sceneList.push_back(s);
 
-		unsigned r = get().m_sceneList.size() - 1;
+		unsigned r = self.m_sceneList.size() - 1;
 
 		// If we want to set new scene as the current one:
 		if (setCurrent)
-			get().m_currentScene = r;
+			self.m_currentScene = r;
 
 		// Return scene ID we pushed:
 		return r;
@@ -373,22 +440,26 @@ namespace kg
 
 	Scene *Engine::getScene(const unsigned &s)
 	{
+		static Engine &self = get();
+
 		// Return null for invalid input:
-		if (s >= get().m_sceneList.size())
+		if (s >= self.m_sceneList.size())
 			return NULL;
 
 		// Return requested Scene:
-		return get().m_sceneList[s];
+		return self.m_sceneList[s];
 	}
 
 	Scene *Engine::getCurrentScene()
 	{
+		static Engine &self = get();
+
 		// Return NULL for invalid input:
-		if (get().m_currentScene >= get().m_sceneList.size())
+		if (self.m_currentScene >= self.m_sceneList.size())
 			return NULL;
 
 		// Return current Scene:
-		return get().m_sceneList[get().m_currentScene];
+		return self.m_sceneList[self.m_currentScene];
 	}
 
 	void Engine::textureRefresh()

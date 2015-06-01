@@ -17,6 +17,7 @@ namespace kg
 
 		// Virtual Methods:
 		virtual void update() {}
+		virtual void render() {}
 
 		// Methods:
 		void setName(const std::string &name);
